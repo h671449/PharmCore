@@ -1,0 +1,25 @@
+﻿@inject NavigationManager Navigation
+
+<div class="center-container">
+    <div class="radial-menu">
+        @for (int i = 0; i < MenuItems.Count; i++)
+        {
+            var item = MenuItems[i];
+            <button class="radial-button"
+                    style="--index:@i; --total:@MenuItems.Count;"
+                    @onclick="() => NavigateTo(item.Url)">
+                @item.Label
+            </button>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public List<RadialMenuItem> MenuItems { get; set; } = new();
+
+    private void NavigateTo(string url)
+    {
+        Navigation.NavigateTo(url);
+    }
+}
