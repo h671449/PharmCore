@@ -64,21 +64,25 @@ body, html {
     justify-content: center; /* Horizontally center */
     align-items: center; /* Vertically center */
     height: 100%; /* Full height of the screen */
+
+/*    margin: auto, auto;*/
 }
 
 /* Styling for the radial menu container */
 .radial-menu {
     position: relative;
 /*    width: 200px;*/
-    height: 70vh;
+    height: 80vh;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: auto, auto;
 }
 
 /* Styling for the radial buttons */
 .radial-button {
+    text-size-adjust: 150%;
     position: absolute;
     width: 180px;
     height: 100px;
@@ -86,7 +90,7 @@ body, html {
     background: lightblue;
     border: none;
     cursor: pointer;
-    transform: rotate(calc(var(--index) * (360deg / var(--total)))) translate(250px) rotate(calc(var(--index) * (-360deg / var(--total))));
+    transform: rotate(calc(var(--index) * (360deg / var(--total)))) translate(20vh) rotate(calc(var(--index) * (-360deg / var(--total))));
     transition: 0.3s;
 }
 

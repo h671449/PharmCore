@@ -1,0 +1,76 @@
+﻿@page "/Donut"
+@* @rendermode InteractiveServer *@
+<h3>DonutExample</h3>
+
+<p role="status">@text</p>
+
+<svg width="auto" height="auto" viewBox="-150 -85 300 300">
+    @foreach (var button in Buttons)
+    {
+        <g style="cursor: pointer;" onclick="Clicked(button.index)">
+            <path d="@button.WedgePath" fill="teal" stroke="white" stroke-width="2" />
+        </g>
+    }
+</svg>
+
+@code {
+    private int ButtonCount { get; set; } = 8
+    ;
+    public string text = "nothing";
+    private List<WedgeButton> Buttons = new();
+
+    protected override void OnInitialized()
+    {
+        for (int i = 0; i < ButtonCount; i++)
+        {
+            Buttons.Add(new WedgeButton(i, ButtonCount, 50, 80));//, () => ));
+        }
+    }
+
+    private void Clicked(int index)
+    {
+        text = index + " clicked";
+        //Console.WriteLine($"Button {index + 1} clicked!");
+
+    }
+
+    public class WedgeButton
+    {
+        public string WedgePath { get; }
+        public int index;
+        [Parameter]
+        public Action OnClick { get; set; }
+
+        public WedgeButton(int index, int total, double innerRadius, double outerRadius)//, Action onClick)
+        {
+            WedgePath = GetWedgePath(index, total, innerRadius, outerRadius);
+            //OnClick => (text = $"Button {i + 1} clicked!");
+        }
+
+        private string GetWedgePath(int index, int total, double innerRadius, double outerRadius)
+        {
+            double angleStep = 360.0 / total;
+            double startAngle = index * angleStep;
+            double endAngle = (index + 1) * angleStep;
+
+            return DescribeWedge(startAngle, endAngle, innerRadius, outerRadius);
+        }
+
+        private string DescribeWedge(double startAngle, double endAngle, double innerRadius, double outerRadius)
+        {
+            double toRadians(double degrees) => degrees * Math.PI / 180.0;
+
+            double x1 = outerRadius * Math.Cos(toRadians(startAngle));
+            double y1 = outerRadius * Math.Sin(toRadians(startAngle));
+            double x2 = outerRadius * Math.Cos(toRadians(endAngle));
+            double y2 = outerRadius * Math.Sin(toRadians(endAngle));
+
+            double x3 = innerRadius * Math.Cos(toRadians(endAngle));
+            double y3 = innerRadius * Math.Sin(toRadians(endAngle));
+            double x4 = innerRadius * Math.Cos(toRadians(startAngle));
+            double y4 = innerRadius * Math.Sin(toRadians(startAngle));
+
+            return $"M{x1},{y1} A{outerRadius},{outerRadius} 0 0,1 {x2},{y2} L{x3},{y3} A{innerRadius},{innerRadius} 0 0,0 {x4},{y4} Z";
+        }
+    }
+}
