@@ -1,17 +1,29 @@
 ﻿@page "/"
 <PageTitle>Home</PageTitle>
 
+<div style="display: flex; justify-content: center;">
+    <button class="btn btn-primary" @onclick="AddItem">Add</button>
+    <button class="btn btn-primary" @onclick="RemoveAddedItems">Remove</button>
+</div>
+
 <RadialMenu MenuItems="menuItems" />
 
 @code {
     private List<RadialMenuItem> menuItems = new()
     {
         new RadialMenuItem { Label = "DONUT", Url = "/Donut" },
-        new RadialMenuItem { Label = "Help", Url = "/help" },
-        new RadialMenuItem { Label = "Help", Url = "/help" },
-        new RadialMenuItem { Label = "Help", Url = "/help" },
         new RadialMenuItem { Label = "Volume of Distribution", Url = "/Concepts/VolumeOfDistribution" },
         new RadialMenuItem { Label = "Help", Url = "/help" }
     };
+
+    private void AddItem()
+    {
+        menuItems.Add(new RadialMenuItem { Label = "added item", Url = "/Donut" });
+    }
+
+    private void RemoveAddedItems()
+    {
+        menuItems.RemoveAll(x => x.Label == "added item");
+    }
 }
 
