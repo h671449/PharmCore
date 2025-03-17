@@ -9,28 +9,27 @@
 }
 
 .page {
-    background-color: #324446;
-    color: white;
+    background-color: whitesmoke;
+    /*background-color: #324446;*/
+    /*color:;*/
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 90vh;
+    min-height: 100vh;
     height: 100%;
     max-height: 600px;
     width: 100%; /* Will stretch if needed */
     max-width: 1200px; /* Desired max width */
     margin: 0 auto;
-/*    min-height: 800px;
+    /*    min-height: 800px;
     max-height: 90vh;*/
 
 
-    border-radius: 20px;
+    border-radius: 8px;
     border: 2px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-
     overflow: hidden;
-
-
+    overflow-y: auto;
     /*min-height: 400px;*/ /* Minimum height */
     /*max-height: 800px;*/ /* Maximum height before stretching */
     /*height: 100%;*/ /* Allows stretching */
