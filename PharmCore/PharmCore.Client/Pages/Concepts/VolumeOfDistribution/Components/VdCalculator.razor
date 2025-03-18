@@ -1,0 +1,16 @@
+﻿@page "/vd-calculator"
+
+<h3>Volume of Distribution Calculator</h3>
+
+<label>Enter Dose (mg):</label>
+<input type="number" @bind="Dose" />
+<label>Enter Plasma Concentration (mg/L):</label>
+<input type="number" @bind="PlasmaConc" />
+
+<p><strong>Vd:</strong> @Vd L</p>
+
+@code {
+    private double Dose;
+    private double PlasmaConc;
+    private double Vd => PlasmaConc > 0 ? Dose / PlasmaConc : 0;
+}

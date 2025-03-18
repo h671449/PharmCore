@@ -1,0 +1,33 @@
+﻿@* @page "/vd-simulation"
+
+@using Blazorise
+@using Blazorise.Charts
+
+<h3>Drug Distribution Over Time</h3>
+
+<BlazoriseChart LineChart @ref="chart" />
+
+@code {
+    private BlazoriseChart chart;
+    private List<double> TimePoints = new();
+    private List<double> DrugConcentration = new();
+
+    private async Task StartSimulation()
+    {
+        for (int t = 0; t < 10; t++)
+        {
+            TimePoints.Add(t);
+            DrugConcentration.Add(CalculateConcentration(t));
+
+            await chart.Update();
+            await Task.Delay(1000);
+        }
+    }
+
+    private double CalculateConcentration(int t)
+    {
+        double Vd = 50;  // Example value
+        return 100 * Math.Exp(-0.1 * t) / Vd; // Simulating exponential drug decay
+    }
+}
+ *@

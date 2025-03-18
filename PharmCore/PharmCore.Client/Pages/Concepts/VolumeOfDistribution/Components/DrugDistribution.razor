@@ -1,0 +1,25 @@
+﻿@page "/drug-distribution"
+
+<h3>Click a Drug to See Distribution</h3>
+
+<button @onclick="() => HighlightArea(0)">Heparin (Low Vd)</button>
+<button @onclick="() => HighlightArea(1)">Chloroquine (High Vd)</button>
+
+<svg width="200" height="400">
+    <rect x="50" y="50" width="100" height="50" fill="@PlasmaColor"></rect>
+    <text x="70" y="80">Plasma</text>
+
+    <rect x="50" y="150" width="100" height="50" fill="@TissueColor"></rect>
+    <text x="70" y="180">Tissues</text>
+</svg>
+
+@code {
+    private string PlasmaColor = "lightblue";
+    private string TissueColor = "lightgray";
+
+    private void HighlightArea(int area)
+    {
+        PlasmaColor = (area == 0) ? "blue" : "lightblue";
+        TissueColor = (area == 1) ? "red" : "lightgray";
+    }
+}

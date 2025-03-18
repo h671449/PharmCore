@@ -1,0 +1,47 @@
+﻿@using PharmCore.Client.Pages.Concepts;
+@using System.Drawing;
+@inject NavigationManager Navigation
+
+<h2 style="font-weight: bold">Concepts</h2>
+<div class="ConceptPage"> 
+    @foreach (var category in new[] { "Pharmacodynamics", "Pharmacokinetics", "Patient Outcomes" })
+    {
+        <h3>@category</h3>
+        <div class="concept-box">
+            @foreach (var concept in GetCategoryConcepts(category))
+            {
+                if (string.IsNullOrEmpty(concept.Url))
+                {
+                    <div class="concept-card" style="background-color: @concept.Color.Name; opacity: @concept.Opacity">
+                        <h3>@concept.Label</h3>
+                    </div>
+                }
+                else
+                {
+                    <button @onclick="() => NavigateTo(concept.Url)" class="concept-card" style="background-color: @concept.Color.Name; opacity: @concept.Opacity">
+                        <h3>@concept.Label</h3>
+                    </button>
+                }
+            }
+        </div>
+    }
+</div>
+@code {
+    private List<Concept> concepts = ConceptFactory.GetConcepts();
+
+    private List<Concept> GetCategoryConcepts(string category)
+    {
+        return concepts.Where(c => c.Color == (category switch
+        {
+            "Pharmacokinetics" => Color.DarkCyan,
+            "Pharmacodynamics" => Color.DarkOrange,
+            "Patient Outcomes" => Color.RebeccaPurple,
+            _ => Color.Gray
+        })).ToList();
+    }
+
+    private void NavigateTo(string url)
+    {
+        Navigation.NavigateTo(url);
+    }
+}

@@ -1,0 +1,34 @@
+﻿@* @page "/drug-movement"
+
+@using Blazor.Extensions;
+@using Blazor.Extensions.Canvas;
+@using Blazor.Extensions.Canvas.Canvas2D;
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+@inject IJSRuntime jsRuntime
+
+<h3>Drug Distribution Animation</h3>
+<button @onclick="StartSimulation">Start</button>
+
+<BECanvasComponent id="drugCanvas" width="300" height="200"></BECanvasComponent>
+
+@code {
+    private Canvas2DContext context;
+    private BECanvasComponent _canvas;
+    private async Task StartSimulation()
+    {
+        var context = await Blazor.Extensions.Canvas.Canvas2DContext.CreateAsync("drugCanvas");
+
+        // Clear canvas
+        await context.ClearRectAsync(0, 0, 300, 200);
+
+        // Move drug from plasma to tissues
+        for (int i = 0; i < 100; i += 10)
+        {
+            await context.FillStyleAsync("blue");
+            await context.FillRectAsync(i, 50, 10, 10);
+            await Task.Delay(500); // Simulate time lapse
+        }
+    }
+}
+ *@

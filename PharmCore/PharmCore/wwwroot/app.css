@@ -112,22 +112,27 @@ body, html {
                    scale(1.2);
     }
 .conceptpage {
-    display: flex;
+
     flex-direction: column;
     flex-wrap: wrap;
     align-items: end;
     gap: 12px;
-
-
 }
 .concept-box {
+/*    display: inline-grid;
+    grid: subgrid;*/
+
+    /*grid-auto-columns: minmax(50, 100);
+    grid-auto-rows: max-content;*/
+    /*grid-auto-columns: auto;*/
+    /*grid-auto-rows: fit-content();*/
+    /*grid-auto-flow: column;*/
     display: flex;
-    /*flex-direction: row;*/
+    flex-direction: row;
     flex-wrap: wrap;
-    align-items: end;
+    align-items: start;
     gap: 16px;
     margin-bottom: 24px;
-    
 }
 
 .concept-card {
@@ -146,8 +151,11 @@ body, html {
     border-radius: 12px;
     padding: 6px;
     text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+/*    margin-block-end: 0px;
+    margin-bottom: 0px;*/
 }
-    .concept-card.h3 {
+    .concept-card h3 {
         
-        
+    /*margin-block-end: 0px;*/
+    margin-bottom: 4px;
     }
