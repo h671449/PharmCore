@@ -1,0 +1,123 @@
+﻿@* @using SkiaSharp
+@using SkiaSharp.Views.Blazor
+@implements IDisposable
+
+<!-- Canvas with @onmousedown to capture clicks -->
+<SKCanvasView @ref="_canvasView" OnPaintSurface="OnPaintSurface"
+              @onmousedown="OnMouseDown" style="width: 100%; height: 300px; cursor: pointer;" />
+
+@code {
+    private SKCanvasView? _canvasView;
+    private float _x = 50, _y = 100; // Initial position
+    private float _targetX = 50, _targetY = 100;
+    private float _speed = 5;
+    private System.Timers.Timer? _timer;
+
+    protected override void OnInitialized()
+    {
+        _timer = new System.Timers.Timer(16); // ~60 FPS
+        _timer.Elapsed += (sender, e) => MoveTowardsTarget();
+        _timer.Start();
+    }
+
+    private void OnPaintSurface(SKPaintSurfaceEventArgs args)
+    {
+        var canvas = args.Surface.Canvas;
+        canvas.Clear(SKColors.White);
+
+        using var paint = new SKPaint
+            {
+                Color = SKColors.Blue,
+                IsAntialias = true
+            };
+
+        canvas.DrawCircle(_x, _y, 20, paint);
+    }
+
+    private async Task OnMouseDown(MouseEventArgs e)
+    {
+        // Get relative position inside the canvas
+        var rect = await _canvasView!.JSInvokeAsync<DOMRect>("getBoundingClientRect");
+        _targetX = (float)(e.ClientX - rect.Left);
+        _targetY = (float)(e.ClientY - rect.Top);
+    }
+
+    private void MoveTowardsTarget()
+    {
+        float dx = _targetX - _x;
+        float dy = _targetY - _y;
+        float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+
+        if (distance > _speed)
+        {
+            _x += (_speed * dx / distance);
+            _y += (_speed * dy / distance);
+            _canvasView?.Invalidate(); // Redraw canvas
+        }
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+} *@
+
+
+@* @using SkiaSharp
+@using SkiaSharp.Views.Blazor
+
+<SKGLView OnPaintSurface="OnPaintSurface"
+@OnMouseDown="OnMouseDown"
+@OnMouseMove="OnMouseMove"
+@OnMouseUp="OnMouseUp"
+style="width:100%; height:400px; touch-action: none;" />
+
+@code {
+    private float _circleX = 200;
+    private float _circleY = 200;
+    private float _radius = 50;
+    private bool _isDragging = false;
+
+    private void OnPaintSurface(SKPaintGLSurfaceEventArgs e)
+    {
+        var canvas = e.Surface.Canvas;
+        canvas.Clear(SKColors.White);
+
+        using var paint = new SKPaint
+            {
+                Color = _isDragging ? SKColors.Green : SKColors.Red,
+                IsAntialias = true,
+                Style = SKPaintStyle.Fill
+            };
+
+        canvas.DrawCircle(_circleX, _circleY, _radius, paint);
+    }
+
+    private void OnMouseDown(MouseEventArgs e)
+    {
+        float dx = (float)e.OffsetX - _circleX;
+        float dy = (float)e.OffsetY - _circleY;
+        if (dx * dx + dy * dy <= _radius * _radius)
+        {
+            _isDragging = true;
+            StateHasChanged();
+        }
+    }
+
+    private void OnMouseMove(MouseEventArgs e)
+    {
+        if (_isDragging)
+        {
+            _circleX = (float)e.OffsetX;
+            _circleY = (float)e.OffsetY;
+            StateHasChanged();
+        }
+    }
+
+    private void OnMouseUp(MouseEventArgs e)
+    {
+        _isDragging = false;
+        StateHasChanged();
+    }
+}
+ *@

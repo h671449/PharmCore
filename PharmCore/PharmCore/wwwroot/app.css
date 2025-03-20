@@ -88,13 +88,13 @@ body, html {
 
     --start-angle: 270deg; /* Adjust this to change the starting position */
 
-    text-size-adjust: 150%;
+    font-size: 20px;
     position: absolute;
     width: 140px;
     height: 80px;
     border-radius: 20px;
     background: white;
-    border: none;
+    border: solid;
     cursor: pointer;
     transform: rotate(calc(var(--index) * (360deg / var(--total)) + 270deg)) 
                translate(min(20vh, 20vw)) 
@@ -159,3 +159,61 @@ body, html {
     /*margin-block-end: 0px;*/
     margin-bottom: 4px;
     }
+
+
+.body-container {
+    width: 200px;
+    height: 400px;
+    background-color: #f5d6ba;
+    border-radius: 50px;
+    position: relative;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.organ {
+    width: 80px;
+    height: 60px;
+    margin: 10px 0;
+    border-radius: 20px;
+    transition: background-color 0.3s;
+}
+
+.heart {
+    background-color: blue;/*@HeartColor;*/
+}
+
+.lungs {
+    background-color: pink;/*@LungColor;*/
+}
+
+.liver {
+    background-color: darkred;/*@LiverColor;*/
+}
+
+.blood-vessels {
+    width: 10px;
+    height: 200px;
+    background-color: orange;/*@BloodColor;*/
+    position: absolute;
+    top: 50px;
+    left: 95px;
+}
+
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+button {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}

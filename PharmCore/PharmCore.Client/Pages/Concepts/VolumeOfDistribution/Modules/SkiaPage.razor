@@ -1,0 +1,58 @@
+﻿@page "/Concepts/VolumeOfDistribution/SkiaPage"
+@using System.Drawing;
+@* <PharmCore.Client.Pages.Concepts.VolumeOfDistribution.Components.Skia /> *@
+
+<div class="body-container">
+    <div class="blood-vessels" style="background-color: @BloodColor"></div>
+    <div class="organ heart" style="background-color: @HeartColor"></div>
+    <div class="organ lungs" style="background-color: @LungColor"></div>
+    <div class="organ liver" style="background-color: @LiverColor"></div>
+</div>
+
+<div class="button-container">
+    <button @onclick="() => ChangeColor(0)">Change Heart Color</button>
+    <button @onclick="() => ChangeColor(1)">Change Lungs Color</button>
+    <button @onclick="() => ChangeColor(2)">Change Liver Color</button>
+    <button @onclick="() => ChangeColor(3)">Change Blood Color</button>
+</div>
+
+@code {
+    private Color HeartColor = Color.Red;
+    private Color LungColor = Color.LightBlue;
+    private Color LiverColor = Color.Brown;
+    private Color BloodColor = Color.DarkRed;
+
+    private void ChangeColor(int type)
+    {
+        switch (type)
+        {
+            case 0:
+                HeartColor = Color.Purple;
+                break;
+            case 1:
+                LungColor = Color.Gray;
+                break;
+            case 2:
+                LiverColor = Color.Green;
+                break;
+            case 3:
+                BloodColor = Color.Blue;
+                break;
+        }
+        // switch (type)
+        // {
+        //     case 0:
+        //         HeartColor = HeartColor == Color.Red ? Color.Purple : Color.Red;
+        //         break;
+        //     case 1:
+        //         LungColor = LungColor == Color.LightBlue ? Color.Gray : Color.LightBlue;
+        //         break;
+        //     case 2:
+        //         LiverColor = LiverColor == Color.Brown ? Color.Green : Color.Brown;
+        //         break;
+        //     case 3:
+        //         BloodColor = BloodColor == Color.DarkRed ? Color.Blue : Color.DarkRed;
+        //         break;
+        // }
+    }
+}
