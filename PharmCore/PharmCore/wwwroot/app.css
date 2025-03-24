@@ -1,5 +1,8 @@
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /*font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;*/
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+
 }
 
 a, .btn-link {
@@ -20,8 +23,8 @@ a, .btn-link {
 }
 
 .content {
-    padding-top: 1.1rem;
-    height: 50%;
+    /*padding-top: 1.1rem;*/
+    height: 100vh;
     /*justify-content: center; /* Horizontally center */
    /* align-items: center;*/
 }
@@ -160,60 +163,239 @@ body, html {
     margin-bottom: 4px;
     }
 
-
-.body-container {
-    width: 200px;
-    height: 400px;
-    background-color: #f5d6ba;
-    border-radius: 50px;
-    position: relative;
-    margin: 20px auto;
+.donut-page {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-}
-
-.organ {
-    width: 80px;
-    height: 60px;
-    margin: 10px 0;
-    border-radius: 20px;
-    transition: background-color 0.3s;
-}
-
-.heart {
-    background-color: blue;/*@HeartColor;*/
-}
-
-.lungs {
-    background-color: pink;/*@LungColor;*/
-}
-
-.liver {
-    background-color: darkred;/*@LiverColor;*/
-}
-
-.blood-vessels {
-    width: 10px;
-    height: 200px;
-    background-color: orange;/*@BloodColor;*/
-    position: absolute;
-    top: 50px;
-    left: 95px;
-}
-
-.button-container {
-    margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 2%;
+}
+@keyframes flair {
+   /* filter: */
+}
+.donut-container {
+    /*background: transparent;*/
+    position: relative;
+    border-radius: 50%;
+    align-self: center;
+    width: 86vh; /*min(100% 100vh);*/
+    /*height: 100%;*/
+    /*    padding-bottom: 100%;*/
+    display: inline-block; /* Shrink-wrap to the SVG */
+    padding: 0px; /* Some extra space around the SVG */
+    overflow: visible;
+    /*transform: rotate(180deg);*/
+    /*background: rgba(249,249,249, 0.18);*/ /* Optional: to see the container edges */
+    /*border: 1px solid #ccc;*/
+    /*    background: linear-gradient(45deg, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.2));
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);*/
+    /*-webkit-mask-image: radial-gradient(circle at center, transparent 39%, black 0%);*/
+    /*mask-image: radial-gradient(circle at center, transparent 39%, black 0%);*/
+    /*mask-size: cover;*/
+    /*    mask-position: center;
+    border: 1px solid rgba(255, 255, 255, 0.18);*/
+    /*-4rem 4rem 12rem 2rem rgba(255, 0, 0, 1.0);*/
+    /*box-shadow: 8rem -4rem 12rem 2rem rgba(255,255, 255, 0.8), -4rem 4rem 12rem 2rem rgba(0, 0, 0, 0.6);*/
+    /* 1rem -1rem 4rem 0 rgba(0, 0, 0, 0.40) inset,
+                -1rem 1rem 4rem 0 rgba(20, 0, 20, 0.40) inset*/
+    /**/
 }
 
-button {
-    margin: 5px;
-    padding: 10px;
-    border: none;
+    /* Optional: make the SVG responsive within its container */
+    .donut-container svg {
+        height: 100%;
+        z-index: 3;
+        /*padding: 10%;*/
+        /*padding-bottom: 100%;*/
+        width: auto;
+    }
+
+/*    .donut-container:start {
+        filter:hue-rotate(360deg);
+    }*/
+
+    .donut-container:hover .donut-button:not(:hover) {
+        /*filter: blur(0.1px);*/
+        /*filter: opacity(0.90);*/
+    }
+
+.donut-button {
+    transition: transform 0.3s ease, filter 1.2s ease-in;
+    /*    position: relative;*/
+    /*    transform-box: fill-box;*/
+    /*    transform-origin: center;*/
+    opacity: 1.0;
     cursor: pointer;
-    border-radius: 5px;
+    z-index: 2;
+    /*border-radius: 30px;*/
+}
+
+    .donut-button:hover {   
+        transform: scale(1.04);
+        z-index: 10;
+
+        /*fill: blue;*/
+    }
+/*    .donut-button::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 10%, transparent 10%);
+        background-size: 50px 50px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }*/
+        .donut-button:hover:active {
+            opacity: 1;
+/*                position: relative;
+                transform-box: fill-box;
+                transform-origin: center;*/
+            /*transition: rotate> 1s linear;*/
+            animation: ripple 0.5s forwards;
+        }
+/* Keyframes for the ripple animation */
+@keyframes ripple {
+    0% {
+        transform: rotateZ(0deg) scale(0.8);
+    }
+    10% {
+        transform: rotateZ(0deg) scale(0.59);
+    }
+
+    100% {
+        transform: rotateZ(720deg) scale(0.0);
+    }
+}
+@keyframes buttonPress {
+    from {
+        transform: scale(1.04);
+    }
+
+    to {
+        transform: perspective( );
+    }
+}
+.donut-button:active {
+    animation: ripple 2.0s infinite;
+    /*fill: blue;*/
+}
+
+/*    .donut-button path {
+        stroke-linejoin: bevel;
+    }*/
+.donut-path {
+    position: relative;
+   /* fill: #1cbcd1;*/
+    opacity: 1.0;
+    /*box-shadow: rgba(0, 0, 0, 1) 4px 4px 4px inset;*/
+    z-index: 2;
+    stroke-opacity: 0;
+}
+
+    .donut-path:hover {
+        /*fill: #00efff;*/
+        opacity: 1.0;
+
+        stroke: #204c4e;
+        z-index: 10;
+        stroke-opacity: 1;
+    }
+    /*.donut-path:active {*/
+        /*fill: #00efff;*/
+        /*opacity: 100%;
+        stroke: #204c4e;
+        z-index: 10;
+        stroke-opacity: 1;
+    }*/
+
+.donut-text {
+    opacity: 1.0;
+    fill-opacity: 1;
+    z-index: 20;
+    mix-blend-mode: normal;
+    color: white;
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none; /* Standard */
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none;
+    font-size: 0.35rem;
+    /*text-decoration: underline;*/
+    /*box-shadow: black 0.1rem 0.1rem 0.1rem;*/
+    text-anchor: middle;
+    dominant-baseline: middle;
+}
+
+#wedge-edge {
+    fill: azure;
+    /*stroke: azure;*/
+    stroke-width: 0.2px;
+    /*text-weight: bold; */
+    font-size: 0.35em;
+    font-weight: bolder;
+    box-shadow: black 0 0 0.5rem 0;
+    /*    text-anchor: middle;
+    dominant-baseline: middle;*/
+    /*position: relative;*/
+    /* transform-box: fill-box;*/
+    /*    transform-origin: center;*/
+    /*transform: rotate(deg);*/
+}
+/*@property --spread {
+    syntax: "rem";
+    inherits: false;
+    initial-value: 0rem;
+}*/
+.inner-circle {
+    --spread: 0rem;
+    background: transparent;
+    z-index: 1;
+    position: absolute;
+    pointer-events: none;
+    /*    height: min(45%, 45%);
+    width: min(40vh, 40vw);*/
+    height: 57.55%;
+    width: 57.55%;
+    /*padding: 10%;*/
+    border-radius: 50%;
+    filter: blur(0.2rem);
+    /*background-color: black;*/
+    /*margin: auto;*/
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    box-shadow: rgba(0, 0, 0, 0.2) -2rem 2rem 4rem var(--spread) inset, rgba(255, 255, 255, 0.4) 2rem -2rem 4rem var(--spread) inset, 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.3), -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2);
+}
+
+.outer-circle {
+    --spread: 0rem;
+    background: transparent;
+    z-index: 1;
+    position: absolute;
+    pointer-events: none;
+    /*    height: min(45%, 45%);
+    width: min(40vh, 40vw);*/
+    height: 95.96%;
+    width: 95.96%;
+    /*padding: 10%;*/
+    border-radius: 50%;
+    filter:blur(0.2rem);
+    /*background-color: black;*/
+    /*margin: auto;*/
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    box-shadow: 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.4), -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2), 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.3) inset, -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2) inset;
 }

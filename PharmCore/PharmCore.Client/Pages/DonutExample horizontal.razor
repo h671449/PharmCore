@@ -1,4 +1,4 @@
-﻿@page "/Donut"
+﻿@page "/Donut2"
 @* @rendermode InteractiveWebAssembly *@
 @* <h3>DonutExample</h3> *@
 
@@ -16,16 +16,16 @@
 
                         <text class="donut-text" x="@button.text_x" 
                         y="@button.text_y" 
-                        transform="rotate(0, 
+                        transform="rotate(@button.text_rotation, 
                                                                    @button.text_x, 
                                                                    @button.text_y)"
-                        >#@button.indexplus</text>
+                        ></text>
 
-                        <text class="donut-text" id="wedge-edge" x="@button.outerText_x" y="@button.outerText_y" dy="@button.outerText_dy em"
-                              width="@(button.outerText_width)" transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
-                            <tspan x="@button.outerText_x" >Volume of</tspan>
+                        <text class="donut-text" id="wedge-edge" x="@button.text_x" y="@button.text_y"  dy="@button.outerText_dy em"
+                              width="@(button.outerText_width)" >
+                            <tspan x="@(button.text_x)" >Volume of</tspan>
                             <!-- Second line goes below the first line -->
-                            <tspan style="text-decoration: underline darkgray; text-underline-offset: 0.1rem;" x="@button.outerText_x" dy="1.2em">Distribution</tspan>
+                            <tspan x="@button.text_x" dy="1.2em">Distribution</tspan>
                         </text>
                     </g>
                 </g>
@@ -35,12 +35,13 @@
         <div class="inner-circle"></div>
         <div class="outer-circle"></div>
     </div>
+
 </div>
 
 
 @code {
 
-    // transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)"
+    // transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)" <> dy=" em" <<  cc #@button.indexplus
 
     // ----------    Settings:    ----------
     // Dimensions
@@ -131,7 +132,7 @@
 
         public string hslColor;
 
-        private double _horizontalScale = 1.4; // or any default > 1.0 to make it wider
+        private double _horizontalScale = 1.0; // or any default > 1.0 to make it wider
 
         // Internal variable for the corner rounding (in the same units as the radii)
         private double cornerRadius;
@@ -169,7 +170,7 @@
             double centerAngle = (baseStartAngle + baseEndAngle) / 2.0;
 
             // Compute the center radius as the average of inner and outer radii
-            double centerRadius = (_innerRadius * 4 + _outerRadius) / 5.0;
+            double centerRadius = (_innerRadius + 3 * _outerRadius) / 4.0;
             double radians = centerAngle * Math.PI / 180.0;
             double x = centerRadius * Math.Cos(radians);
             double y = centerRadius * Math.Sin(radians);
@@ -202,8 +203,8 @@
             // Set the values
             text_x = x;
             text_y = y;
-            outerText_x = outer_x * 0.95;
-            outerText_y = outer_y * 0.95;
+            outerText_x = outer_x * 0.98;
+            outerText_y = outer_y * 0.98;
             outerText2_x = outer_x * 0.90;
             outerText2_y = outer_y * 0.90;
             text_rotation = textRotation;
