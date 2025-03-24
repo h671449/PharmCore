@@ -169,7 +169,7 @@ body, html {
     align-items: center;
     height: 100%;
     width: 100%;
-    padding: 2%;
+    padding: 1%;
 }
 @keyframes flair {
    /* filter: */
@@ -179,7 +179,7 @@ body, html {
     position: relative;
     border-radius: 50%;
     align-self: center;
-    width: 86vh; /*min(100% 100vh);*/
+    width: 90vh; /*min(100% 100vh);*/
     /*height: 100%;*/
     /*    padding-bottom: 100%;*/
     display: inline-block; /* Shrink-wrap to the SVG */
@@ -375,7 +375,9 @@ body, html {
     transform: translate(-50%, -50%);
     box-shadow: rgba(0, 0, 0, 0.2) -2rem 2rem 4rem var(--spread) inset, rgba(255, 255, 255, 0.4) 2rem -2rem 4rem var(--spread) inset, 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.3), -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2);
 }
-
+    .inner-circle h1 {
+        mix-blend-mode: normal;
+    }
 .outer-circle {
     --spread: 0rem;
     background: transparent;

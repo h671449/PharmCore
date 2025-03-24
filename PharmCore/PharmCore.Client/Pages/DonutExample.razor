@@ -8,6 +8,12 @@
     <div class="donut-container">
 
         <svg viewBox="@SvgViewBox" preserveAspectRatio="xMidYMid meet">
+            <text style="z-index: 10; font-size: 1em; font-weight: bold; text-shadow: azure 0em 0.4em 2em ">
+
+                <tspan x="0" y="0" dx="-3.5em" dy="-0.6em">Core Concepts</tspan>
+                <tspan x="0" y="0" dx="-0.6em" dy="0.4em" style="font-size: 0.8em; font-weight: normal;">of</tspan>
+                <tspan x="0" y="0" dx="-3.5em" dy="1.2em">Pharmacology</tspan>
+            </text>
             @foreach (var button in Buttons)
             {
                 <g transform="scale(1.00, 1)">
@@ -23,9 +29,10 @@
 
                         <text class="donut-text" id="wedge-edge" x="@button.outerText_x" y="@button.outerText_y" dy="@button.outerText_dy em"
                               width="@(button.outerText_width)" transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
-                            <tspan x="@button.outerText_x" >Volume of</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" >Volume of</tspan>
                             <!-- Second line goes below the first line -->
-                            <tspan style="text-decoration: underline darkgray; text-underline-offset: 0.1rem;" x="@button.outerText_x" dy="1.2em">Distribution</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan>
+                            <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" dy="0.2em">__________</tspan>
                         </text>
                     </g>
                 </g>
@@ -34,13 +41,14 @@
         </svg>
         <div class="inner-circle"></div>
         <div class="outer-circle"></div>
+       
     </div>
 </div>
 
 
 @code {
-
-    // transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)"
+    // <h1 style="z-index: 10; font-size: 4em; position: absolute; top: 45%; right: 25%; text-align-last:center;">Core Concepts of Pharmacology</h1>
+    // transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)" ZZZ text-decoration: underline; text-underline-offset: 3em;"
 
     // ----------    Settings:    ----------
     // Dimensions
