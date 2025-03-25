@@ -1,0 +1,25 @@
+﻿@inject IJSRuntime JS
+
+<div id="molecule-container" class="molecule-container"></div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Calls the initializeMolecules() function defined in your molecules.js file.
+            await JS.InvokeVoidAsync("initializeMolecules");
+        }
+    }
+}
+
+
+
+@* <div class="molecule-container">
+    @for (int i = 0; i < 20; i++)  // Generate 20 molecules
+    {
+        <svg class="molecule" width="50" height="50">
+            <circle cx="25" cy="25" r="10" fill="rgba(100, 200, 255, 0.8)" />
+        </svg>
+    }
+</div> *@

@@ -7,7 +7,7 @@
 <div class="donut-page">
     <div class="donut-container">
 
-        <svg viewBox="@SvgViewBox" preserveAspectRatio="xMidYMid meet">
+        <svg viewBox="@SvgViewBox" width="100%" height="100%" overflow="visible" preserveAspectRatio="xMidYMid meet">
             <text style="z-index: 10; font-size: 1em; font-weight: bold; text-shadow: azure 0em 0.4em 2em ">
 
                 <tspan x="0" y="0" dx="-3.5em" dy="-0.6em">Core Concepts</tspan>
@@ -17,7 +17,7 @@
             @foreach (var button in Buttons)
             {
                 <g transform="scale(1.00, 1)">
-                    <g class="donut-button" style="position: relative z-index: 2" @onclick="button.OnClick">
+                    <g class="donut-button" style=" --animation-order:@button.animationOrder; position: relative z-index: 20" @onclick="button.OnClick">
                         <path class="donut-path" d="@button.WedgePath" fill="@button.hslColor" stroke="white" stroke-width="@ButtonBorder" stroke-linejoin="round" />
 
                         <text class="donut-text" x="@button.text_x" 
@@ -27,12 +27,11 @@
                                                                    @button.text_y)"
                         >#@button.indexplus</text>
 
-                        <text class="donut-text" id="wedge-edge" x="@button.outerText_x" y="@button.outerText_y" dy="@button.outerText_dy em"
-                              width="@(button.outerText_width)" transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
+                        <text class="donut-text" id="wedge-edge" font-weight="100" x="@button.outerText_x" y="@button.outerText_y" dy="@button.outerText_dy"
+                        width="@(button.outerText_width)" transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
                             <tspan style="z-index: 10;" x="@button.outerText_x" >Volume of</tspan>
-                            <!-- Second line goes below the first line -->
                             <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan>
-                            <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" dy="0.2em">__________</tspan>
+                            <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" dy="0.24em">______</tspan>
                         </text>
                     </g>
                 </g>
@@ -41,7 +40,7 @@
         </svg>
         <div class="inner-circle"></div>
         <div class="outer-circle"></div>
-       
+
     </div>
 </div>
 
@@ -110,6 +109,7 @@
         public string WedgePath { get; }
         public int index;
         public int indexplus;
+        public double animationOrder;
         [Parameter]
         public Action OnClick { get; set; }
 
@@ -149,6 +149,7 @@
         {
             this.index = index;
             this.indexplus = index + 1;
+
             _total = total;
             _innerRadius = innerRadius;
             _outerRadius = outerRadius;
@@ -156,6 +157,16 @@
             GapDistance = gapDistance;
             hslColor = hsl;
             OnClick = onClick;
+
+            animationOrder = index % (total / 4);
+
+            // if(indexplus > total / 2)
+            // {
+            //     animationOrder = total - index + 0.5;
+            // }else
+            // {
+            //     animationOrder = indexplus;
+            // }
 
             SetTextAttributes();
 

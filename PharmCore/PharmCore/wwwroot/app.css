@@ -216,28 +216,65 @@ body, html {
         filter:hue-rotate(360deg);
     }*/
 
-    .donut-container:hover .donut-button:not(:hover) {
+    /*.donut-container:hover .donut-button:not(:hover) {*/
         /*filter: blur(0.1px);*/
         /*filter: opacity(0.90);*/
-    }
+    /*}*/
 
 .donut-button {
-    transition: transform 0.3s ease, filter 1.2s ease-in;
     /*    position: relative;*/
     /*    transform-box: fill-box;*/
     /*    transform-origin: center;*/
     opacity: 1.0;
     cursor: pointer;
-    z-index: 2;
-    /*border-radius: 30px;*/
+    z-index: 20;
+    /*animation: fadeIn 1s ease-in;*/
+    /*    border-radius: 30px;*/
+    animation-name: fallIn;
+    animation-duration: 260ms;
+    animation-delay: calc(var(--animation-order) * 100ms);
+    animation-fill-mode: both;
+    animation-timing-function: ease;
+    transition: transform 0.3s ;/* filter 1.2s ease-in;*/
 }
 
-    .donut-button:hover {   
-        transform: scale(1.04);
-        z-index: 10;
 
-        /*fill: blue;*/
+    .donut-button:hover {
+        /*transition: transform 0.3s ease;*/
+         animation: hover 0.2s ease forwards backwards;
     }
+@keyframes hover {
+    from {
+        transform: scale(1.00);
+    }
+
+    to {
+        transform: scale(1.04);
+    }
+}
+        .donut-button:hover:active {
+            animation: ripple 280ms ease;
+        }
+@keyframes fallIn {
+    0% {
+        transform: rotateZ(90deg) scale(0.6);
+        /*transform: translateX(-100rem);*/
+        opacity: 0;
+    }
+
+    70% {
+        transform: rotateZ(0deg) scale(0.6);
+        opacity: 1.0;
+    }
+
+    100% {
+        transform: rotateZ(0deg) scale(1);
+        opacity: 1.0;
+    }
+}
+
+
+
 /*    .donut-button::before {
         content: "";
         position: absolute;
@@ -245,30 +282,33 @@ body, html {
         left: -50%;
         width: 200%;
         height: 200%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 10%, transparent 10%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 10%, transparent 0%);
         background-size: 50px 50px;
         opacity: 0;
         transition: opacity 0.3s;
     }*/
-        .donut-button:hover:active {
-            opacity: 1;
-/*                position: relative;
+        /*.donut-button:hover:active {
+            opacity: 1;*/
+/*                            position: relative;
                 transform-box: fill-box;
-                transform-origin: center;*/
-            /*transition: rotate> 1s linear;*/
-            animation: ripple 0.5s forwards;
-        }
-/* Keyframes for the ripple animation */
+                transform-origin: center;
+            transition: 1s linear;*/
+            /*animation: none;*/
+
+            /*animation: ripple 0.5s linear normal;*/
+        /*}*/
+/* Keyframes for the ripple animation */    
 @keyframes ripple {
     0% {
-        transform: rotateZ(0deg) scale(0.8);
+        transform: rotateZ(0deg) scale(1.0);
     }
-    10% {
-        transform: rotateZ(0deg) scale(0.59);
+    40% {
+        transform: rotateZ(0deg) scale(0.6);
     }
 
     100% {
-        transform: rotateZ(720deg) scale(0.0);
+        transform: rotateZ(90deg) scale(0.6);
+        opacity: 0;
     }
 }
 @keyframes buttonPress {
@@ -280,10 +320,6 @@ body, html {
         transform: perspective( );
     }
 }
-.donut-button:active {
-    animation: ripple 2.0s infinite;
-    /*fill: blue;*/
-}
 
 /*    .donut-button path {
         stroke-linejoin: bevel;
@@ -293,7 +329,7 @@ body, html {
    /* fill: #1cbcd1;*/
     opacity: 1.0;
     /*box-shadow: rgba(0, 0, 0, 1) 4px 4px 4px inset;*/
-    z-index: 2;
+    z-index: 1;
     stroke-opacity: 0;
 }
 
@@ -335,10 +371,10 @@ body, html {
 #wedge-edge {
     fill: azure;
     /*stroke: azure;*/
-    stroke-width: 0.2px;
+    /*stroke-width: 0.2px;*/
     /*text-weight: bold; */
-    font-size: 0.35em;
-    font-weight: bolder;
+    font-size: 0.38em;
+    font-weight: normal;
     box-shadow: black 0 0 0.5rem 0;
     /*    text-anchor: middle;
     dominant-baseline: middle;*/
@@ -355,7 +391,7 @@ body, html {
 .inner-circle {
     --spread: 0rem;
     background: transparent;
-    z-index: 1;
+    z-index: 2;
     position: absolute;
     pointer-events: none;
     /*    height: min(45%, 45%);
@@ -374,6 +410,10 @@ body, html {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     box-shadow: rgba(0, 0, 0, 0.2) -2rem 2rem 4rem var(--spread) inset, rgba(255, 255, 255, 0.4) 2rem -2rem 4rem var(--spread) inset, 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.3), -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2);
+/*    animation-name: reveal;
+    animation-duration: 900ms;
+    animation-fill-mode: forwards both;
+    animation-timing-function: ease;*/
 }
     .inner-circle h1 {
         mix-blend-mode: normal;
@@ -390,7 +430,7 @@ body, html {
     width: 95.96%;
     /*padding: 10%;*/
     border-radius: 50%;
-    filter:blur(0.2rem);
+    filter: blur(0.2rem);
     /*background-color: black;*/
     /*margin: auto;*/
     margin: 0;
@@ -399,5 +439,48 @@ body, html {
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    box-shadow: 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.4), -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2), 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.3) inset, -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2) inset;
+    box-shadow: 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.4), -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2), 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.25) inset, -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.15) inset;
+    animation: reveal 3s forwards;
+    transition: box-shadow 2s ease;
+}
+@keyframes reveal {
+    0% {
+        /*opacity: 0%;*/ /*--spread: 50rem;*/
+        /*transition: ease;*/
+        /*--spread: 50rem;*/
+        box-shadow: none;
+    }
+/*    70% {
+        --spread: 50rem;
+    }*/
+    to {
+        /*opacity: 100%;*/
+        /*--spread: 0rem;*/
+        box-shadow: 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.4), -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2), 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.25) inset, -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.15) inset;
+  
+    }
+}
+.molecule-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Allow clicks through */
+    overflow: hidden;
+}
+
+.molecule {
+    position: absolute;
+    animation: floatAnimation 10s infinite alternate ease-in-out;
+}
+
+@keyframes floatAnimation {
+    from {
+        transform: translateY(-10px) translateX(-5px);
+    }
+
+    to {
+        transform: translateY(10px) translateX(5px);
+    }
 }
