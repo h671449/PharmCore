@@ -225,25 +225,26 @@ body, html {
     /*    position: relative;*/
     /*    transform-box: fill-box;*/
     /*    transform-origin: center;*/
+    will-change: transform, opacity;
     opacity: 1.0;
     cursor: pointer;
     z-index: 20;
     /*animation: fadeIn 1s ease-in;*/
     /*    border-radius: 30px;*/
     animation-name: fallIn;
-    animation-duration: 260ms;
+    animation-duration: 280ms;
     animation-delay: calc(var(--animation-order) * 100ms);
-    animation-fill-mode: both;
-    animation-timing-function: ease;
-    transition: transform 0.3s ;/* filter 1.2s ease-in;*/
+    animation-fill-mode: backwards;
+    animation-timing-function: ease-in-out;
+    transition: transform 0.3s ease; /* filter 1.2s ease-in;*/
 }
 
 
     .donut-button:hover {
-        /*transition: transform 0.3s ease;*/
-         animation: hover 0.2s ease forwards backwards;
+        transform: scale(1.04);
+         /*animation: hoover 0.2s ease-in-out forwards reverse;*/
     }
-@keyframes hover {
+@keyframes hoover {
     from {
         transform: scale(1.00);
     }
@@ -252,52 +253,28 @@ body, html {
         transform: scale(1.04);
     }
 }
-        .donut-button:hover:active {
-            animation: ripple 280ms ease;
-        }
+    .donut-button:active {
+        animation: ripple 280ms ease;
+    }
 @keyframes fallIn {
     0% {
-        transform: rotateZ(90deg) scale(0.6);
+        transform: rotateZ(-90deg) scale(0.6);
         /*transform: translateX(-100rem);*/
         opacity: 0;
     }
 
-    70% {
+    60% {
         transform: rotateZ(0deg) scale(0.6);
         opacity: 1.0;
     }
+
 
     100% {
         transform: rotateZ(0deg) scale(1);
         opacity: 1.0;
     }
 }
-
-
-
-/*    .donut-button::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 10%, transparent 0%);
-        background-size: 50px 50px;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }*/
-        /*.donut-button:hover:active {
-            opacity: 1;*/
-/*                            position: relative;
-                transform-box: fill-box;
-                transform-origin: center;
-            transition: 1s linear;*/
-            /*animation: none;*/
-
-            /*animation: ripple 0.5s linear normal;*/
-        /*}*/
-/* Keyframes for the ripple animation */    
+ 
 @keyframes ripple {
     0% {
         transform: rotateZ(0deg) scale(1.0);
@@ -311,19 +288,7 @@ body, html {
         opacity: 0;
     }
 }
-@keyframes buttonPress {
-    from {
-        transform: scale(1.04);
-    }
 
-    to {
-        transform: perspective( );
-    }
-}
-
-/*    .donut-button path {
-        stroke-linejoin: bevel;
-    }*/
 .donut-path {
     position: relative;
    /* fill: #1cbcd1;*/
