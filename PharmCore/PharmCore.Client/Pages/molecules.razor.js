@@ -388,8 +388,8 @@ export function initMoleculeAnimation() {
                 const dx = m1.x - m2.x;
                 const dy = m1.y - m2.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 50 && dist > 0) {
-                    const force = (50 - dist) * 0.0002;
+                if (dist < 100 && dist > 0) {
+                    const force = (100 - dist) * 0.0002;
                     const fx = (dx / dist) * force;
                     const fy = (dy / dist) * force;
                     m1.vx += fx;
