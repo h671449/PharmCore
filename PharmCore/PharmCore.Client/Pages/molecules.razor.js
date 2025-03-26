@@ -4,8 +4,8 @@ export function initMoleculeAnimation() {
     const svg = document.getElementById("moleculeCanvas");
     const width = window.innerWidth;
     const height = window.innerHeight;
-    const numMolecules = 15;
-    const dampingFactor = 0.05;
+    const numMolecules = 17;
+    const dampingFactor = 0.02;
     const molecules = [];
     const svgns = "http://www.w3.org/2000/svg";
 
@@ -288,8 +288,8 @@ export function initMoleculeAnimation() {
         group.innerHTML = moleculeSVG; // 🔹 Inserts inline SVG into each molecule
         svg.appendChild(group);
 
-        const defaultVX = (Math.random() - 0.5) * 0.2;
-        const defaultVY = (Math.random() - 0.5) * 0.2;
+        const defaultVX = (Math.random(-1, 1) / 2) * 0.2;
+        const defaultVY = (Math.random(-1, 1) / 2) * 0.2;
 
         molecules.push({
             x: Math.random() * width,
@@ -318,7 +318,7 @@ export function initMoleculeAnimation() {
                 const dy = m.y - pointer.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < 150 && dist > 0) {
-                    const force = (150 - dist) * 0.0005;
+                    const force = (150 - dist) * 0.0003;
                     m.vx += (dx / dist) * force;
                     m.vy += (dy / dist) * force;
                 }
@@ -352,13 +352,28 @@ export function initMoleculeAnimation() {
     // Update positions and ease velocities.
     function update() {
         molecules.forEach(m => {
-            m.vx += (m.defaultVX - m.vx) * dampingFactor;
-            m.vy += (m.defaultVY - m.vy) * dampingFactor;
+            //m.vx += (m.defaultVX - m.vx) * dampingFactor;
+            //m.vy += (m.defaultVY - m.vy) * dampingFactor;
+            if (Math.abs(m.vx) > Math.abs(m.defaultVX)) {
+                m.vx = m.vx * (1 - dampingFactor);
+            } else {
+                m.vx = m.vx * (1 + dampingFactor);
+            }
+            if (Math.abs(m.vy) > Math.abs(m.defaultVY)) {
+                m.vy = m.vy * (1 - dampingFactor);
+            } else {
+                m.vy = m.vy * (1 + dampingFactor);
+            }
+            
+            if (Math.random() > 2) {
+                m.vx += Math.random() - 0.5;
+                m.vy += Math.random() - 0.5;
+            }
             wallRepulsion(m);
             m.x += m.vx;
             m.y += m.vy;
 
-            const offset = 30;
+            const offset = 50;
 
             if (m.x < offset || m.x > width - offset) {
                 m.vx *= -1;
@@ -388,8 +403,8 @@ export function initMoleculeAnimation() {
                 const dx = m1.x - m2.x;
                 const dy = m1.y - m2.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
-                if (dist < 100 && dist > 0) {
-                    const force = (100 - dist) * 0.0002;
+                if (dist < 150 && dist > 0) {
+                    const force = (150 - dist) * 0.0002;
                     const fx = (dx / dist) * force;
                     const fy = (dy / dist) * force;
                     m1.vx += fx;
