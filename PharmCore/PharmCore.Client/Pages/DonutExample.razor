@@ -17,7 +17,7 @@
             @foreach (var button in Buttons)
             {
                 <g transform="scale(1.00, 1)">
-                    <g class="donut-button" style=" --animation-order:@button.animationOrder; position: relative z-index: 20" @onclick="button.OnClick">
+                    <g class="donut-button" style=" --animation-order:@button.animationOrder; --animation-rotation:@button.animationRotation; position: relative z-index: 20" @onclick="button.OnClick">
                         <path class="donut-path" d="@button.WedgePath" fill="@button.hslColor" stroke="white" stroke-width="@ButtonBorder" stroke-linejoin="round" />
 
                         <text class="donut-text" x="@button.text_x" 
@@ -27,7 +27,7 @@
                                                                    @button.text_y)"
                         >#@button.indexplus</text>
 
-                        <text class="donut-text" id="wedge-edge" font-weight="100" x="@button.outerText_x" y="@button.outerText_y" dy="@button.outerText_dy"
+                        <text class="donut-text" id="wedge-edge" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem" x="@button.outerText_x" y="@button.outerText_y" dy="@button.outerText_dy"
                         width="@(button.outerText_width)" transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
                             <tspan style="z-index: 10;" x="@button.outerText_x" >Volume of</tspan>
                             <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan>
@@ -110,6 +110,7 @@
         public int index;
         public int indexplus;
         public double animationOrder;
+        public int animationRotation = 1;
         [Parameter]
         public Action OnClick { get; set; }
 
@@ -158,7 +159,8 @@
             hslColor = hsl;
             OnClick = onClick;
 
-            animationOrder = index % (total / 4);
+            // animationOrder = index;
+            // animationOrder = index % (total / 4);
 
             // if(indexplus > total / 2)
             // {
@@ -168,6 +170,29 @@
             //     animationOrder = indexplus;
             // }
 
+            //19 -> 24
+            if      (indexplus > total * 3 / 4)
+            {
+                animationOrder = indexplus - total * 3 / 4;
+                animationRotation = -1;
+            }
+            // 13 <- 18
+            else if (indexplus > total * 2 / 4)
+            {
+                animationOrder = total * 3 / 4 - index;
+            }
+            // 7 <- 12
+            else if (indexplus > total / 4)
+            {
+                animationOrder = total * 2 / 4 - index + total / 4;
+            }
+            // 1 -> 6
+            else
+            {
+                animationOrder = indexplus + total / 4;
+                animationRotation = -1;
+            }
+            Console.WriteLine($"nr: {indexplus} > Animation order:{animationOrder}");
             SetTextAttributes();
 
             WedgePath = GetWedgePath(index, total, innerRadius, outerRadius, gapDistance);

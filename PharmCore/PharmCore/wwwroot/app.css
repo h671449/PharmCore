@@ -232,10 +232,10 @@ body, html {
     /*animation: fadeIn 1s ease-in;*/
     /*    border-radius: 30px;*/
     animation-name: fallIn;
-    animation-duration: 280ms;
-    animation-delay: calc(var(--animation-order) * 100ms);
+    animation-duration: 650ms;
+    animation-delay: calc(var(--animation-order) * 35ms);
     animation-fill-mode: backwards;
-    animation-timing-function: ease-in-out;
+    animation-timing-function: ease-out;
     transition: transform 0.3s ease; /* filter 1.2s ease-in;*/
 }
 
@@ -258,20 +258,23 @@ body, html {
     }
 @keyframes fallIn {
     0% {
-        transform: rotateZ(-90deg) scale(0.6);
+        transform: rotateZ(calc(var(--animation-rotation) * 180deg)) scale(0.6);
         /*transform: translateX(-100rem);*/
-        opacity: 0;
+        opacity: 0.05;
+        filter:blur(3.0px);
     }
 
     60% {
         transform: rotateZ(0deg) scale(0.6);
-        opacity: 1.0;
+        opacity: 0.65;
+        filter: blur(0.4px);
     }
 
 
     100% {
         transform: rotateZ(0deg) scale(1);
         opacity: 1.0;
+        filter: blur(0px);
     }
 }
  
