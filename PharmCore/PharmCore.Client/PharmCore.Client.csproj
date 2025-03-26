@@ -9,9 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Pages\molecules.razor.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.5" />
     <PackageReference Include="SkiaSharp" Version="3.116.1" />
     <PackageReference Include="SkiaSharp.Views.Blazor" Version="3.116.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Components\js\" />
   </ItemGroup>
 
 </Project>

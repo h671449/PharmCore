@@ -1,4 +1,49 @@
-﻿@inject IJSRuntime JS
+﻿@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<svg id="moleculeCanvas" class="molecule-container"></svg>
+
+
+@code {
+    private IJSObjectReference? module;
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import",
+                "./Pages/molecules.razor.js");
+
+            await module.InvokeVoidAsync("initMoleculeAnimation");
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            try
+            {
+                await module.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
+    }
+}
+
+@* @code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initMoleculeAnimation");
+        }
+    }
+}
+
+    @inject IJSRuntime JS
 
 <div id="molecule-container" class="molecule-container"></div>
 
@@ -15,7 +60,7 @@
 
 
 
-@* <div class="molecule-container">
+ <div class="molecule-container">
     @for (int i = 0; i < 20; i++)  // Generate 20 molecules
     {
         <svg class="molecule" width="50" height="50">

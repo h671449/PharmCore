@@ -232,8 +232,8 @@ body, html {
     /*animation: fadeIn 1s ease-in;*/
     /*    border-radius: 30px;*/
     animation-name: fallIn;
-    animation-duration: 800ms;
-    animation-delay: calc(var(--animation-order) * 46ms);
+    animation-duration: 750ms;
+    animation-delay: calc(var(--animation-order) * 45ms);
     animation-fill-mode: backwards;
     animation-timing-function: ease-out;
     transition: transform 0.3s ease; /* filter 1.2s ease-in;*/
@@ -429,13 +429,15 @@ body, html {
     }
 }
 .molecule-container {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     pointer-events: none; /* Allow clicks through */
-    overflow: hidden;
+    inset: 0;
+    opacity: 0.75;
+    /*z-index: -1;*/
 }
 
 .molecule {
