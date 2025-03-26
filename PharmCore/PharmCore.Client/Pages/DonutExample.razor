@@ -159,39 +159,40 @@
             hslColor = hsl;
             OnClick = onClick;
 
-            // animationOrder = index;
+            animationOrder = index;
             // animationOrder = index % (total / 4);
 
-            // if(indexplus > total / 2)
+            if(indexplus > total / 2)
+            {
+                animationOrder = index - total / 2;
+            }else
+            {
+                animationOrder = index;
+            }
+
+            // //19 -> 24
+            // if      (indexplus > total * 3 / 4)
             // {
-            //     animationOrder = total - index + 0.5;
-            // }else
+            //     animationOrder = indexplus - total * 3 / 4;
+            //     animationRotation = -1;
+            // }
+            // // 13 <- 18
+            // else if (indexplus > total * 2 / 4)
             // {
-            //     animationOrder = indexplus;
+            //     animationOrder = total * 3 / 4 - index;
+            // }
+            // // 7 <- 12
+            // else if (indexplus > total / 4)
+            // {
+            //     animationOrder = total * 2 / 4 - index + total / 4;
+            // }
+            // // 1 -> 6
+            // else
+            // {
+            //     animationOrder = indexplus + total / 4;
+            //     animationRotation = -1;
             // }
 
-            //19 -> 24
-            if      (indexplus > total * 3 / 4)
-            {
-                animationOrder = indexplus - total * 3 / 4;
-                animationRotation = -1;
-            }
-            // 13 <- 18
-            else if (indexplus > total * 2 / 4)
-            {
-                animationOrder = total * 3 / 4 - index;
-            }
-            // 7 <- 12
-            else if (indexplus > total / 4)
-            {
-                animationOrder = total * 2 / 4 - index + total / 4;
-            }
-            // 1 -> 6
-            else
-            {
-                animationOrder = indexplus + total / 4;
-                animationRotation = -1;
-            }
             Console.WriteLine($"nr: {indexplus} > Animation order:{animationOrder}");
             SetTextAttributes();
 
