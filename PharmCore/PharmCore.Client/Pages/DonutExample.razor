@@ -2,6 +2,7 @@
 @* @rendermode InteractiveWebAssembly *@
 @* <h3>DonutExample</h3> *@
 <Molecules />
+<BackToHome />
 @* <p role="status">@text</p> *@
 
 <div class="donut-page">
@@ -27,7 +28,7 @@
                                                                    @button.text_y)"
                         >#@button.indexplus</text>
 
-                        <text class="donut-text" id="wedge-edge" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem" x="@button.outerText_x" y="@button.outerText_y" dy="@button.outerText_dy"
+                        <text class="donut-text" id="wedge-edge" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem" x="@button.outerText_x" y="@button.outerText_y" dy="@button.outerText_dy"
                         width="@(button.outerText_width)" transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
                             <tspan style="z-index: 10;" x="@button.outerText_x" >Volume of</tspan>
                             <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan>
@@ -43,6 +44,7 @@
 
     </div>
 </div>
+
 
 
 @code {
