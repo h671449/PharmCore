@@ -741,9 +741,15 @@ MolSource:
     // Global pointer coordinates.
     let pointer = { x: null, y: null };
 
-    window.addEventListener("mousemove", function (event) {
-        pointer.x = event.clientX;
-        pointer.y = event.clientY;
+    //window.addEventListener("mousemove", function (event) {
+    //    pointer.x = event.clientX;
+    //    pointer.y = event.clientY;
+    //});
+    document.addEventListener("mousemove", (event) => {
+        const svgRect = svg.getBoundingClientRect(); // Get SVG position & size
+
+        pointer.x = (event.clientX - svgRect.left) * (width / svgRect.width);
+        pointer.y = (event.clientY - svgRect.top) * (height / svgRect.height);
     });
 
     // Pointer repulsion
@@ -754,7 +760,7 @@ MolSource:
                 const dy = m.y - pointer.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < 150 && dist > 0) {
-                    const force = (150 - dist) * 0.0003;
+                    const force = (150 - dist) * 0.0004;
                     m.vx += (dx / dist) * force;
                     m.vy += (dy / dist) * force;
                 }

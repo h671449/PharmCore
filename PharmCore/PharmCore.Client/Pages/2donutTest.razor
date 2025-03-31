@@ -1,9 +1,11 @@
-﻿@page "/Donut2"
+﻿@page "/donutTest"
+@* <DonutExample ButtonCount="12"  />
+<DonutExample ButtonCount="12" OuterRadius="100" InnerRadius="40"/> *@
 @* @rendermode InteractiveWebAssembly *@
 @using PharmCore.Client.Pages.Components
 @inject NavigationManager Navigation
 
-<Molecules />
+@* <Molecules /> *@
 <BackToHome />
 
 <div class="donut-page">
@@ -11,7 +13,7 @@
 
         <svg viewBox="@SvgViewBox" width="100%" height="100%" overflow="visible" preserveAspectRatio="xMidYMid meet">
             <text class="header-text" style="   z-index: 10;
-                                                font-size: 1em;
+                                                font-size: 1.1em;
                                                 font-weight: bold;
                                                 text-shadow: azure 0em 0.4em 2em;
                                                 pointer-events: none;
@@ -27,27 +29,88 @@
             @foreach (var button in Buttons)
             {
                 <g transform="scale(1.00, 1)">
+                    <g class="donut-button" style=" --animation-order:@button.animationOrder; --animation-rotation:@button.animationRotation; position: relative; z-index: 20" @onclick="button.OnClick">
+                        <path class="donut-path" d="@button.WedgePath" fill="@button.hslColor" stroke="white" stroke-width="@ButtonBorder" stroke-linejoin="round" />
+
+                        <text class="donut-text" x="@button.text_x"
+                        y="@button.text_y"
+                        transform="rotate(0,
+                                                                   @button.text_x,
+                                                                   @button.text_y)">@button.number</text>
+
+                        <text class="donut-text" id="wedge-edge2" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem"
+                        x="@button.outerText_x" y="@button.outerText_y" dy="@(button.outerText_dy)em" width="@(button.outerText_width)"
+                        transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" y="@(button.outerText_y)" >@button.labels[0]</tspan> *@
+                            @*                             <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[1]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[2]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[3]</tspan> *@
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan> *@
+                            @if (button.isBelow == true)
+                            {
+                                button.labels.Reverse();
+                                <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" baseline-shift="0.9em" dy="0em">______</tspan>
+                            }
+                            @foreach (string label in button.labels)
+
+                            {
+                                <tspan style="z-index: 10;" x="@button.outerText_x" dy="@(button.outerText_line_dy)em">@label</tspan>
+                            }
+                            @if (button.isBelow == false)
+                            {
+                                <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" dy="0.24em">______</tspan>
+                            }
+                        </text>
+                    </g>
+                </g>
+
+            }
+            @foreach (var button in InnerButtons)
+            {
+                <g transform="scale(1.00, 1)">
                     <g class="donut-button" style=" --animation-order:@button.animationOrder; --animation-rotation:@button.animationRotation; position: relative z-index: 20" @onclick="button.OnClick">
                         <path class="donut-path" d="@button.WedgePath" fill="@button.hslColor" stroke="white" stroke-width="@ButtonBorder" stroke-linejoin="round" />
 
                         <text class="donut-text" x="@button.text_x"
-                              y="@button.text_y"
-                              transform="rotate(0,
+                        y="@button.text_y"
+                        transform="rotate(0,
                                                                    @button.text_x,
-                                                                   @button.text_y)">#@button.indexplus</text>
+                                                                   @button.text_y)">@button.number</text>
 
-                        <text class="donut-text" id="wedge-edge" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem" x="@button.outerText_x" y="@button.outerText_y" dy="@button.outerText_dy"
-                              width="@(button.outerText_width)" transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
-                            <tspan style="z-index: 10;" x="@button.outerText_x">Volume of</tspan>
-                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan>
-                            <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" dy="0.24em">______</tspan>
+                        <text class="donut-text" id="wedge-edge2" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem"
+                        x="@button.outerText_x" y="@button.outerText_y" dy="@(button.outerText_dy)em" width="@(button.outerText_width)"
+                        transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" y="@(button.outerText_y)" >@button.labels[0]</tspan> *@
+                            @*                             <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[1]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[2]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[3]</tspan> *@
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan> *@
+                            @if (button.isBelow == true)
+                            {
+                                button.labels.Reverse();
+                                <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" baseline-shift="0.9em" dy="0em">______</tspan>
+                            }
+                            @foreach (string label in button.labels)
+
+                            {
+                                <tspan style="z-index: 10;" x="@button.outerText_x" dy="@(button.outerText_line_dy)em">@label</tspan>
+                            }
+                            @if (button.isBelow == false)
+                            {
+                                <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" dy="0.24em">______</tspan>
+                            }
                         </text>
                     </g>
                 </g>
 
             }
         </svg>
-        <div class="inner-circle"></div>
+
+        <div class="two-donut-inner-circle"></div>
         <div class="outer-circle"></div>
 
     </div>
@@ -61,11 +124,18 @@
 
     // ----------    Settings:    ----------
     // Dimensions
-    private int ButtonCount { get; set; } = 24;
-    private int InnerRadius { get; set; } = 90;
-    private int OuterRadius { get; set; } = 150;
+    [Parameter] public int ButtonCount { get; set; } = 12;
+    [Parameter] public int InnerRadius { get; set; } = 125;
+    [Parameter] public int OuterRadius { get; set; } = 160;
+
+    [Parameter] public int SmallButtonCount { get; set; } = 12;
+    [Parameter] public int SmallInnerRadius { get; set; } = 88;
+    [Parameter] public int SmallOuterRadius { get; set; } = 124;
+
+    public int totalButtons => ButtonCount + SmallButtonCount;
+
     // Styling
-    private double ButtonBorder { get; set; } = 0.5;
+    private double ButtonBorder = 0.5;
     private double ButtonPadding = 1.2;     // between buttons
     private double ViewboxPadding = 1.04;     //
     private double Rounding = 1.0;     // rounding of fill shape
@@ -73,29 +143,68 @@
     // Color
     double baseHue = 195; // starting hue
     double hueStep = 9; // increment for each button
-    double saturation = 0.75; // 100%
+    double saturation = 0.70; // 100%
     double lightness = 0.65; // 50%
     // ---------- End of Settings ----------
 
     private string SvgViewBox => $"-{OuterRadius * ViewboxPadding} -{OuterRadius * ViewboxPadding} {OuterRadius * ViewboxPadding * 2} {OuterRadius * ViewboxPadding * 2}";
 
     private List<WedgeButton> Buttons = new();
+    private List<WedgeButton> InnerButtons = new();
     private List<Concept> concepts = ConceptFactory.GetConcepts();
 
     protected override void OnInitialized()
     {
-        for (int i = 0; i < ButtonCount; i++)
+        int bigIndex = 0;
+        int smallIndex = 0;
+        for (int i = 0; i < totalButtons; i++)
         {
             Concept c = concepts[i];
             string hslString = HslToCssString(c.Hue, saturation, lightness);
 
-            int capturedIndex = i; // capture the current index for the lambda
-            Buttons.Add(new WedgeButton(capturedIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
-                                        hslString, () =>
-        {
-            Navigation.NavigateTo(c.Url);
+            // int capturedIndex = i; // capture the current index for the lambda
+            // if (i == totalButtons - 1 || i == totalButtons / 2 - 1)
+            // {
+            //     Buttons.Add(new WedgeButton(bigIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
+            //                                 "hsl(332, 12%, 32%)", () => { Navigation.NavigateTo(c.Url); }, 0, new List<string> { "" }));
+            //     bigIndex++;
+            //     continue;
+            // }
+            // else if (i == totalButtons - 2 || i == totalButtons / 2 - 2)
+            // {
+            //     InnerButtons.Add(new WedgeButton(smallIndex, SmallButtonCount, SmallInnerRadius, SmallOuterRadius, Rounding, ButtonPadding,
+            //                                      $"hsl(332, 12%, 32%)", () => { Navigation.NavigateTo(c.Url); }, 0, new List<string> { "" }));
+            //     smallIndex++;
+            //     continue;
+            // }
+            if (i % 2 == 1)
+            {
+                Buttons.Add(new WedgeButton(bigIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
+                                            hslString, () => { Navigation.NavigateTo(c.Url); }, c.Number, c.Labels));
+                bigIndex++;
+            }
+            else
+            {
+                InnerButtons.Add(new WedgeButton(smallIndex, SmallButtonCount, SmallInnerRadius, SmallOuterRadius, Rounding, ButtonPadding,
+                                hslString, () => { Navigation.NavigateTo(c.Url); }, c.Number, c.Labels));
+                smallIndex++;
+            }
+            // Buttons.Add(new WedgeButton(capturedIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
+            //             hslString, () =>
+            //             {
+            //                 Navigation.NavigateTo(c.Url);
+            //             },
+            //             c.Number, c.Labels));
+            // i++;
+            // c = concepts[i];
+            // InnerButtons.Add(new WedgeButton(capturedIndex, SmallButtonCount, SmallInnerRadius, SmallOuterRadius, Rounding, ButtonPadding,
+            //             hslString, () =>
+            //             {
+            //             Navigation.NavigateTo(c.Url);
+            //             },
+            //             c.Number, c.Labels));
 
-        }, c.Number, c.Labels));
+
         }
     }
     public string HslToCssString(double hue, double saturation, double lightness)
@@ -145,13 +254,16 @@
         public double outerText_dy;
         public double outerText_rotation;
         public double outerText_width;
+
+        public double line_dy = 1.1;
         public double outerText_line_dx;
         public double outerText_line_dy;
+        public bool isBelow;
 
 
         public string hslColor;
 
-        private double _horizontalScale = 1.4; // or any default > 1.0 to make it wider
+        //private double _horizontalScale = 1.4; // or any default > 1.0 to make it wider
 
         // Internal variable for the corner rounding (in the same units as the radii)
         private double cornerRadius;
@@ -227,12 +339,17 @@
             double baseEndAngle = (index + 1) * angleStep;
             // The bisector angle of the wedge in degrees
             double centerAngle = (baseStartAngle + baseEndAngle) / 2.0;
+            double numberAngle = (baseStartAngle * 7 + baseEndAngle) / 8.0;
 
             // Compute the center radius as the average of inner and outer radii
-            double centerRadius = (_innerRadius * 4 + _outerRadius) / 5.0;
+            double centerRadius = (_innerRadius * 4 + _outerRadius) / 5.0; // Name no longer accurate
+
             double radians = centerAngle * Math.PI / 180.0;
-            double x = centerRadius * Math.Cos(radians);
-            double y = centerRadius * Math.Sin(radians);
+            double numberRadians = numberAngle * Math.PI / 180.0;
+            // double x = centerRadius * Math.Cos(radians);
+            // double y = centerRadius * Math.Sin(radians);
+            double x = centerRadius * Math.Cos(numberRadians);
+            double y = centerRadius * Math.Sin(numberRadians);
             double outer_x = _outerRadius * Math.Cos(radians);
             double outer_y = _outerRadius * Math.Sin(radians);
 
@@ -249,12 +366,18 @@
             textRotation %= 360;
 
             double outerOffset = -8.0;
+            // outerText_line_dy = $"-{line_dy}em";
+            outerText_line_dy = -line_dy;
+            isBelow = true;
 
             double outerTextRotation = centerAngle;
             if (centerAngle > 180 && centerAngle < 360)
             {
                 outerTextRotation += 180;
-                outerOffset = 2.0;
+                // outerText_line_dy = $"{line_dy}em";
+                outerText_line_dy = line_dy;
+                isBelow = false;
+                outerOffset = 4.0;
             }
             // Normalize rotation to [0,360)
             textRotation %= 360;
@@ -262,8 +385,8 @@
             // Set the values
             text_x = x;
             text_y = y;
-            outerText_x = outer_x * 0.95;
-            outerText_y = outer_y * 0.95;
+            outerText_x = outer_x * 0.96;
+            outerText_y = outer_y * 0.96;
             outerText2_x = outer_x * 0.90;
             outerText2_y = outer_y * 0.90;
             text_rotation = textRotation;
@@ -275,8 +398,8 @@
             outerText_width = arcLength * 0.8;  // Adjust factor to fit text properly
             outerText_dx = arcLength * Math.Cos(radians + 1);
             outerText_dy = outerOffset;
-            outerText_line_dx = -outer_x * 0.08;
-            outerText_line_dy = -outer_y * 0.08;
+            // outerText_line_dx = -outer_x * 0.08;
+            // outerText_line_dy = -outer_y * 0.08;
 
         }
 
@@ -285,9 +408,20 @@
             //--------------------------------------------------
             // 1) Compute the raw wedge corners and arcs (before rounding).
             //--------------------------------------------------
+            //double normalize(double angle) => () > angle % 360; // Ensures 0 <= angle < 360
+
             double angleStep = 360.0 / total;
             double startAngle = idx * angleStep;
             double endAngle = (idx + 1) * angleStep;
+            // startAngle %= 360;
+            // endAngle %= 360;
+
+            // if (idx == total / 2 - 1)
+            // {
+            //     double hold = startAngle;
+            //     startAngle = endAngle;
+            //     endAngle = hold;
+            // }
 
             // Half-gap angles for each circle, so the wedge has a uniform linear gap:
             double halfGapOuterDeg = (gapDist / rOuter) * (180.0 / Math.PI) / 2.0;
@@ -341,8 +475,8 @@
             // --- Inner arc (A2) from (x3,y3) to (x4,y4), center=(0,0), radius=rInner, sweep= (innerStart->innerEnd is also a forward angle, but we use a negative sweep if needed)
             // Actually we want the direction from x3->x4 to be "reverse" (outer circle is drawn anticlockwise with large-arc=1, the inner might be the opposite).
             // But let's keep it simple and rely on sign. We'll detect if it's clockwise or not:
-            bool innerSweepPositive = ((innerEnd - innerStart) >= 0);
-            var arcInner = new ArcSegment(x3, y3, x4, y4, rInner, sweepPositive: false);//innerSweepPositive);
+            bool innerSweepPositive = (((innerEnd - innerStart) >= 0) || (idx == total));
+            var arcInner = new ArcSegment(x3, y3, x4, y4, rInner, sweepPositive: false); //innerSweepPositive);
 
             // --- Closing line (L2) from (x4,y4) to (x1,y1)
             var lineClose = new LineSegment(x4, y4, x1, y1);
@@ -674,9 +808,5 @@
                 return $"A {radius:F3},{radius:F3} 0 0,{(sweepPositive ? 1 : 0)} {pEnd.x:F3},{pEnd.y:F3} ";
         }
     }
-
-
-
-
 
 }

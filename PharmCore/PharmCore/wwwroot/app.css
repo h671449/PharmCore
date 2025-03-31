@@ -220,11 +220,16 @@ body, html {
         /*filter: blur(0.1px);*/
         /*filter: opacity(0.90);*/
     /*}*/
+:root {
+    --donut-rotation: 0deg; /*12.86deg*/
+    --animation-scale: 0.55;
+}
 
 .donut-button {
     /*    position: relative;*/
     /*    transform-box: fill-box;*/
     /*    transform-origin: center;*/
+    /*transform: rotateZ(var(--donut-rotation));*/
     will-change: transform, opacity;
     opacity: 1.0;
     cursor: pointer;
@@ -232,47 +237,59 @@ body, html {
     /*animation: fadeIn 1s ease-in;*/
     /*    border-radius: 30px;*/
     animation-name: fallIn;
-    animation-duration: 750ms;
-    animation-delay: calc(var(--animation-order) * 45ms);
+    animation-duration: 450ms;
+    animation-delay: calc(var(--animation-order) * 35ms);
     animation-fill-mode: backwards;
     animation-timing-function: ease-out;
     transition: transform 0.3s ease; /* filter 1.2s ease-in;*/
 }
+.deadzone-button {
+    
+   
+}
+    .deadzone-button path {
+        fill: rgb(60, 50, 60, 0.8);
+        filter: blur(0.0px);
+        backdrop-filter: blur(0.0px);
+        stroke: black;
+        stroke-width: 0.0px;
+    }
 
-
+    
     .donut-button:hover {
-        transform: scale(1.04);
-         /*animation: hoover 0.2s ease-in-out forwards reverse;*/
+        position: absolute;
+        transform: rotateZ(var(--donut-rotation)) scale(1.025);
+        /*animation: hoover 0.2s ease-in-out forwards reverse;*/
     }
 @keyframes hoover {
     from {
-        transform: scale(1.00);
+        transform: rotateZ(var(--donut-rotation)) scale(1.00);
     }
 
     to {
-        transform: scale(1.04);
+        transform: rotateZ(var(--donut-rotation)) scale(1.04);
     }
 }
     .donut-button:active {
-        animation: ripple 280ms ease;
+        /*animation: ripple 280ms ease;*/
     }
 @keyframes fallIn {
     0% {
-        transform: rotateZ(calc(var(--animation-rotation) * -180deg)) scale(0.6);
+        transform: rotateZ(calc(var(--donut-rotation) - var(--animation-rotation) * -225deg)) scale(0.54);
         /*transform: translateX(-100rem);*/
         opacity: 0.05;
-        filter:blur(3.0px);
+        filter: blur(3.0px);
     }
 
-    50% {
-        transform: rotateZ(0deg) scale(0.6);
+    40% {
+        transform: rotateZ(var(--donut-rotation)) scale(0.54);
         opacity: 0.65;
         filter: blur(0.6px);
     }
 
 
     100% {
-        transform: rotateZ(0deg) scale(1);
+        transform: rotateZ(var(--donut-rotation)) scale(1);
         opacity: 1.0;
         filter: blur(0px);
     }
@@ -280,14 +297,14 @@ body, html {
  
 @keyframes ripple {
     0% {
-        transform: rotateZ(0deg) scale(1.0);
+        transform: rotateZ(var(--donut-rotation)) scale(1.0);
     }
     40% {
-        transform: rotateZ(0deg) scale(0.6);
+        transform: rotateZ(var(--donut-rotation)) scale(0.55);
     }
 
     100% {
-        transform: rotateZ(90deg) scale(0.6);
+        transform: rotateZ(calc(var(--donut-rotation) + 90deg)) scale(0.6);
         opacity: 0;
     }
 }
@@ -317,12 +334,26 @@ body, html {
         stroke-opacity: 1;
     }*/
 
+.header-text {
+    z-index: 10;
+    font-size: 1em;
+    font-weight: bold;
+    text-shadow: azure 0em 0.4em 2em;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
 .donut-text {
     opacity: 1.0;
     fill-opacity: 1;
     z-index: 20;
     mix-blend-mode: normal;
     color: white;
+    fill: #424242;
+    text-decoration: blink;
     font-weight: bold;
     pointer-events: none;
     user-select: none; /* Standard */
@@ -341,7 +372,7 @@ body, html {
     /*stroke: azure;*/
     /*stroke-width: 0.2px;*/
     /*text-weight: bold; */
-    font-size: 0.38em;
+    font-size: 0.36em;
     font-weight: normal;
     box-shadow: black 0 0 0.5rem 0;
     /*    text-anchor: middle;
@@ -350,6 +381,15 @@ body, html {
     /* transform-box: fill-box;*/
     /*    transform-origin: center;*/
     /*transform: rotate(deg);*/
+}
+#wedge-edge2 {
+    fill: azure;
+    color: azure;
+    opacity: 1.0;
+    font-size: 0.4em;
+    font-weight: normal;
+    box-shadow: black 0 0 0.5rem 0;
+
 }
 /*@property --spread {
     syntax: "rem";
@@ -383,9 +423,36 @@ body, html {
     animation-fill-mode: forwards both;
     animation-timing-function: ease;*/
 }
-    .inner-circle h1 {
-        mix-blend-mode: normal;
-    }
+.two-donut-inner-circle {
+    --size: 53%;
+    height: var(--size);
+    width: var(--size);
+    --spread: 0rem;
+    background: transparent;
+    z-index: 2;
+    position: absolute;
+    pointer-events: none;
+    /*    height: min(45%, 45%);
+    width: min(40vh, 40vw);*/
+
+    /*padding: 10%;*/
+    border-radius: 50%;
+    filter: blur(0.2rem);
+    /*background-color: black;*/
+    /*margin: auto;*/
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    box-shadow: rgba(0, 0, 0, 0.2) -2rem 2rem 4rem var(--spread) inset, rgba(255, 255, 255, 0.4) 2rem -2rem 4rem var(--spread) inset, 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.3), -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2);
+
+}
+
+.inner-circle h1 {
+    mix-blend-mode: normal;
+}
 .outer-circle {
     --spread: 0rem;
     background: transparent;

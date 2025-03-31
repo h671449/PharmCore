@@ -1,0 +1,309 @@
+﻿@page "/Donut3"
+@* <DonutExample ButtonCount="12"  />
+<DonutExample ButtonCount="12" OuterRadius="100" InnerRadius="40"/> *@
+@* @rendermode InteractiveWebAssembly *@
+@using System;
+@using PharmCore.Client.Pages.Components
+@using PharmCore.Client.Pages.Components.Donut3
+@using PharmCore.Client.Pages.Utils
+@inject NavigationManager Navigation
+
+@* <Molecules /> *@
+<BackToHome />
+@* <input style="position: absolute; top, left: 20%;" @bind="deadzoneScale" @onfocusout="StateHasChanged"/> *@
+<div class="donut-page">
+    <div class="donut-container">
+
+        <svg viewBox="@SvgViewBox" width="100%" height="100%" overflow="visible" preserveAspectRatio="xMidYMid meet">
+            <text class="header-text" style="   z-index: 10;
+                                                font-size: 1.1em;
+                                                font-weight: bold;
+                                                text-shadow: azure 0em 0.4em 2em;
+                                                pointer-events: none;
+                                                user-select: none;
+                                                -webkit-user-select: none;
+                                                -moz-user-select: none;
+                                                -ms-user-select: none;">
+
+                <tspan x="0" y="0" dx="-3.5em" dy="-0.6em">Core Concepts</tspan>
+                <tspan x="0" y="0" dx="-0.6em" dy="0.4em" style="font-size: 0.8em; font-weight: normal;">of</tspan>
+                <tspan x="0" y="0" dx="-3.5em" dy="1.2em">Pharmacology</tspan>
+            </text>
+            @foreach (var button in DeadzoneButtons)
+            {
+                @* <g class="donut-button" style=" --animation-order:@button.animationOrder; --animation-rotation:@button.animationRotation; position: relative; z-index: 20" @onclick="button.OnClick"> *@
+                <g class="deadzone-button">
+                    <path d="@button.WedgePath" style="transform: rotateZ(@(DeadzoneArc)deg)" stroke="none" stroke-width="@ButtonBorder" stroke-linejoin="round" />
+
+                </g>
+            }
+            @foreach (var button in Buttons)
+            {
+                <g transform="scale(1.00, 1)">
+                    <g class="donut-button" style=" --animation-order:@button.animationOrder; --animation-rotation:@button.animationRotation; position: relative; z-index: 20;" @onclick="button.OnClick">
+                        <path class="donut-path" d="@button.WedgePath" fill="@button.hslColor" stroke="white" stroke-width="@ButtonBorder" stroke-linejoin="round" />
+
+                        <text class="donut-text" x="@button.text_x"
+                        y="@button.text_y"
+                        transform="rotate(0,
+                                                                   @button.text_x,
+                                                                   @button.text_y)">@button.number</text>
+
+                        <text class="donut-text" id="wedge-edge2" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem"
+                        x="@button.outerText_x" y="@button.outerText_y" dy="@(button.outerText_dy)em" width="@(button.outerText_width)"
+                        transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" y="@(button.outerText_y)" >@button.labels[0]</tspan> *@
+                            @*                             <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[1]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[2]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[3]</tspan> *@
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan> *@
+@*                             @if (button.isBelow == true)
+                            {
+                                button.labels.Reverse();
+                                <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" baseline-shift="0.9em" dy="0em">______</tspan> 
+                            } *@
+                            @foreach (string label in button.labels)
+
+                            {
+                                <tspan style="z-index: 10;" x="@button.outerText_x" dy="@(button.outerText_line_dy)em">@label</tspan>
+                            }
+                            @if (button.isBelow == false)
+                            {
+                                @* <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" dy="0.24em">______</tspan> *@
+                            }
+                        </text>
+                    </g>
+                </g>
+
+            }
+            @foreach (var button in InnerButtons)
+            {
+                <g transform="scale(1.00, 1)">
+                    <g class="donut-button" style=" --animation-order:@button.animationOrder; --animation-rotation:@button.animationRotation; position: relative z-index: 20" @onclick="button.OnClick">
+                        <path class="donut-path" d="@button.WedgePath" fill="@button.hslColor" stroke="white" stroke-width="@ButtonBorder" stroke-linejoin="round" />
+
+                        <text class="donut-text" x="@button.text_x" y="@button.text_y" transform="rotate(0, @button.text_x, @button.text_y)">@button.number</text>
+
+                        <text class="donut-text" id="wedge-edge2" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem"
+                        x="@button.outerText_x" y="@button.outerText_y" dy="@(button.outerText_dy)em" width="@(button.outerText_width)"
+                        transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" y="@(button.outerText_y)" >@button.labels[0]</tspan> *@
+                            @*                             <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[1]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[2]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[3]</tspan> *@
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan> *@
+@*                             @if (button.isBelow == true)
+                            {
+                                button.labels.Reverse();
+                                 <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" baseline-shift="0.9em" dy="0em">______</tspan> 
+                            } *@
+                            @foreach (string label in button.labels)
+
+                            {
+                                <tspan style="z-index: 10;" x="@button.outerText_x" dy="@(button.outerText_line_dy)em">@label</tspan>
+                            }
+                            @if (button.isBelow == false)
+                            {
+                                @* <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" dy="0.24em">______</tspan> *@
+                            }
+                        </text>@*  transform="translate(-32 -32)" *@
+                        @* <g transform="translate(@button.text_x, @button.text_y), rotate(0, @button.text_x, @button.text_y)"> *@
+                        @*                         <g width="8px" height="8px" viewBox="-12 -12 12 12" transform="translate(@button.text_x, @button.text_y), rotate(0, @button.text_x, @button.text_y)" overflow="visible" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <defs>
+                                <style>
+                                    .cls-1 {
+                                        fill: none;
+                                        stroke: #020202;
+                                        stroke-miterlimit: 10;
+                                        stroke-width: 1.91px;
+                                    }</style>
+                            </defs><polygon class="cls-1" points="12.37 10.09 7.41 10.09 4.93 14.39 7.41 18.68 12.37 18.68 14.85 14.39 12.37 10.09"></polygon><line class="cls-1" x1="0.52" y1="13.91" x2="5.29" y2="13.91"></line><polygon class="cls-1" points="19.82 6.27 14.86 6.27 12.38 10.57 14.86 14.86 19.82 14.86 22.3 10.57 19.82 6.27"></polygon><line class="cls-1" x1="19.49" y1="6.56" x2="21.86" y2="2.45"></line><line class="cls-1" x1="19.56" y1="14.46" x2="21.93" y2="18.56"></line><polyline class="cls-1" points="7.41 1.5 4.93 5.79 7.41 10.09"></polyline><polyline class="cls-1" points="19.61 22.5 14.8 22.5 12.58 18.68"></polyline>
+                        </g>
+                        </g> *@
+                        @* </g> *@
+
+                    </g>
+                </g>
+
+
+            }
+        </svg>
+
+        <div class="two-donut-inner-circle"></div>
+        <div class="outer-circle"></div>
+
+    </div>
+</div>
+
+
+
+@code {
+    // <h1 style="z-index: 10; font-size: 4em; position: absolute; top: 45%; right: 25%; text-align-last:center;">Core Concepts of Pharmacology</h1>
+    // transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)" ZZZ text-decoration: underline; text-underline-offset: 3em;"
+
+    // ----------    Settings:    ----------
+    // Dimensions
+    [Parameter] public int ButtonCount { get; set; } = 12;
+    [Parameter] public int InnerRadius { get; set; } = 125;
+    [Parameter] public int OuterRadius { get; set; } = 160;
+
+    [Parameter] public int SmallButtonCount { get; set; } = 12;
+    [Parameter] public int SmallInnerRadius { get; set; } = 88;
+    [Parameter] public int SmallOuterRadius { get; set; } = 124;
+
+    public double deadzoneScale = 0.7;
+    public double DeadzoneArc => deadzoneScale * 360 / (ButtonCount + 2); // degrees // or // set as % of: 360 / (Count + 2)
+    public double halfDeadzoneArc => DeadzoneArc / 2;
+
+    public int totalButtons => ButtonCount + SmallButtonCount;
+
+    // Styling
+    private double ButtonBorder = 0.5;
+    private double ButtonPadding = 1.2;     // between buttons
+    private double ViewboxPadding = 1.04;     //
+    private double Rounding = 1.0;     // rounding of fill shape
+
+    // Color
+    double baseHue = 195; // starting hue
+    double hueStep = 9; // increment for each button
+    double saturation = 0.70; // 100%
+    double lightness = 0.65; // 50%
+    // ---------- End of Settings ----------
+
+    private string SvgViewBox => $"-{OuterRadius * ViewboxPadding} -{OuterRadius * ViewboxPadding} {OuterRadius * ViewboxPadding * 2} {OuterRadius * ViewboxPadding * 2}";
+
+    private List<WedgeButton> Buttons = new();
+    private List<WedgeButton> InnerButtons = new();
+    private List<WedgeButton> DeadzoneButtons = new();
+    private List<Concept> concepts = ConceptFactory.GetConcepts();
+
+    protected override void OnInitialized()
+    {
+        int bigIndex = 0;
+        int smallIndex = 0;
+        DeadzoneButtons.Add(DeadzoneWedge(0));
+        DeadzoneButtons.Add(DeadzoneWedge(1));
+
+        List<Section> sectors = GenerateSections(DeadzoneArc, ButtonCount);
+
+        for (int i = 0; i < totalButtons; i++)
+        {
+            Concept c = concepts[i];
+            string hslString = HslToCssString(c.Hue, saturation, lightness);
+
+            // int capturedIndex = i; // capture the current index for the lambda
+
+            // if (i == totalButtons - 1 || i == totalButtons / 2 - 1)
+            // {
+            //     Buttons.Add(new WedgeButton(bigIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
+            //                                 "hsl(332, 12%, 32%)", () => { Navigation.NavigateTo(c.Url); }, 0, new List<string> { "" }));
+            //     bigIndex++;
+            //     continue;
+            // }
+            // else if (i == totalButtons - 2 || i == totalButtons / 2 - 2)
+            // {
+            //     InnerButtons.Add(new WedgeButton(smallIndex, SmallButtonCount, SmallInnerRadius, SmallOuterRadius, Rounding, ButtonPadding,
+            //                                      $"hsl(332, 12%, 32%)", () => { Navigation.NavigateTo(c.Url); }, 0, new List<string> { "" }));
+            //     smallIndex++;
+            //     continue;
+            // }
+
+
+            // if (i == totalButtons / 2 - 2 || i == totalButtons - 2)
+            // {
+            //     bigIndex++;
+            //     smallIndex++;
+            //     i++;
+            // }
+            if (i % 2 == 1)
+            {
+                Buttons.Add(new WedgeButton(bigIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
+                                            hslString, () => { Navigation.NavigateTo(c.Url); }, c.Number, c.Labels, sectors[bigIndex]));
+                bigIndex++;
+            }
+            else
+            {
+                InnerButtons.Add(new WedgeButton(smallIndex, SmallButtonCount, SmallInnerRadius, SmallOuterRadius, Rounding, ButtonPadding,
+                                hslString, () => { Navigation.NavigateTo(c.Url); }, c.Number, c.Labels, sectors[smallIndex]));
+                smallIndex++;
+            }
+            // Buttons.Add(new WedgeButton(capturedIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
+            //             hslString, () =>
+            //             {
+            //                 Navigation.NavigateTo(c.Url);
+            //             },
+            //             c.Number, c.Labels));
+            // i++;
+            // c = concepts[i];
+            // InnerButtons.Add(new WedgeButton(capturedIndex, SmallButtonCount, SmallInnerRadius, SmallOuterRadius, Rounding, ButtonPadding,
+            //             hslString, () =>
+            //             {
+            //             Navigation.NavigateTo(c.Url);
+            //             },
+            //             c.Number, c.Labels));
+
+
+        }
+    }
+    public string HslToCssString(double hue, double saturation, double lightness)
+    {
+        // Convert saturation and lightness to percentages.
+        return $"hsl({hue}, {saturation * 100}%, {lightness * 100}%)";
+    }
+
+    public static List<Section> GenerateSections(double deadzoneArcDegrees, int total)
+    {
+        // Calculate the active arc length in each of the two symmetric arcs.
+        // Each deadzone is centered at 90° and 270°, so:
+        // Active Arc 1: from (90 + deadzoneArcDegrees/2) to (270 - deadzoneArcDegrees/2)
+        // Active Arc 2: from (270 + deadzoneArcDegrees/2) to (450 - deadzoneArcDegrees/2) (which wraps around)
+        double activeArcLength = 180 - deadzoneArcDegrees;
+
+        // Divide the sections between the two active arcs.
+        int sectionsArc1 = total / 2;
+        int sectionsArc2 = total - sectionsArc1; // in case total is odd
+
+        List<Section> sections = new List<Section>();
+
+        // Calculate sections for Active Arc 1.
+        double arc1Start = 0 + deadzoneArcDegrees / 2;
+        double arc1SectionAngle = activeArcLength / sectionsArc1;
+        for (int i = 0; i < sectionsArc1; i++)
+        {
+            double start = arc1Start + i * arc1SectionAngle;
+            double end = start + arc1SectionAngle;
+            sections.Add(new Section(start, end));
+        }
+
+        // Calculate sections for Active Arc 2.
+        double arc2Start = 180 + deadzoneArcDegrees / 2;
+        double arc2SectionAngle = activeArcLength / sectionsArc2;
+        for (int i = 0; i < sectionsArc2; i++)
+        {
+            double start = arc2Start + i * arc2SectionAngle;
+            double end = start + arc2SectionAngle;
+            // Normalize to [0,360)
+            start = start % 360;
+            end = end % 360;
+            sections.Add(new Section(start, end));
+        }
+
+        return sections;
+    }
+
+    public WedgeButton DeadzoneWedge(int index)
+    {
+        double counterRotation = DeadzoneArc; // Rotates one sector. Is rotated back with transform (because of bug with leftmost button)
+        double centerAngle = 180 - counterRotation + 180 * index;
+        Section sector = new Section(centerAngle - halfDeadzoneArc, centerAngle + halfDeadzoneArc);
+
+        return new WedgeButton(index, ButtonCount, SmallInnerRadius, OuterRadius, Rounding, ButtonPadding, "hsl(332, 12%, 32%)", () => { }, 0, new List<string> { "" }, sector);
+    }
+}

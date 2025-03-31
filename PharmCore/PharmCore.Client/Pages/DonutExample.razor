@@ -1,15 +1,24 @@
 ﻿@page "/Donut"
 @* @rendermode InteractiveWebAssembly *@
-@* <h3>DonutExample</h3> *@
-<Molecules />
+@using PharmCore.Client.Pages.Components
+@inject NavigationManager Navigation
+
+@* <Molecules /> *@
 <BackToHome />
-@* <p role="status">@text</p> *@
 
 <div class="donut-page">
     <div class="donut-container">
 
         <svg viewBox="@SvgViewBox" width="100%" height="100%" overflow="visible" preserveAspectRatio="xMidYMid meet">
-            <text style="z-index: 10; font-size: 1em; font-weight: bold; text-shadow: azure 0em 0.4em 2em ">
+            <text class="header-text" style="   z-index: 10;
+                                                font-size: 1em;
+                                                font-weight: bold;
+                                                text-shadow: azure 0em 0.4em 2em;
+                                                pointer-events: none;
+                                                user-select: none;
+                                                -webkit-user-select: none;
+                                                -moz-user-select: none;
+                                                -ms-user-select: none;">
 
                 <tspan x="0" y="0" dx="-3.5em" dy="-0.6em">Core Concepts</tspan>
                 <tspan x="0" y="0" dx="-0.6em" dy="0.4em" style="font-size: 0.8em; font-weight: normal;">of</tspan>
@@ -26,13 +35,32 @@
                         transform="rotate(0, 
                                                                    @button.text_x, 
                                                                    @button.text_y)"
-                        >#@button.indexplus</text>
+                        >#@button.number</text>
 
-                        <text class="donut-text" id="wedge-edge" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem" x="@button.outerText_x" y="@button.outerText_y" dy="@button.outerText_dy"
-                        width="@(button.outerText_width)" transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
-                            <tspan style="z-index: 10;" x="@button.outerText_x" >Volume of</tspan>
-                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan>
-                            <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" dy="0.24em">______</tspan>
+                        <text class="donut-text" id="wedge-edge" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem" 
+                        x="@button.outerText_x" y="@button.outerText_y" dy="@(button.outerText_dy)em" width="@(button.outerText_width)" 
+                        transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" y="@(button.outerText_y)" >@button.labels[0]</tspan> *@
+                            @*                             <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[1]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[2]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[3]</tspan> *@
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan> *@
+                            @if (button.isBelow == true)
+                            {
+                                button.labels.Reverse();
+                                <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" baseline-shift="0.9em" dy="0em">______</tspan>
+                            }
+                            @foreach (string label in button.labels)
+
+                            {
+                                <tspan style="z-index: 10;" x="@button.outerText_x" dy="@(button.outerText_line_dy)em">@label</tspan>
+                            }
+                            @if (button.isBelow == false)
+                            {
+                                <tspan style="z-index: 10;" opacity="0.6" font-weight="bold" x="@button.outerText_x" dy="0.24em">______</tspan>
+                            }
                         </text>
                     </g>
                 </g>
@@ -53,11 +81,11 @@
 
     // ----------    Settings:    ----------
     // Dimensions
-    private int ButtonCount { get; set; } = 24  ;
-    private int InnerRadius { get; set; } = 90  ;
-    private int OuterRadius { get; set; } = 150 ;
+    [Parameter] public int ButtonCount { get; set; } = 24;
+    [Parameter] public int InnerRadius { get; set; } = 90;
+    [Parameter] public int OuterRadius { get; set; } = 150;
     // Styling
-    private double ButtonBorder { get; set; } = 0.5;
+    private double ButtonBorder     = 0.5;
     private double ButtonPadding    = 1.2 ;     // between buttons
     private double ViewboxPadding   = 1.04;     //
     private double Rounding         = 1.0 ;     // rounding of fill shape
@@ -65,30 +93,29 @@
     // Color
     double baseHue = 195; // starting hue
     double hueStep = 9; // increment for each button
-    double saturation = 0.75; // 100%
+    double saturation = 0.70; // 100%
     double lightness = 0.65; // 50%
     // ---------- End of Settings ----------
 
     private string SvgViewBox => $"-{OuterRadius * ViewboxPadding} -{OuterRadius * ViewboxPadding} {OuterRadius * ViewboxPadding * 2} {OuterRadius * ViewboxPadding * 2}";
 
-    public string text = "nothing";
     private List<WedgeButton> Buttons = new();
+    private List<Concept> concepts = ConceptFactory.GetConcepts();
 
     protected override void OnInitialized()
     {
         for (int i = 0; i < ButtonCount; i++)
         {
-            double hue = baseHue + i * hueStep;
-            string hslString = HslToCssString(hue, saturation, lightness);
+            Concept c = concepts[i];
+            string hslString = HslToCssString(c.Hue, saturation, lightness);
 
             int capturedIndex = i; // capture the current index for the lambda
-            Buttons.Add(new WedgeButton(capturedIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding, hslString, () =>
+            Buttons.Add(new WedgeButton(capturedIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
+                                        hslString, () =>
         {
-            text = $"{capturedIndex} clicked";
+            Navigation.NavigateTo(c.Url);
 
-
-            // Assign the colorCss string to the button's fill or stroke property.
-        }));
+        }, c.Number, c.Labels));
         }
     }
     public string HslToCssString(double hue, double saturation, double lightness)
@@ -97,12 +124,12 @@
         return $"hsl({hue}, {saturation * 100}%, {lightness * 100}%)";
     }
 
-    private void Clicked(int index)
-    {
-        text = index + " clicked";
-        //Console.WriteLine($"Button {index + 1} clicked!");
+    // private void Clicked(int index)
+    // {
+    //     text = index + " clicked";
+    //     //Console.WriteLine($"Button {index + 1} clicked!");
 
-    }
+    // }
 
     @using System;
 
@@ -115,6 +142,8 @@
         public int animationRotation = 1;
         [Parameter]
         public Action OnClick { get; set; }
+        public List<string> labels;
+        public int number;
 
         // Gap distance (linear distance between adjacent wedges)
         public double GapDistance { get; set; }
@@ -136,8 +165,11 @@
         public double outerText_dy;
         public double outerText_rotation;
         public double outerText_width;
+
+        public double line_dy = 1.1;
         public double outerText_line_dx;
         public double outerText_line_dy;
+        public bool isBelow;
 
 
         public string hslColor;
@@ -148,7 +180,7 @@
         private double cornerRadius;
 
         public WedgeButton(int index, int total, double innerRadius, double outerRadius, double rounding,
-        double gapDistance, string hsl, Action onClick)
+        double gapDistance, string hsl, Action onClick, int number, List<string> labels)
         {
             this.index = index;
             this.indexplus = index + 1;
@@ -160,6 +192,9 @@
             GapDistance = gapDistance;
             hslColor = hsl;
             OnClick = onClick;
+            this.number = number;
+            this.labels = labels;
+
 
             animationOrder = index;
             // animationOrder = index % (total / 4);
@@ -195,7 +230,7 @@
             //     animationRotation = -1;
             // }
 
-            Console.WriteLine($"nr: {indexplus} > Animation order:{animationOrder}");
+            // Console.WriteLine($"nr: {indexplus} > Animation order:{animationOrder}");
             SetTextAttributes();
 
             WedgePath = GetWedgePath(index, total, innerRadius, outerRadius, gapDistance);
@@ -236,12 +271,18 @@
             textRotation %= 360;
 
             double outerOffset = -8.0;
+            // outerText_line_dy = $"-{line_dy}em";
+            outerText_line_dy = -line_dy;
+            isBelow = true;
 
             double outerTextRotation = centerAngle;
             if (centerAngle > 180 && centerAngle < 360)
             {
                 outerTextRotation += 180;
-                outerOffset = 2.0;
+                // outerText_line_dy = $"{line_dy}em";
+                outerText_line_dy = line_dy;
+                isBelow = false;
+                outerOffset = 4.0;
             }
             // Normalize rotation to [0,360)
             textRotation %= 360;
@@ -249,8 +290,8 @@
             // Set the values
             text_x = x;
             text_y = y;
-            outerText_x = outer_x * 0.95;
-            outerText_y = outer_y * 0.95;
+            outerText_x = outer_x * 0.98;
+            outerText_y = outer_y * 0.98;
             outerText2_x = outer_x * 0.90;
             outerText2_y = outer_y * 0.90;
             text_rotation = textRotation;
@@ -262,8 +303,8 @@
             outerText_width = arcLength * 0.8;  // Adjust factor to fit text properly
             outerText_dx = arcLength * Math.Cos(radians + 1);
             outerText_dy = outerOffset;
-            outerText_line_dx = -outer_x * 0.08;
-            outerText_line_dy = -outer_y * 0.08;
+            // outerText_line_dx = -outer_x * 0.08;
+            // outerText_line_dy = -outer_y * 0.08;
 
         }
 

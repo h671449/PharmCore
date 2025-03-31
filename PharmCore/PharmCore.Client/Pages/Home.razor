@@ -7,9 +7,10 @@
     <button class="btn btn-primary" @onclick="@Dev">Dev</button>
     <button class="btn btn-primary" @onclick="@Design">Design</button>
 
-    <button class="radial-button" style="position: absolute; font: arial; font-weight:bold; box-shadow: black 0.1rem 0.1rem 0.8rem; text-shadow: black 0.1rem 0.1rem 0.5rem; color:azure; background:linear-gradient(50deg, turquoise, magenta); width:10%; top: 34vh" @onclick="@Donut">Donut</button>
-    @* <button class="radial-button" style="position: absolute; font: comic sans; font-weight:bold; box-shadow: black 0.1rem 0.1rem 0.8rem; text-shadow: black 0.1rem 0.1rem 0.5rem; color:azure; background:linear-gradient(50deg, turquoise, magenta); width:10%; top: 46vh" @onclick="@Donut2">Donut horizontal text</button>
- *@</div>
+    <button class="radial-button" style="position: absolute; border-width:1px; font: arial; font-weight:bold; box-shadow: rgba(0, 0, 0, 0.4) 0.1rem 0.1rem 0.8rem; text-shadow: rgba(0, 0, 0, 0.4) 0.0rem 0.1rem 0.5rem; color:white; background:linear-gradient(50deg, rgba(255, 120, 0, 0.9), rgba(0, 100, 255, 0.9)); width:10%; top: 32vh" @onclick="@Donut">Donut</button>
+    <button class="radial-button" style="position: absolute; border-width:1px; font: comic sans; font-weight:bold; box-shadow: rgba(0, 0, 0, 0.4) 0.1rem 0.1rem 0.8rem; text-shadow: rgba(0, 0, 0, 0.4) 0.0rem 0.1rem 0.5rem; color:white; background:linear-gradient(50deg, rgba(255, 100, 0, 0.9), rgba(0, 80, 255, 0.9)); width:10%; top: 42vh" @onclick="@Donut2">Double Donut</button>
+    <button class="radial-button" style="position: absolute; border-width:1px; font: comic sans; font-weight:bold; box-shadow: rgba(0, 0, 0, 0.4) 0.1rem 0.1rem 0.8rem; text-shadow: rgba(0, 0, 0, 0.4) 0.0rem 0.1rem 0.5rem; color:white; background:linear-gradient(50deg, rgba(255, 80, 0, 0.9), rgba(0, 60, 255, 0.9)); width:10%; top: 52vh" @onclick="@Donut3">DD Deadzone</button>
+ </div>
  
 @code {
     private void Concepts(MouseEventArgs e)
@@ -34,7 +35,12 @@
 
     private void Donut2(MouseEventArgs e)
     {
-        Navigation.NavigateTo("/Donut2");
+        Navigation.NavigateTo("/DonutTest");
+    }
+
+    private void Donut3(MouseEventArgs e)
+    {
+        Navigation.NavigateTo("/Donut3");
     }
 }
 

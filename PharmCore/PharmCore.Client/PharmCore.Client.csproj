@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <Folder Include="Pages\Components\js\" />
+    <Folder Include="Pages\Concepts\Dynamics\" />
+    <Folder Include="Pages\Concepts\Outcomes\" />
   </ItemGroup>
 
 </Project>
