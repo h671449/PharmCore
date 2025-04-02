@@ -1,10 +1,26 @@
-﻿@page "/Concepts/VolumeOfDistribution/Learn"
-<h3>Learn about Volume of Distribution</h3>
+﻿@page "/Learn/VolumeOfDistribution"
 
-<PharmCore.Client.Pages.Concepts.VolumeOfDistribution.Components.VdCalculator />
+<div class="learn-page">
 
-<PharmCore.Client.Pages.Concepts.VolumeOfDistribution.Components.DrugDistribution />
+    <div class= "learn-content" id="learn-text">
 
+        <h3>Volume of Distribution</h3>
+        <p>Volume of distribution (V<sub>d</sub> or V<sub>D</sub>) defines the distribution of a drug between the blood plasma and other bodily tissues after oral or parenteral administration. V<sub>D</sub> can be considered as the size of the compartment in to which the drug distributes following absorption. It is the theoretical volume that would be necessary to contain the total amount of an administered drug at the same concentration that it is observed in the blood plasma. The higher the V<sub>D</sub>, the greater the degree of drug distribution in to the tissues.</p>
+        <p>The concept of “apparent volume of distribution” is a concept that seeks to predict how extensively a drug is distributed throughout the body.&nbsp; The apparent volume of distribution, Vd, is mathematically calculated by dividing the dose that is administered (mg) by the plasma concentration (mg/L).</p>
+        <p>Vd=Dose/C</p>
+        <p>Another way to think about Vd is that Vd is equal to the amount of space that a drug must fill up such that a given dose of a drug will achieve a specific plasma concentration.&nbsp; There is an assumption here; that is, calculation of the apparent Vd presumes that the drug concentration is the same everywhere throughout the body. We know, in actuality, though, that this is not true since most drugs are not uniformly distributed.&nbsp;</p>
+        <p>Drugs that have relatively small Vd (e.g. 5 L) largely stay in the plasma compartment.&nbsp; Drugs with a Vd of 15L distribute throughout vascular and extracellular fluid compartments.&nbsp; Drugs with a &nbsp;Vd &gt; 40 L distribute throughout all body tissues (vascular, extracellular, and intracellular fluid compartments).&nbsp; From a practical standpoint, drugs that have a large Vd will need to be administered in larger doses to achieve a target concentration in the plasma.&nbsp; In addition, drugs that are lipophillic have a larger Vd than water-soluble drugs – enabling them to accumulate in fat.&nbsp;&nbsp;</p>
+        <p>Often the idea of some tissues being “barriers” to drug distribution is discussed (e.g. blood-brain-barrier; placental barrier).&nbsp; In reality, though, if a drug is highly lipid soluble, un-ionized, and small in size, it will be able to gain access to these “restricted” tissues.&nbsp;</p>
+    
+    </div>
+
+    <div class="learn-content" id="learn-video">
+
+        <VdVideo />
+
+    </div>
+
+</div>
 
 @code {
 

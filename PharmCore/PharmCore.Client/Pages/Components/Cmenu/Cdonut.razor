@@ -1,0 +1,715 @@
+﻿@page "/Concepts/VolumeOfDistribution"
+@* @rendermode InteractiveWebAssembly *@
+@using PharmCore.Client.Pages.Components
+@inject NavigationManager Navigation
+
+@* <Molecules /> *@
+<DevButton Page="Donut3" />
+
+<div class="donut-page">
+    <div class="donut-container" style="height: 70%; width: auto">
+
+        <svg viewBox="@SvgViewBox" width="100%" height="100%" overflow="visible" preserveAspectRatio="xMidYMid meet">
+            <text class="header-text" style="   z-index: 10;
+                                                font-size: 1em;
+                                                font-weight: bold;
+                                                text-shadow: azure 0em 0.4em 2em;
+                                                pointer-events: none;
+                                                user-select: none;
+                                                -webkit-user-select: none;
+                                                -moz-user-select: none;
+                                                -ms-user-select: none;">
+
+                <tspan x="0" y="0" dx="-1.8em" dy="-0.6em">Volume</tspan>
+                <tspan x="0" y="0" dx="-0.6em" dy="0.4em" style="font-size: 0.8em; font-weight: normal;">of</tspan>
+                <tspan x="0" y="0" dx="-2.9em" dy="1.2em">Distribution</tspan>
+            </text>
+            @foreach (var button in Buttons)
+            {
+                <g transform="scale(1.00, 1)">
+                    <g class="donut-button" style=" --animation-order:@button.animationOrder; --animation-rotation:@button.animationRotation; position: relative z-index: 20" @onclick="button.OnClick">
+                        <path class="donut-path" d="@button.WedgePath" fill="@button.hslColor" stroke="white" stroke-width="@ButtonBorder" stroke-linejoin="round" />
+
+                        <text class="donut-text" x="@button.text_x" 
+                        y="@button.text_y" 
+                        transform="rotate(0, 
+                                                                   @button.text_x, 
+                                                                   @button.text_y)"
+                        >#@button.number</text>
+
+                        <text class="donut-text" id="wedge-edge3" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem" 
+                        x="@button.outerText_x" y="@button.outerText_y" dy="@(button.outerText_dy)em" width="@(button.outerText_width)" 
+                        transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" y="@(button.outerText_y)" >@button.labels[0]</tspan> *@
+                            @*                             <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[1]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[2]</tspan>
+                            <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[3]</tspan> *@
+
+                            @* <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">Distribution</tspan> *@
+                            @if (button.isBelow == true)
+                            {
+                                button.labels.Reverse();
+                            }
+
+                            @foreach (string label in button.labels)
+
+                            {
+
+                                @if (button.isBelow == true)
+                                {
+                                    <tspan style="z-index: 10;" x="@button.outerText_x" dy="@(button.outerText_line_dy - 2)em">@label</tspan>
+                                }
+                                @if (button.isBelow == false)
+                                {
+                                    <tspan style="z-index: 10;" x="@button.outerText_x" dy="@(button.outerText_line_dy + 2)em">@label</tspan>
+                                }
+                            }
+
+                        </text>
+                    </g>
+                </g>
+
+            }
+        </svg>
+        <div class="inner-circle" style="--size: 41.65%;"></div>
+        <div class="outer-circle"></div>
+
+    </div>
+</div>
+
+
+
+@code {
+    // <h1 style="z-index: 10; font-size: 4em; position: absolute; top: 45%; right: 25%; text-align-last:center;">Core Concepts of Pharmacology</h1>
+    // transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)" ZZZ text-decoration: underline; text-underline-offset: 3em;"
+
+    // ----------    Settings:    ----------
+    // Dimensions
+    [Parameter] public int ButtonCount { get; set; } = 4;
+    [Parameter] public int InnerRadius { get; set; } = 65;
+    [Parameter] public int OuterRadius { get; set; } = 150;
+    // Styling
+    private double ButtonBorder     = 0.5;
+    private double ButtonPadding    = 1.2 ;     // between buttons
+    private double ViewboxPadding   = 1.04;     //
+    private double Rounding         = 1.0 ;     // rounding of fill shape
+
+    // Color
+    double baseHue = 195; // starting hue
+    double hueStep = 9; // increment for each button
+    double saturation = 0.70; // 100%
+    double lightness = 0.65; // 50%
+    // ---------- End of Settings ----------
+
+    private string SvgViewBox => $"-{OuterRadius * ViewboxPadding} -{OuterRadius * ViewboxPadding} {OuterRadius * ViewboxPadding * 2} {OuterRadius * ViewboxPadding * 2}";
+
+    private List<WedgeButton> Buttons = new();
+    private List<Concept> concepts = ConceptFactory.GetContent();
+
+    protected override void OnInitialized()
+    {
+        for (int i = 0; i < ButtonCount; i++)
+        {
+            Concept c = concepts[i];
+            string hslString = HslToCssString(c.Hue, saturation, lightness);
+
+            int capturedIndex = i; // capture the current index for the lambda
+            Buttons.Add(new WedgeButton(capturedIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
+                                        hslString, () =>
+        {
+            Navigation.NavigateTo(c.Url);
+
+        }, c.Number, c.Labels));
+        }
+    }
+    public string HslToCssString(double hue, double saturation, double lightness)
+    {
+        // Convert saturation and lightness to percentages.
+        return $"hsl({hue}, {saturation * 100}%, {lightness * 100}%)";
+    }
+
+    // private void Clicked(int index)
+    // {
+    //     text = index + " clicked";
+    //     //Console.WriteLine($"Button {index + 1} clicked!");
+
+    // }
+
+    @using System;
+
+    public class WedgeButton
+    {
+        public string WedgePath { get; }
+        public int index;
+        public int indexplus;
+        public double animationOrder;
+        public int animationRotation = 1;
+        [Parameter]
+        public Action OnClick { get; set; }
+        public List<string> labels;
+        public int number;
+
+        // Gap distance (linear distance between adjacent wedges)
+        public double GapDistance { get; set; }
+
+        // Internal fields to store parameters for later calculations.
+        private int _total;
+        private double _innerRadius;
+        private double _outerRadius;
+
+        // Variables for the placement and rotation of text
+        public double text_x;
+        public double text_y;
+        public double text_rotation;
+        public double outerText_x;
+        public double outerText_y;
+        public double outerText2_x;
+        public double outerText2_y;
+        public double outerText_dx;
+        public double outerText_dy;
+        public double outerText_rotation;
+        public double outerText_width;
+
+        public double line_dy = 1.1;
+        public double outerText_line_dx;
+        public double outerText_line_dy;
+        public bool isBelow;
+
+
+        public string hslColor;
+
+        private double _horizontalScale = 1.4; // or any default > 1.0 to make it wider
+
+        // Internal variable for the corner rounding (in the same units as the radii)
+        private double cornerRadius;
+
+        public WedgeButton(int index, int total, double innerRadius, double outerRadius, double rounding,
+        double gapDistance, string hsl, Action onClick, int number, List<string> labels)
+        {
+            this.index = index;
+            this.indexplus = index + 1;
+
+            _total = total;
+            _innerRadius = innerRadius;
+            _outerRadius = outerRadius;
+            cornerRadius = rounding;
+            GapDistance = gapDistance;
+            hslColor = hsl;
+            OnClick = onClick;
+            this.number = number;
+            this.labels = labels;
+
+
+            animationOrder = index;
+            // animationOrder = index % (total / 4);
+
+            if(indexplus > total / 2)
+            {
+                animationOrder = index - total / 2;
+            }else
+            {
+                animationOrder = index;
+            }
+
+            // //19 -> 24
+            // if      (indexplus > total * 3 / 4)
+            // {
+            //     animationOrder = indexplus - total * 3 / 4;
+            //     animationRotation = -1;
+            // }
+            // // 13 <- 18
+            // else if (indexplus > total * 2 / 4)
+            // {
+            //     animationOrder = total * 3 / 4 - index;
+            // }
+            // // 7 <- 12
+            // else if (indexplus > total / 4)
+            // {
+            //     animationOrder = total * 2 / 4 - index + total / 4;
+            // }
+            // // 1 -> 6
+            // else
+            // {
+            //     animationOrder = indexplus + total / 4;
+            //     animationRotation = -1;
+            // }
+
+            // Console.WriteLine($"nr: {indexplus} > Animation order:{animationOrder}");
+            SetTextAttributes();
+
+            WedgePath = GetWedgePath(index, total, innerRadius, outerRadius, gapDistance);
+        }
+
+        /// <summary>
+        /// Returns a string with text attributes to position and rotate text inside the wedge.
+        /// Format: x="..." y="..." rotate="..."
+        /// The rotation is computed from the wedge’s bisector and flipped if in the lower half.
+        /// </summary>
+        public void SetTextAttributes()
+        {
+            // Compute the base (unadjusted) angles for the wedge
+            double angleStep = 360.0 / _total;
+            double baseStartAngle = index * angleStep;
+            double baseEndAngle = (index + 1) * angleStep;
+            // The bisector angle of the wedge in degrees
+            double centerAngle = (baseStartAngle + baseEndAngle) / 2.0;
+
+            // Compute the center radius as the average of inner and outer radii
+            double centerRadius = (_innerRadius * 4 + _outerRadius) / 5.0;
+            double radians = centerAngle * Math.PI / 180.0;
+            double x = centerRadius * Math.Cos(radians);
+            double y = centerRadius * Math.Sin(radians);
+            double outer_x = _outerRadius * Math.Cos(radians);
+            double outer_y = _outerRadius * Math.Sin(radians);
+
+
+            // Determine the text rotation.
+            // If the wedge is in the lower half (i.e. its bisector is between 90° and 270°),
+            // flip the text rotation so it stays closer to horizontal.
+            double textRotation = centerAngle;
+            if (centerAngle > 90 && centerAngle < 270)
+            {
+                textRotation += 180;
+            }
+            // Normalize rotation to [0,360)
+            textRotation %= 360;
+
+            double outerOffset = -8.0;
+            // outerText_line_dy = $"-{line_dy}em";
+            outerText_line_dy = -line_dy;
+            isBelow = true;
+
+            double outerTextRotation = centerAngle;
+            if (centerAngle > 180 && centerAngle < 360)
+            {
+                outerTextRotation += 180;
+                // outerText_line_dy = $"{line_dy}em";
+                outerText_line_dy = line_dy;
+                isBelow = false;
+                outerOffset = 4.0;
+            }
+            // Normalize rotation to [0,360)
+            textRotation %= 360;
+
+            // Set the values
+            text_x = x;
+            text_y = y;
+            outerText_x = outer_x * 0.98;
+            outerText_y = outer_y * 0.98;
+            outerText2_x = outer_x * 0.90;
+            outerText2_y = outer_y * 0.90;
+            text_rotation = textRotation;
+            outerText_rotation = outerTextRotation + 270;
+
+
+
+            double arcLength = (Math.PI * _outerRadius * angleStep) / 180; // Approximate arc length
+            outerText_width = arcLength * 0.8;  // Adjust factor to fit text properly
+            outerText_dx = arcLength * Math.Cos(radians + 1);
+            outerText_dy = outerOffset;
+            // outerText_line_dx = -outer_x * 0.08;
+            // outerText_line_dy = -outer_y * 0.08;
+
+        }
+
+        private string GetWedgePath(int idx, int total, double rInner, double rOuter, double gapDist)
+        {
+            //--------------------------------------------------
+            // 1) Compute the raw wedge corners and arcs (before rounding).
+            //--------------------------------------------------
+            double angleStep = 360.0 / total;
+            double startAngle = idx * angleStep;
+            double endAngle = (idx + 1) * angleStep;
+
+            // Half-gap angles for each circle, so the wedge has a uniform linear gap:
+            double halfGapOuterDeg = (gapDist / rOuter) * (180.0 / Math.PI) / 2.0;
+            double halfGapInnerDeg = (gapDist / rInner) * (180.0 / Math.PI) / 2.0;
+
+            // Outer arc angles
+            double outerStart = startAngle + halfGapOuterDeg;
+            double outerEnd = endAngle - halfGapOuterDeg;
+            // Inner arc angles
+            double innerStart = startAngle + halfGapInnerDeg;
+            double innerEnd = endAngle - halfGapInnerDeg;
+
+            // Convert degrees to radians helper remains the same.
+            double toRad(double deg) => deg * Math.PI / 180.0;
+
+            // Outer arc endpoints (apply horizontal scaling)
+            double x1 = rOuter * Math.Cos(toRad(outerStart));
+            double y1 = rOuter * Math.Sin(toRad(outerStart));
+            double x2 = rOuter * Math.Cos(toRad(outerEnd));
+            double y2 = rOuter * Math.Sin(toRad(outerEnd));
+
+            // Inner arc endpoints (apply horizontal scaling)
+            double x3 = rInner * Math.Cos(toRad(innerEnd));
+            double y3 = rInner * Math.Sin(toRad(innerEnd));
+            double x4 = rInner * Math.Cos(toRad(innerStart));
+            double y4 = rInner * Math.Sin(toRad(innerStart));
+
+            // So the original path (no rounding) would be:
+            //   M x1,y1
+            //   A rOuter,rOuter 0 0,1 x2,y2
+            //   L x3,y3
+            //   A rInner,rInner 0 0,0 x4,y4
+            //   Z
+            //
+            // That yields 4 corners:
+            //   Corner A: (x1,y1)   with next segment being the arc to (x2,y2) and previous the close from (x4,y4).
+            //   Corner B: (x2,y2)   arc -> line
+            //   Corner C: (x3,y3)   line -> arc
+            //   Corner D: (x4,y4)   arc -> line (closing back to x1,y1).
+
+            //--------------------------------------------------
+            // 2) Build segment "helpers" so we can shorten them.
+            //--------------------------------------------------
+
+            // --- Outer arc (A1) from (x1,y1) to (x2,y2), center=(0,0), radius=rOuter, sweep= + (outerEnd - outerStart)
+            var arcOuter = new ArcSegment(x1, y1, x2, y2, rOuter, sweepPositive: true);
+
+            // --- Radial line (L1) from (x2,y2) to (x3,y3)
+            var lineRadial = new LineSegment(x2, y2, x3, y3);
+
+            // --- Inner arc (A2) from (x3,y3) to (x4,y4), center=(0,0), radius=rInner, sweep= (innerStart->innerEnd is also a forward angle, but we use a negative sweep if needed)
+            // Actually we want the direction from x3->x4 to be "reverse" (outer circle is drawn anticlockwise with large-arc=1, the inner might be the opposite).
+            // But let's keep it simple and rely on sign. We'll detect if it's clockwise or not:
+            bool innerSweepPositive = ((innerEnd - innerStart) >= 0);
+            var arcInner = new ArcSegment(x3, y3, x4, y4, rInner, sweepPositive: false);//innerSweepPositive);
+
+        // --- Closing line (L2) from (x4,y4) to (x1,y1)
+        var lineClose = new LineSegment(x4, y4, x1, y1);
+
+        //--------------------------------------------------
+        // 3) Round each corner by:
+        //    - Trimming cornerRadius from the end of the first segment
+        //    - Trimming cornerRadius from the start of the second segment
+        //    - Connecting those new endpoints with a small arc of radius=cornerRadius
+        //--------------------------------------------------
+
+        // We'll do it corner-by-corner. Each corner has 2 segments: (prevSegment, nextSegment).
+
+        // Corner A: intersection of lineClose -> arcOuter at (x1,y1)
+        var cornerA = RoundCorner(lineClose, arcOuter, cornerRadius, isArc1: false, isArc2: true);
+
+        // Corner B: intersection of arcOuter -> lineRadial at (x2,y2)
+        var cornerB = RoundCorner(arcOuter, lineRadial, cornerRadius, isArc1: true, isArc2: false);
+
+        // Corner C: intersection of lineRadial -> arcInner at (x3,y3)
+        var cornerC = RoundCorner(lineRadial, arcInner, cornerRadius, isArc1: false, isArc2: true);
+
+        // Corner D: intersection of arcInner -> lineClose at (x4,y4)
+        var cornerD = RoundCorner(arcInner, lineClose, cornerRadius, isArc1: true, isArc2: false);
+
+        //--------------------------------------------------
+        // 4) Build the final path from these trimmed segments + small corner arcs.
+        //    We'll proceed in a loop: A->B->C->D->A
+        //--------------------------------------------------
+
+        // After rounding, each segment has a "start" point, a "trimmed end" point, etc.
+        // cornerX gives us two points: cornerX.PrevEnd and cornerX.NextStart, plus the arc that joins them.
+
+        // So the final path is:
+        //   M cornerA.NextStart
+        //   (arcOuter minus corners A and B in between)
+        //   cornerB.ArcToCorner  (the small rounding arc at corner B)
+        //   (lineRadial minus corners B and C in between)
+        //   cornerC.ArcToCorner
+        //   (arcInner minus corners C and D in between)
+        //   cornerD.ArcToCorner
+        //   (lineClose minus corners D and A in between)
+        //   cornerA.ArcToCorner
+        //   Z
+
+        // For simplicity, let's build it segment by segment with the known trimmed endpoints.
+
+        // Move to the first point of arcOuter (already trimmed by cornerA on the start):
+        var path = $"M {cornerA.NextStart.x:F3},{cornerA.NextStart.y:F3} ";
+
+        // 4a) Add the trimmed outer arc: from cornerA.NextStart to cornerB.PrevEnd
+        //     We'll ask arcOuter to give us an SVG arc command that goes from A's nextStart to B's prevEnd.
+        path += arcOuter.ToSvgArc(cornerA.NextStart, cornerB.PrevEnd);
+
+        // 4b) Add the small rounding arc at corner B
+        path += cornerB.ArcSvgCommand;
+
+        // 4c) Add the trimmed radial line: from cornerB.NextStart to cornerC.PrevEnd
+        path += lineRadial.ToSvgLine(cornerB.NextStart, cornerC.PrevEnd);
+
+        // 4d) Add the small rounding arc at corner C
+        path += cornerC.ArcSvgCommand;
+
+        // 4e) Add the trimmed inner arc: from cornerC.NextStart to cornerD.PrevEnd
+        path += arcInner.ToSvgArc(cornerC.NextStart, cornerD.PrevEnd);
+
+        // 4f) Add the small rounding arc at corner D
+        path += cornerD.ArcSvgCommand;
+
+        // 4g) Add the trimmed closing line: from cornerD.NextStart to cornerA.PrevEnd
+        path += lineClose.ToSvgLine(cornerD.NextStart, cornerA.PrevEnd);
+
+        // 4h) Add the small rounding arc at corner A
+        path += cornerA.ArcSvgCommand;
+
+        // Finally close the path
+        path += " Z";
+
+        return path;
+    }
+
+    //------------------------------------------------------------------------
+    // Corner rounding helper
+    //------------------------------------------------------------------------
+
+    /// <summary>
+    ///  Given two segments that meet at a corner, shortens each by cornerRadius
+    ///  and returns the arc command that connects them. We also return the
+    ///  "trimmed endpoints" for each segment.
+    /// </summary>
+    private CornerResult RoundCorner(ISegment seg1, ISegment seg2, double cornerRadius,
+                                     bool isArc1, bool isArc2)
+    {
+        // 1) The corner is seg1.EndPoint = seg2.StartPoint
+        var corner = seg1.EndPoint();
+
+        // 2) "Trim" seg1 by cornerRadius at its end, producing a new endpoint
+        //    (the place where we will start the small corner arc).
+        //    If seg1 is an arc, we measure arc length. If seg1 is a line, we measure linear distance.
+        var prevEnd = seg1.PointAtDistanceFromEnd(cornerRadius);
+
+        // 3) "Trim" seg2 by cornerRadius at its start, producing a new startpoint
+        //    (the place where we will end the small corner arc).
+        var nextStart = seg2.PointAtDistanceFromStart(cornerRadius);
+
+        // 4) Build a small arc that goes from prevEnd to nextStart with radius=cornerRadius.
+        //    The center/direction is determined by the tangents of seg1 and seg2 at that corner.
+        //    A simpler approach (for small corners) is to assume "sweep=0" and let the arc figure it out
+        //    from the cross product. But let's do a typical 0,0,1 or 0,0,0 flag approach.
+        string arcCmd = BuildCornerArc(prevEnd, seg1.TangentAtEnd(), nextStart, seg2.TangentAtStart(), cornerRadius);
+
+        return new CornerResult
+            {
+                PrevEnd = prevEnd,   // Where seg1 now ends
+                NextStart = nextStart, // Where seg2 now begins
+                ArcSvgCommand = arcCmd
+            };
+    }
+
+    /// <summary>
+    ///  Build an SVG arc command (using "A cornerRadius,cornerRadius ...") from p1 to p2
+    ///  that smoothly transitions the tangents. For small corner arcs, a simple approach is
+    ///  to use the sign of cross(tangent1, tangent2) to decide the sweep flag.
+    /// </summary>
+    private string BuildCornerArc((double x, double y) p1, (double x, double y) t1,
+                                  (double x, double y) p2, (double x, double y) t2,
+                                  double r)
+    {
+        // We can figure out if it's a left or right turn by cross product of t1 and t2.
+        double cross = t1.x * t2.y - t1.y * t2.x;
+        // If cross > 0 => one orientation, else the other
+        int sweepFlag = (cross > 0) ? 1 : 0;
+
+        // For very small arcs, largeArcFlag is 0
+        int largeArcFlag = 0;
+
+        // "A rx,ry 0 largeArcFlag,sweepFlag x2,y2"
+        return $" A{r},{r} 0 {largeArcFlag},{sweepFlag} {p2.x:F3},{p2.y:F3} ";
+    }
+    }
+
+    //------------------------------------------------------------------------
+    // Data structures to keep the "rounded corner" result
+    //------------------------------------------------------------------------
+
+    public struct CornerResult
+    {
+    // Where the first segment ends after trimming
+    public (double x, double y) PrevEnd;
+    // Where the second segment starts after trimming
+    public (double x, double y) NextStart;
+    // The arc command that connects PrevEnd -> NextStart
+    public string ArcSvgCommand;
+    }
+
+    //------------------------------------------------------------------------
+    // Interfaces for line/arc segments so we can unify "shorten from start/end" etc.
+    //------------------------------------------------------------------------
+
+    public interface ISegment
+    {
+    (double x, double y) StartPoint();
+    (double x, double y) EndPoint();
+
+    /// <summary> Returns a point that is 'dist' away from the start of this segment along its length. </summary>
+    (double x, double y) PointAtDistanceFromStart(double dist);
+
+    /// <summary> Returns a point that is 'dist' away from the end of this segment along its length. </summary>
+    (double x, double y) PointAtDistanceFromEnd(double dist);
+
+    /// <summary> Tangent (unit vector) at the start of the segment. </summary>
+    (double x, double y) TangentAtStart();
+
+    /// <summary> Tangent (unit vector) at the end of the segment. </summary>
+    (double x, double y) TangentAtEnd();
+    }
+
+    //------------------------------------------------------------------------
+    // Line segment
+    //------------------------------------------------------------------------
+
+    public class LineSegment : ISegment
+    {
+    private (double x, double y) p1, p2;
+    private double length;
+    private (double x, double y) dir; // unit direction p1->p2
+
+    public LineSegment(double x1, double y1, double x2, double y2)
+    {
+        p1 = (x1, y1);
+        p2 = (x2, y2);
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        length = Math.Sqrt(dx * dx + dy * dy);
+        if (length < 1e-9) length = 1e-9; // avoid div by zero
+        dir = (dx / length, dy / length);
+    }
+
+    public (double x, double y) StartPoint() => p1;
+    public (double x, double y) EndPoint() => p2;
+
+    public (double x, double y) PointAtDistanceFromStart(double dist)
+    {
+        if (dist >= length) dist = length;
+        return (p1.x + dir.x * dist, p1.y + dir.y * dist);
+    }
+
+    public (double x, double y) PointAtDistanceFromEnd(double dist)
+    {
+        if (dist >= length) dist = length;
+        return (p2.x - dir.x * dist, p2.y - dir.y * dist);
+    }
+
+    public (double x, double y) TangentAtStart() => dir;
+    public (double x, double y) TangentAtEnd() => dir;
+
+    // Build an SVG line command from pStart to pEnd
+    public string ToSvgLine((double x, double y) pStart, (double x, double y) pEnd)
+    {
+        // "L xEnd,yEnd"
+        return $"L {pEnd.x:F3},{pEnd.y:F3} ";
+    }
+    }
+
+    //------------------------------------------------------------------------
+    // Arc segment (circle center at 0,0), from p1 to p2, with radius, possibly clockwise
+    //------------------------------------------------------------------------
+
+    public class ArcSegment : ISegment
+    {
+    private (double x, double y) p1, p2;
+    private double radius;
+    private bool sweepPositive;
+
+    private double length;  // arc length
+    private double startAngle, endAngle; // in radians
+
+    public ArcSegment(double x1, double y1, double x2, double y2, double r, bool sweepPositive)
+    {
+        p1 = (x1, y1);
+        p2 = (x2, y2);
+        radius = r;
+        this.sweepPositive = sweepPositive;
+
+        // angles
+        startAngle = Math.Atan2(y1, x1);
+        endAngle = Math.Atan2(y2, x2);
+
+        double delta = endAngle - startAngle;
+        if (sweepPositive)
+        {
+            // ensure delta is positive by possibly adding 2π
+            if (delta < 0) delta += 2 * Math.PI;
+        }
+        else
+        {
+            // ensure delta is negative by possibly subtracting 2π
+            if (delta > 0) delta -= 2 * Math.PI;
+        }
+        length = Math.Abs(delta) * radius;
+    }
+
+    public (double x, double y) StartPoint() => p1;
+    public (double x, double y) EndPoint() => p2;
+
+    public (double x, double y) PointAtDistanceFromStart(double dist)
+    {
+        if (dist < 0) dist = 0;
+        if (dist > length) dist = length;
+
+        double fraction = dist / length; // between 0..1
+        double delta = (endAngle - startAngle);
+        // If positive sweep, delta might be negative in raw form, but we corrected it above
+        // If negative sweep, delta might be positive in raw form, also corrected above
+        double angleTravel = fraction * delta; // total angle traveled
+        double angle = startAngle + angleTravel;
+        double x = radius * Math.Cos(angle);
+        double y = radius * Math.Sin(angle);
+        return (x, y);
+    }
+
+    public (double x, double y) PointAtDistanceFromEnd(double dist)
+    {
+        // distance from end is just length - dist from start
+        double fromStart = length - dist;
+        return PointAtDistanceFromStart(fromStart);
+    }
+
+    public (double x, double y) TangentAtStart()
+    {
+        // Tangent is perpendicular to radius => direction is ( -sin(a), +cos(a) ) or vice versa
+        // The sign depends on whether the arc is swept CCW or CW
+        double a = startAngle;
+        double dx = -Math.Sin(a);
+        double dy = Math.Cos(a);
+        if (!sweepPositive)
+        {
+            // flip direction for CW
+            dx = -dx;
+            dy = -dy;
+        }
+        // normalize
+        double len = Math.Sqrt(dx * dx + dy * dy);
+        return (dx / len, dy / len);
+    }
+
+    public (double x, double y) TangentAtEnd()
+    {
+        double a = endAngle;
+        double dx = -Math.Sin(a);
+        double dy = Math.Cos(a);
+        if (!sweepPositive)
+        {
+            dx = -dx;
+            dy = -dy;
+        }
+        double len = Math.Sqrt(dx * dx + dy * dy);
+        return (dx / len, dy / len);
+    }
+
+    // Build an SVG arc command from pStart to pEnd, using the same radius & sweep
+    public string ToSvgArc((double x, double y) pStart, (double x, double y) pEnd)
+    {
+        // For largeArcFlag, we see if the angle spanned is > 180 deg
+        double angleSpan = Math.Abs(endAngle - startAngle) * (180.0 / Math.PI);
+        if (angleSpan > 180.0 && angleSpan < 360.0) // exclude full 360
+            return $"A {radius:F3},{radius:F3} 0 1,{(sweepPositive ? 1 : 0)} {pEnd.x:F3},{pEnd.y:F3} ";
+        else
+            return $"A {radius:F3},{radius:F3} 0 0,{(sweepPositive ? 1 : 0)} {pEnd.x:F3},{pEnd.y:F3} ";
+    }
+    }
+
+
+
+
+
+}

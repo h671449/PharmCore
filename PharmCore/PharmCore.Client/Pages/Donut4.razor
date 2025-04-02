@@ -1,4 +1,4 @@
-﻿@page "/Donut3"
+﻿@page "/Donut4"
 @* <DonutExample ButtonCount="12"  />
 <DonutExample ButtonCount="12" OuterRadius="100" InnerRadius="40"/> *@
 @* @rendermode InteractiveWebAssembly *@
@@ -34,15 +34,8 @@
             {
                 @* <g class="donut-button" style=" --animation-order:@button.animationOrder; --animation-rotation:@button.animationRotation; position: relative; z-index: 20" @onclick="button.OnClick"> *@
                 <g class="deadzone-button">
-                    <path d="@button.WedgePath" style="transform: rotateZ(@(DeadzoneArc)deg)" stroke="none" stroke-width="@ButtonBorder" stroke-linejoin="round" />
-
-                </g>
-            }
-            @foreach (var button in CategoryButtons)
-            {
-                <g >
-                    <path d="@button.WedgePath" fill="@button.hslColor" />
-
+                    <path d="@button.WedgePath"  stroke="none" stroke-width="@ButtonBorder" stroke-linejoin="round" />
+                    @* style="transform: rotateZ(@(DeadzoneArc)deg)" *@
                 </g>
             }
             @foreach (var button in Buttons)
@@ -166,7 +159,7 @@
     [Parameter] public int SmallInnerRadius { get; set; } = 88;
     [Parameter] public int SmallOuterRadius { get; set; } = 124;
 
-    public double deadzoneScale = 0.7;
+    public double deadzoneScale = 0.667;
     public double DeadzoneArc => deadzoneScale * 360 / (ButtonCount + 2); // degrees // or // set as % of: 360 / (Count + 2)
     public double halfDeadzoneArc => DeadzoneArc / 2;
 
@@ -190,83 +183,42 @@
     private List<WedgeButton> Buttons = new();
     private List<WedgeButton> InnerButtons = new();
     private List<WedgeButton> DeadzoneButtons = new();
-    private List<WedgeButton> CategoryButtons = new();
-    private List<Concept> concepts = ConceptFactory.GetConcepts();
+    private List<Concept> concepts = ConceptFactory.GetConcepts4();
 
     protected override void OnInitialized()
     {
         int bigIndex = 0;
         int smallIndex = 0;
-        DeadzoneButtons.Add(DeadzoneWedge(0));
-        DeadzoneButtons.Add(DeadzoneWedge(1));
+        // DeadzoneButtons.Add(DeadzoneWedge(0));
+        // DeadzoneButtons.Add(DeadzoneWedge(1));
 
-        List<Section> sectors = GenerateSections(DeadzoneArc, ButtonCount);
+        List<List<Section>> sectorLists = GenerateSections(DeadzoneArc, ButtonCount);
+        List<Section> buttonSecs = sectorLists[0];
+        List<Section> deadzoneSecs = sectorLists[1];
 
-        double buttonArc = sectors[0].End - sectors[0].Start;
-        Section pkSector = new Section(180.1, 179.9 + buttonArc * 4 + halfDeadzoneArc);
-        Section pdSector = new Section(0.1 + pkSector.End, pkSector.End + buttonArc * 5 + DeadzoneArc - 0.1);
-        Section poSector = new Section(0.1 + pdSector.End, 179.9);
-
-        CategoryButtons.Add(new WedgeButton(0, 3, 75, 87, Rounding, ButtonPadding, "hsl(35, 59%, 59%)", () => { Navigation.NavigateTo("/Concepts/DrugTarget"); }, 0, new List<string> { ">" }, pkSector));
-        CategoryButtons.Add(new WedgeButton(1, 3, 75, 87, Rounding, ButtonPadding, "hsl(202, 59%, 59%)", () => { Navigation.NavigateTo("/Concepts/DrugTarget"); }, 0, new List<string> { ">" }, pdSector));
-        CategoryButtons.Add(new WedgeButton(2, 3, 75, 87, Rounding, ButtonPadding, "hsl(312, 59%, 49%)", () => { Navigation.NavigateTo("/Concepts/DrugTarget"); }, 0, new List<string> { ">" }, poSector));
-
+        for (int i = 0; i < deadzoneSecs.Count; i++)
+        {
+            DeadzoneButtons.Add(DeadzoneWedge(i, deadzoneSecs[i]));
+        }
 
         for (int i = 0; i < totalButtons; i++)
         {
             Concept c = concepts[i];
             string hslString = HslToCssString(c.Hue, saturation, lightness);
 
-            // int capturedIndex = i; // capture the current index for the lambda
-
-            // if (i == totalButtons - 1 || i == totalButtons / 2 - 1)
-            // {
-            //     Buttons.Add(new WedgeButton(bigIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
-            //                                 "hsl(332, 12%, 32%)", () => { Navigation.NavigateTo(c.Url); }, 0, new List<string> { "" }));
-            //     bigIndex++;
-            //     continue;
-            // }
-            // else if (i == totalButtons - 2 || i == totalButtons / 2 - 2)
-            // {
-            //     InnerButtons.Add(new WedgeButton(smallIndex, SmallButtonCount, SmallInnerRadius, SmallOuterRadius, Rounding, ButtonPadding,
-            //                                      $"hsl(332, 12%, 32%)", () => { Navigation.NavigateTo(c.Url); }, 0, new List<string> { "" }));
-            //     smallIndex++;
-            //     continue;
-            // }
-
-
-            // if (i == totalButtons / 2 - 2 || i == totalButtons - 2)
-            // {
-            //     bigIndex++;
-            //     smallIndex++;
-            //     i++;
-            // }
             if (i % 2 == 1)
             {
                 Buttons.Add(new WedgeButton(bigIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
-                                            hslString, () => { Navigation.NavigateTo(c.Url); }, c.Number, c.Labels, sectors[bigIndex]));
+                                            hslString, () => { Navigation.NavigateTo(c.Url); }, c.Number, c.Labels, buttonSecs[bigIndex]));
                 bigIndex++;
             }
             else
             {
                 InnerButtons.Add(new WedgeButton(smallIndex, SmallButtonCount, SmallInnerRadius, SmallOuterRadius, Rounding, ButtonPadding,
-                                hslString, () => { Navigation.NavigateTo(c.Url); }, c.Number, c.Labels, sectors[smallIndex]));
+                                hslString, () => { Navigation.NavigateTo(c.Url); }, c.Number, c.Labels, buttonSecs[smallIndex]));
                 smallIndex++;
             }
-            // Buttons.Add(new WedgeButton(capturedIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,
-            //             hslString, () =>
-            //             {
-            //                 Navigation.NavigateTo(c.Url);
-            //             },
-            //             c.Number, c.Labels));
-            // i++;
-            // c = concepts[i];
-            // InnerButtons.Add(new WedgeButton(capturedIndex, SmallButtonCount, SmallInnerRadius, SmallOuterRadius, Rounding, ButtonPadding,
-            //             hslString, () =>
-            //             {
-            //             Navigation.NavigateTo(c.Url);
-            //             },
-            //             c.Number, c.Labels));
+
 
 
         }
@@ -277,33 +229,51 @@
         return $"hsl({hue}, {saturation * 100}%, {lightness * 100}%)";
     }
 
-    public static List<Section> GenerateSections(double deadzoneArcDegrees, int total)
+    public static List<List<Section>> GenerateSections(double deadzoneArcDegrees, int total)
     {
-        // Calculate the active arc length in each of the two symmetric arcs.
-        // Each deadzone is centered at 90° and 270°, so:
-        // Active Arc 1: from (90 + deadzoneArcDegrees/2) to (270 - deadzoneArcDegrees/2)
-        // Active Arc 2: from (270 + deadzoneArcDegrees/2) to (450 - deadzoneArcDegrees/2) (which wraps around)
-        double activeArcLength = 180 - deadzoneArcDegrees;
+        double sectionAngle = (360 - 3 * deadzoneArcDegrees) / total;
+        
 
-        // Divide the sections between the two active arcs.
-        int sectionsArc1 = total / 2;
-        int sectionsArc2 = total - sectionsArc1; // in case total is odd
 
-        List<Section> sections = new List<Section>();
+        int sectionsArc1 = 5;
+        int sectionsArc2 = 4;
+        int sectionsArc3 = 3;
+
+        double arc1Length = 180 - 2 * deadzoneArcDegrees;
+        double arc2Length = (180 - deadzoneArcDegrees) * 1 / 2;
+        double arc3Length = (180 - deadzoneArcDegrees) * 1 / 2;
+        
+
+        // double arc1Length = sectionsArc1 * sectionAngle;
+        // double arc2Length = sectionsArc2 * sectionAngle;
+        // double arc3Length = sectionsArc3 * sectionAngle;
+
+
+
+        List<Section> buttonSecs = new List<Section>();
+        List<Section> deadzoneSecs = new List<Section>();
+
+        // deadzoneSecs.Add(new Section(arc1Length, arc1Length + deadzoneArcDegrees));
+        // deadzoneSecs.Add(new Section(180, 180 + deadzoneArcDegrees));
+        // deadzoneSecs.Add(new Section(360 - deadzoneArcDegrees, 360));
+
+        deadzoneSecs.Add(new Section(0, deadzoneArcDegrees));
+        deadzoneSecs.Add(new Section(180 - deadzoneArcDegrees, 180));
+        deadzoneSecs.Add(new Section(180 + arc2Length, 180 + arc2Length + deadzoneArcDegrees));
 
         // Calculate sections for Active Arc 1.
-        double arc1Start = 0 + deadzoneArcDegrees / 2;
-        double arc1SectionAngle = activeArcLength / sectionsArc1;   
+        double arc1Start = deadzoneArcDegrees;
+        double arc1SectionAngle = arc1Length / sectionsArc1;   
         for (int i = 0; i < sectionsArc1; i++)
         {
             double start = arc1Start + i * arc1SectionAngle;
             double end = start + arc1SectionAngle;
-            sections.Add(new Section(start, end));
+            buttonSecs.Add(new Section(start, end));
         }
-
+        
         // Calculate sections for Active Arc 2.
-        double arc2Start = 180 + deadzoneArcDegrees / 2;
-        double arc2SectionAngle = activeArcLength / sectionsArc2;
+        double arc2Start = 180;
+        double arc2SectionAngle = arc2Length / sectionsArc2;
         for (int i = 0; i < sectionsArc2; i++)
         {
             double start = arc2Start + i * arc2SectionAngle;
@@ -311,17 +281,30 @@
             // Normalize to [0,360)
             start = start % 360;
             end = end % 360;
-            sections.Add(new Section(start, end));
+            buttonSecs.Add(new Section(start, end));
+        }
+        
+        // Calculate sections for Active Arc 3.
+        double arc3Start = 359.9 - arc3Length;
+        double arc3SectionAngle = arc3Length / sectionsArc3;
+        for (int i = 0; i < sectionsArc3; i++)
+        {
+            double start = arc3Start + i * arc3SectionAngle;
+            double end = start + arc3SectionAngle;
+            // Normalize to [0,360)
+            start = start % 360;
+            end = end % 360;
+            buttonSecs.Add(new Section(start, end));
         }
 
-        return sections;
+        return new List<List<Section>>{ buttonSecs, deadzoneSecs};
     }
 
-    public WedgeButton DeadzoneWedge(int index)
+    public WedgeButton DeadzoneWedge(int index, Section sector)
     {
         double counterRotation = DeadzoneArc; // Rotates one sector. Is rotated back with transform (because of bug with leftmost button)
-        double centerAngle = 180 - counterRotation + 180 * index;
-        Section sector = new Section(centerAngle - halfDeadzoneArc, centerAngle + halfDeadzoneArc);
+        // double centerAngle = 180 - counterRotation + 180 * index;
+        // Section sector = new Section(centerAngle - halfDeadzoneArc, centerAngle + halfDeadzoneArc);
 
         return new WedgeButton(index, ButtonCount, SmallInnerRadius, OuterRadius, Rounding, ButtonPadding, "hsl(332, 12%, 32%)", () => { }, 0, new List<string> { "" }, sector);
     }

@@ -25,6 +25,12 @@ a, .btn-link {
 .content {
     /*padding-top: 1.1rem;*/
     height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+/*    @view-transition {
+        navigation: auto;
+    }*/
     /*justify-content: center; /* Horizontally center */
    /* align-items: center;*/
 }
@@ -163,6 +169,28 @@ body, html {
     margin-bottom: 4px;
     }
 
+.design{
+
+}
+.learn-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+    gap: 2rem;
+    width: 80%;
+    height: 90%;
+}
+.learn-content {
+    display: block;
+}
+#learn-text {
+    
+}
+#learn-video {
+
+}
+
 .donut-page {
     display: flex;
     justify-content: center;
@@ -170,9 +198,22 @@ body, html {
     height: 100%;
     width: 100%;
     padding: 1%;
+    
 }
-@keyframes flair {
-   /* filter: */
+    .donut-page::after {
+        animation: flippage 1s ease backwards;
+    }
+
+@keyframes flippage {
+    0% {
+        transform: rotateX(180deg);
+    }
+    30% {
+        transform: rotateX(90deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
 }
 .donut-container {
     /*background: transparent;*/
@@ -391,6 +432,14 @@ body, html {
     box-shadow: black 0 0 0.5rem 0;
 
 }
+#wedge-edge3 {
+    fill: azure;
+    color: azure;
+    opacity: 1.0;
+    font-size: 1em;
+    font-weight: normal;
+    box-shadow: black 0 0 0.5rem 0;
+}
 /*@property --spread {
     syntax: "rem";
     inherits: false;
@@ -404,8 +453,11 @@ body, html {
     pointer-events: none;
     /*    height: min(45%, 45%);
     width: min(40vh, 40vw);*/
-    height: 57.55%;
-    width: 57.55%;
+/*    height: 57.55%;
+    width: 57.55%;*/
+    --size: 57.55%;
+    height: var(--size);
+    width: var(--size);
     /*padding: 10%;*/
     border-radius: 50%;
     filter: blur(0.2rem);
@@ -418,7 +470,7 @@ body, html {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     box-shadow: rgba(0, 0, 0, 0.2) -2rem 2rem 4rem var(--spread) inset, rgba(255, 255, 255, 0.4) 2rem -2rem 4rem var(--spread) inset, 2rem -2rem 4rem var(--spread) rgba(255,255, 255, 0.3), -2rem 2rem 4rem var(--spread) rgba(0, 0, 0, 0.2);
-/*    animation-name: reveal;
+    /*    animation-name: reveal;
     animation-duration: 900ms;
     animation-fill-mode: forwards both;
     animation-timing-function: ease;*/
