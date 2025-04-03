@@ -285,15 +285,20 @@ body, html {
     transition: transform 0.3s ease; /* filter 1.2s ease-in;*/
 }
 .deadzone-button {
-    
-   
+    fill: rgb(60, 50, 60, 0.7);
+
+
+
 }
     .deadzone-button path {
-        fill: rgb(60, 50, 60, 0.8);
-        filter: blur(0.0px);
-        backdrop-filter: blur(0.0px);
+
+
         stroke: black;
         stroke-width: 0.0px;
+
+
+
+        border: 1px solid rgba(141, 141, 141, 0.16);
     }
 
     
@@ -556,7 +561,8 @@ body, html {
     pointer-events: none; /* Allow clicks through */
     inset: 0;
     opacity: 0.75;
-    /*z-index: -1;*/
+    z-index: 0;
+    
 }
 
 .molecule {

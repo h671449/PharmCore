@@ -2,7 +2,7 @@
 
 @inject NavigationManager Navigation
 <PageTitle>Home</PageTitle>
-<div style="position: relative; transform: scale(1.2); display: flex; flex-direction: column; gap: 2em; justify-content: center; align-items: center;">
+<div style="position: relative; height: 90%; width: 90%; transform: scale(1.1); display: flex; flex-direction: column; gap: 15em; justify-content: center; align-items: center;">
     <div style="position: relative; display: flex; flex-direction: row; gap: 1em; justify-content: center; align-items: center;">
         
         <button class="btn btn-primary" @onclick="@Concepts">Concepts</button>
@@ -10,10 +10,11 @@
         <button class="btn btn-primary" @onclick="@Design">Design</button>
     </div>
 
-    <div style="position: relative; transform: scale(1.3); display: flex; flex-direction: row; gap: 3em; justify-content: center; align-items: center;">
-        <button class="btn btn-primary" style="  left: 100%; border-width:1px; font: arial; font-weight:bold; box-shadow: rgba(0, 0, 0, 0.4) 0.1rem 0.1rem 0.8rem; text-shadow: rgba(0, 0, 0, 0.4) 0.0rem 0.1rem 0.5rem; color:white; background:linear-gradient(50deg, rgba(255, 120, 0, 0.9), rgba(0, 100, 255, 0.9)); width:15em;" @onclick="@Donut">Donut</button>
-        <button class="btn btn-primary" style="  border-width:1px; font: comic sans; font-weight:bold; box-shadow: rgba(0, 0, 0, 0.4) 0.1rem 0.1rem 0.8rem; text-shadow: rgba(0, 0, 0, 0.4) 0.0rem 0.1rem 0.5rem; color:white; background:linear-gradient(50deg, rgba(255, 100, 0, 0.9), rgba(0, 80, 255, 0.9)); width:15em;" @onclick="@Donut2">Double Donut</button>
-        <button class="btn btn-primary" style=" left: 0%; border-width:1px; font: comic sans; font-weight:bold; box-shadow: rgba(0, 0, 0, 0.4) 0.1rem 0.1rem 0.8rem; text-shadow: rgba(0, 0, 0, 0.4) 0.0rem 0.1rem 0.5rem; color:white; background:linear-gradient(50deg, rgba(255, 80, 0, 0.9), rgba(0, 60, 255, 0.9)); width:15em;" @onclick="@Donut3">DD Deadzone</button>
+    <div style="position: relative; transform: scale(1.3); display: flex; flex-direction: row; gap: 0em; justify-content: center; align-items: center;">
+        <button class="btn btn-primary" style=" border-width:1px; font: arial; font-weight:bold; box-shadow: rgba(0, 0, 0, 0.4) 0.1rem 0.1rem 0.8rem; text-shadow: rgba(0, 0, 0, 0.4) 0.0rem 0.1rem 0.5rem; color:white; background:linear-gradient(50deg, rgba(255, 120, 0, 0.5), rgba(0, 100, 255, 0.5)); width:12em;" @onclick="@Donut">Donut</button>
+        <button class="btn btn-primary" style=" border-width:1px; font: comic sans; font-weight:bold; box-shadow: rgba(0, 0, 0, 0.4) 0.1rem 0.1rem 0.8rem; text-shadow: rgba(0, 0, 0, 0.4) 0.0rem 0.1rem 0.5rem; color:white; background:linear-gradient(50deg, rgba(255, 100, 0, 0.6), rgba(0, 80, 255, 0.6)); width:12em;" @onclick="@Donut2">Double Donut</button>
+        <button class="btn btn-primary" style="border-width:1px; font: comic sans; font-weight:bold; box-shadow: rgba(0, 0, 0, 0.4) 0.1rem 0.1rem 0.8rem; text-shadow: rgba(0, 0, 0, 0.4) 0.0rem 0.1rem 0.5rem; color:white; background:linear-gradient(50deg, rgba(255, 80, 0, 0.7), rgba(0, 60, 255, 0.7)); width:12em;" @onclick="@Donut3">Deadzone Donut</button>
+        <button class="btn btn-primary" style="border-width:1px; font: comic sans; font-weight:bold; box-shadow: rgba(0, 0, 0, 0.4) 0.1rem 0.1rem 0.8rem; text-shadow: rgba(0, 0, 0, 0.4) 0.0rem 0.1rem 0.5rem; color:white; background:linear-gradient(50deg, rgba(255, 80, 0, 0.9), rgba(0, 60, 255, 0.9)); width:12em;" @onclick="@Donut4">Donut4 <sup>*new*</sup></button>
 
     </div>
 </div>
@@ -47,6 +48,11 @@
     private void Donut3(MouseEventArgs e)
     {
         Navigation.NavigateTo("/Donut3");
+    }
+
+    private void Donut4(MouseEventArgs e)
+    {
+        Navigation.NavigateTo("/Donut4");
     }
 }
 

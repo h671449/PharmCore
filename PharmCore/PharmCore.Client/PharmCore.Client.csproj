@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Media\Pictures\concept horizontal split 03-04b.png" />
+    <Content Remove="wwwroot\Media\Pictures\concept vertical split 03-04a.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Pages\molecules.razor.js" />
   </ItemGroup>
 
@@ -22,6 +27,11 @@
     <Folder Include="Pages\Components\js\" />
     <Folder Include="Pages\Concepts\Dynamics\" />
     <Folder Include="Pages\Concepts\Outcomes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Media\Pictures\concept horizontal split 03-04b.png" />
+    <None Include="wwwroot\Media\Pictures\concept vertical split 03-04a.png" />
   </ItemGroup>
 
 </Project>

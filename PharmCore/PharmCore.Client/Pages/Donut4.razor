@@ -34,7 +34,8 @@
             {
                 @* <g class="donut-button" style=" --animation-order:@button.animationOrder; --animation-rotation:@button.animationRotation; position: relative; z-index: 20" @onclick="button.OnClick"> *@
                 <g class="deadzone-button">
-                    <path d="@button.WedgePath"  stroke="none" stroke-width="@ButtonBorder" stroke-linejoin="round" />
+
+                    <path d="@button.WedgePath" stroke="none" z-index="30" stroke-width="@ButtonBorder" stroke-linejoin="round" />
                     @* style="transform: rotateZ(@(DeadzoneArc)deg)" *@
                 </g>
             }
@@ -159,7 +160,7 @@
     [Parameter] public int SmallInnerRadius { get; set; } = 88;
     [Parameter] public int SmallOuterRadius { get; set; } = 124;
 
-    public double deadzoneScale = 0.667;
+    public double deadzoneScale = 0.4;
     public double DeadzoneArc => deadzoneScale * 360 / (ButtonCount + 2); // degrees // or // set as % of: 360 / (Count + 2)
     public double halfDeadzoneArc => DeadzoneArc / 2;
 
@@ -285,7 +286,7 @@
         }
         
         // Calculate sections for Active Arc 3.
-        double arc3Start = 359.9 - arc3Length;
+        double arc3Start = 359.99 - arc3Length;
         double arc3SectionAngle = arc3Length / sectionsArc3;
         for (int i = 0; i < sectionsArc3; i++)
         {
