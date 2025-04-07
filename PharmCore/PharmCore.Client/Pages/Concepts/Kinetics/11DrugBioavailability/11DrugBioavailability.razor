@@ -1,0 +1,41 @@
+@page "/Concepts/DrugBioavailability"
+
+@layout PharmCore.Client.Layout.ConceptLayout
+
+<SectionContent SectionName="ConceptNav">
+    @*  <PharmCore.Client.Layout.NavMenu /> *@
+    <PharmCore.Client.Pages.Components.ConceptNav Concepts="@ConceptFactory.GetConcepts()" />
+</SectionContent>
+
+<SectionContent SectionName="ConceptTitle">
+    <h1>Drug Bioavailability</h1>
+</SectionContent>
+
+<SectionContent SectionName="ConceptText">
+    <p>
+        The process of transferring a drug from the bloodstream to tissues is referred to as distribution. The same principles that govern drug absorption (e.g. ionization of a drug, lipophilicity of a drug, size of a drug, pH of the environment, etc.) also govern the rate and extent that a drug will distribute to various tissues in the body.&nbsp; In addition, there are additional factors at play, particularly non-specific binding to proteins.
+    </p>
+</SectionContent>
+
+<SectionContent SectionName="ConceptVideo">
+    <PharmCore.Client.Pages.Concepts.Kinetics._13VolumeOfDistribution.Modules.VdVideo />
+</SectionContent>
+
+<SectionContent SectionName="ConceptGrid1">
+    <h2>n/a</h2>
+</SectionContent>
+
+<SectionContent SectionName="ConceptGrid2">
+    <h2>n/a</h2>
+</SectionContent>
+
+<SectionContent SectionName="ConceptGrid3">
+    <h2>n/a</h2>
+</SectionContent>
+
+<SectionContent SectionName="ConceptGrid4">
+    <h2>n/a</h2>
+</SectionContent>
+@code {
+
+}

@@ -228,7 +228,7 @@ public class WedgeButton
         // Inner arc angles
         double innerStart = startAngle + halfGapInnerDeg;
         double innerEnd = endAngle - halfGapInnerDeg;
-
+         
         // Convert degrees to radians helper remains the same.
         double toRad(double deg) => deg * Math.PI / 180.0;
 

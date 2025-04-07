@@ -1,0 +1,106 @@
+﻿@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+<div class="nav-container">
+    <input type="text" class="nav-search" placeholder="Search..." @bind="SearchText" @bind:event="oninput" />
+
+    @foreach (var category in FilteredCategories)
+    {
+        var isExpanded = ExpandedCategories.Contains(category.Key);
+        var conceptListId = $"list-{category.Key.Replace(" ", "-")}";
+
+        <div class="category-section">
+            <div class="category-header">
+                <a href="@GetCategoryUrl(category.Key)" class="category-link">@category.Key</a>
+                <button class="category-toggle" @onclick="() => ToggleCategory(category.Key)">
+                    @(isExpanded ? "−" : "+")
+                </button>
+            </div>
+
+            <div id="@conceptListId" class="concept-list @(isExpanded ? "expanded" : "")">
+                <ul>
+                    @foreach (var concept in category.Value)
+                    {
+                        var isActive = IsCurrentConcept(concept.Url);
+                        <li>
+                            <a href="@concept.Url" class="concept-link @(isActive ? "active" : "")">
+                                @string.Join(" ", concept.Labels)
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public List<Concept> Concepts { get; set; } = ConceptFactory.GetConcepts();
+
+    private Dictionary<string, List<Concept>> Categories = new();
+    private HashSet<string> ExpandedCategories = new();
+    private string SearchText = "";
+
+    private Dictionary<string, List<Concept>> FilteredCategories =>
+        Categories
+            .Select(kv => new
+            {
+                Category = kv.Key,
+                Concepts = kv.Value
+                    .Where(c => string.Join(" ", c.Labels).Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+                    .ToList()
+            })
+            .Where(g => g.Concepts.Any())
+            .ToDictionary(g => g.Category, g => g.Concepts);
+
+    protected override async Task OnInitializedAsync()
+    {
+        Categories = Concepts
+            .GroupBy(c => GetCategoryFromHue(c.Hue))
+            .ToDictionary(g => g.Key, g => g.OrderBy(c => c.Number).ToList());
+
+        var stored = await JS.InvokeAsync<string>("localStorage.getItem", "expandedCategories");
+        if (!string.IsNullOrEmpty(stored))
+        {
+            ExpandedCategories = stored.Split(',').ToHashSet();
+        }
+        else
+        {
+            ExpandedCategories = Categories.Keys.ToHashSet();
+            await SaveExpandedState();
+        }
+    }
+
+    private async Task ToggleCategory(string category)
+    {
+        if (ExpandedCategories.Contains(category))
+            ExpandedCategories.Remove(category);
+        else
+            ExpandedCategories.Add(category);
+
+        await SaveExpandedState();
+    }
+
+    private async Task SaveExpandedState()
+    {
+        var serialized = string.Join(",", ExpandedCategories);
+        await JS.InvokeVoidAsync("localStorage.setItem", "expandedCategories", serialized);
+    }
+
+    private string GetCategoryUrl(string category) => $"/Categories/{category}";
+
+    private string GetCurrentPath() =>
+        NavigationManager.ToBaseRelativePath(NavigationManager.Uri).ToLower();
+
+    private bool IsCurrentConcept(string url) =>
+        GetCurrentPath().Contains(url.TrimStart('/').ToLower());
+
+    private string GetCategoryFromHue(double hue)
+    {
+        if (hue >= 195 && hue < 286) return "Kinetics";
+        if (hue >= 2 && hue < 195) return "Dynamics";
+        if (hue >= 286) return "Outcomes";
+        return "Other";
+    }
+}

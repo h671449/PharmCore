@@ -1,11 +1,11 @@
-﻿@page "/Donut4"
+﻿@page "/Donut5"
 @* <DonutExample ButtonCount="12"  />
 <DonutExample ButtonCount="12" OuterRadius="100" InnerRadius="40"/> *@
 @* @rendermode InteractiveWebAssembly *@
 @* @rendermode @(new InteractiveWebAssemblyRenderMode(prerender: false)) *@
 @using System;
-@* @using PharmCore.Client.Pages.Components *@
-@* @using PharmCore.Client.Pages.Components.Donut3 *@
+@using PharmCore.Client.Pages.Components
+@using PharmCore.Client.Pages.Components.Donut3
 @using PharmCore.Client.Pages.Utils
 @inject NavigationManager Navigation
 
@@ -43,7 +43,6 @@
             {
                 <g transform="scale(1.00, 1)">
                     <g class="donut-button" style=" --animation-order:@button.animationOrder; --animation-rotation:@button.animationRotation; position: relative; z-index: 20;" @onclick="button.OnClick">
-
                         <path class="donut-path" d="@button.WedgePath" fill="@button.hslColor" stroke="white" stroke-width="@ButtonBorder" stroke-linejoin="round" />
 
                         <text class="donut-text" x="@button.text_x"

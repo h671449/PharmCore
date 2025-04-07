@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Media\Images\horizontal.png" />
+    <Content Remove="wwwroot\Media\Images\vertical.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\PharmCore.Client\Pages\Component.razor" Link="Component.razor" />
+    <None Include="wwwroot\Media\Images\horizontal.png" />
+    <None Include="wwwroot\Media\Images\vertical.png" />
   </ItemGroup>
 
   <ItemGroup>

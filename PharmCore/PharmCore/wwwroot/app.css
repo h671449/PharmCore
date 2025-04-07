@@ -157,7 +157,7 @@ body, html {
     width: auto;
     height: auto;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 12px;
+    /*border-radius: 12px;*/
     padding: 6px;
     text-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
 /*    margin-block-end: 0px;
@@ -172,15 +172,197 @@ body, html {
 .design{
 
 }
+
+
+    .learn-page div {
+
+    }
+
+/* ------------------------------------------------------------ */
+                   /*      <DESIGN DIVS>     */
+.learn-main {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: stretch;
+    gap: 1rem;
+    min-height: 96%;
+    /*height: clamp(0px, 100%, 1250px);*/
+    width: clamp(0px, 100%, 1250px);
+    /*width: fit-content;*/
+    max-width: 100rem;
+
+    border-radius: 16px;
+}
+
+.learn-nav {
+    flex: 1;
+    display: flex;
+    /*width: clamp(12rem, 100%, 20rem);*/
+    /*min-width: 20rem;*/
+    flex-wrap: wrap;
+
+}
+
 .learn-page {
+    flex: 7;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    /*color: black;*/
+    /*justify-content: space-evenly;*/
+    /*align-items: center;*/
+    /*align-self: center;*/
+    gap: 1rem;
+    /*width: clamp(70%, 100%, 1250px);*/
+    /*min-width: 77.5%;*/
+    /*min-height: 90%;*/
+    z-index: 1;
+    opacity: 1;
+    /*border: solid thin black;*/
+    /*padding: 16px;*/
+}
+
+.lp1-horizontal-section {
+    display: flex;
+    /*flex-direction: column;*/
+    flex: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    /*border: dotted thin black;*/
+    gap: 1.0rem;
+    /*justify-content: space-around;*/
+/*        justify-content: space-evenly;
+    align-items: normal;*/
+}
+
+#lp1-top {
+    flex: 0 0 auto;
+    /*flex: 1;*/
+}
+#lp1-upper-mid {
+    flex: 1 1;
+}
+#lp1-lower-mid {
+    flex: 0 1 auto;
+}
+
+#lp1-bot {
+    flex: 0 1;
+    /*align-items: center;*/
+}
+#lp1-mid-inner-top {
+
+}
+#lp1-mid-inner-bot {
+
+}
+.lp2-vertical-subsection {
+    display: flex;
+    /*flex-flow: wrap;*/
+    flex: 1;
+    gap: 0.5rem;
+    min-width: /*200px; */ clamp(200px, 100%, 400px);
+    
+    /*height:56.25%;*/
+    /*overflow:hidden;*/
+    /*width: 100%;*/
+    /*border: dashed thin black;*/
+    /*justify-content: space-evenly;*/
+   /* justify-content:*/
+}
+#lp2-title {
+    font-size: 64px;
+}
+#lp2-nav {
+}
+#lp2-text {
+    
+}
+#lp2-picture {
+}
+#lp2-video {
+    /*flex: 2;*/
+    flex: 2;
+    /*    justify-content: ;
+    align-items: stretch;*/
+    /*height: 56.25%;*/
+}
+#lp2-grid {
+    display: grid;
+    flex: 3;
+    /*flex: 1;*/
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    /*grid-template-columns: 45% 45%;*/
+    /*grid-auto-rows: max-content;*/
+    /*flex-flow: column;*/
+    /*grid-template-rows: 50% 50%;*/
+
+}
+#lp2-cards {
+    flex: 1;
+}
+
+.lp3-content-item {
+    position: relative;
+    z-index: 40;
+    flex: 10%;
+    --spread: 0rem;
+    /*border: solid 2px black;*/
+    /*    justify-content: center;
+    align-items: center;*/
+    /*height: fit-content;*/
+    overflow: hidden;
+    background: white;
+    border-radius: 6px;
+    box-shadow: -0.2rem 0.2rem 0.4rem var(--spread) rgba(0, 0, 0, 0.2);
+    padding: 0rem;
+    /*padding: 8px;*/
+    /*background: white;*/
+    /*background: #3c4649;*/
+    /*height: 100%;*/
+}
+#lp3-title {
+    font-size: 32px;
+}
+#lp3-video {
+    /*height: fit-content;*/
+    height: 100%;
+    width: auto;
+    padding: 0rem;
+}
+#lp3-text {
+    padding: 2rem;
+    font-size: 18px;
+}
+#lp3-card {
     display: flex;
     justify-content: center;
     align-items: center;
-    align-self: center;
-    gap: 2rem;
-    width: 80%;
-    height: 90%;
 }
+
+@media (max-width: /*640.98*/ 1108px) {
+
+.learn-main {
+    display: inline-block;
+}
+
+.learn-nav {
+    flex-direction: column;
+    height: 5rem;
+    width: 100%;
+    z-index: 40;
+}
+}
+
+                   /*    <DESIGN DIVS />     */
+/* ------------------------------------------------------------ */
+
+
 .learn-content {
     display: block;
 }
@@ -190,6 +372,26 @@ body, html {
 #learn-video {
 
 }
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 ratio */
+    height: 0;
+    /*height: fit-content;*/
+    overflow: hidden;
+/*    min-height: 100%;
+    width: contain;*/
+
+
+}
+
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 
 .donut-page {
     display: flex;
@@ -226,7 +428,7 @@ body, html {
     display: inline-block; /* Shrink-wrap to the SVG */
     padding: 0px; /* Some extra space around the SVG */
     overflow: visible;
-    /*transform: rotate(180deg);*/
+    transform: scaleX(1);
     /*background: rgba(249,249,249, 0.18);*/ /* Optional: to see the container edges */
     /*border: 1px solid #ccc;*/
     /*    background: linear-gradient(45deg, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.2));
@@ -272,7 +474,7 @@ body, html {
     /*    transform-origin: center;*/
     /*transform: rotateZ(var(--donut-rotation));*/
     will-change: transform, opacity;
-    opacity: 1.0;
+    opacity: 0.92;
     cursor: pointer;
     z-index: 20;
     /*animation: fadeIn 1s ease-in;*/
@@ -287,7 +489,7 @@ body, html {
 .deadzone-button {
     fill: rgb(60, 50, 60, 0.7);
 
-
+    backdrop-filter: blur(2px);
 
 }
     .deadzone-button path {
@@ -295,7 +497,7 @@ body, html {
 
         stroke: black;
         stroke-width: 0.0px;
-
+        
 
 
         border: 1px solid rgba(141, 141, 141, 0.16);
@@ -552,6 +754,10 @@ body, html {
   
     }
 }
+.molecule-div {
+    opacity: 0.7;
+    z-index: 0;
+}
 .molecule-container {
     position: absolute;
     top: 0;
@@ -577,5 +783,24 @@ body, html {
 
     to {
         transform: translateY(10px) translateX(5px);
+    }
+}
+.demoimg {
+    height: 800px;
+    width: auto;
+    transform: translate(100vw 0), translate(-100vw 0);
+    transition: all ease 0.5s;
+    animation: imgenter 0.1s ease backwards;
+}
+
+    .demoimg:not(:empty) {
+        animation: imgenter 0.1s ease backwards;
+    }
+@keyframes imgenter {
+    0% {
+        transform: translate(90vw, 0)
+    }
+    100% {
+        transform: translate(0, 0)
     }
 }

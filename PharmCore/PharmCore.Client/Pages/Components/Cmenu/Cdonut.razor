@@ -39,7 +39,8 @@
 
                         <text class="donut-text" id="wedge-edge3" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem" 
                         x="@button.outerText_x" y="@button.outerText_y" dy="@(button.outerText_dy)em" width="@(button.outerText_width)" 
-                        transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)">
+                        >
+                            @* transform="rotate(@button.outerText_rotation, @button.outerText_x, @button.outerText_y)" *@
 
                             @* <tspan style="z-index: 10;" x="@button.outerText_x" y="@(button.outerText_y)" >@button.labels[0]</tspan> *@
                             @*                             <tspan style="z-index: 10;" x="@button.outerText_x" dy="1.1em">@button.labels[1]</tspan>
@@ -295,10 +296,10 @@
             // Set the values
             text_x = x;
             text_y = y;
-            outerText_x = outer_x * 0.98;
-            outerText_y = outer_y * 0.98;
-            outerText2_x = outer_x * 0.90;
-            outerText2_y = outer_y * 0.90;
+            outerText_x = outer_x * 1.00;
+            outerText_y = outer_y * 1.00;
+            outerText2_x = outer_x * 1.00;
+            outerText2_y = outer_y * 1.00;
             text_rotation = textRotation;
             outerText_rotation = outerTextRotation + 270;
 
@@ -306,7 +307,7 @@
 
             double arcLength = (Math.PI * _outerRadius * angleStep) / 180; // Approximate arc length
             outerText_width = arcLength * 0.8;  // Adjust factor to fit text properly
-            outerText_dx = arcLength * Math.Cos(radians + 1);
+            outerText_dx = arcLength * Math.Cos(radians);
             outerText_dy = outerOffset;
             // outerText_line_dx = -outer_x * 0.08;
             // outerText_line_dy = -outer_y * 0.08;

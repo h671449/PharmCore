@@ -765,7 +765,7 @@ MolSource:
                 const dy = m.y - pointer.y;
                 const dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < 150 && dist > 0) {
-                    const force = (150 - dist) * 0.0004;
+                    const force = (150 - dist) * 0.000375;
                     m.vx += (dx / dist) * force;
                     m.vy += (dy / dist) * force;
                 }
@@ -805,14 +805,34 @@ MolSource:
     // Update positions and ease velocities.
     function update() {
         molecules.forEach(m => {
+
+            // Calculating distance (0-100%) to center.
+            const halfX = width / 2;
+            const halfY = height / 2;
+
+            const distX = Math.abs(halfX - m.x);
+            const distY = Math.abs(halfY - m.y);
+
+            const dist = Math.sqrt(distX ** 2 + distY ** 2)
+            const distMax = Math.sqrt(halfX ** 2 + halfY ** 2)
+
+            const scaleRatio = 0.7 + 0.6 * (dist / distMax)
+            const speedRatio = 0.7 + 0.6 * (dist / distMax)
+            //const opacityRatio = 1 + 0.1 * (dist / distMax)
+
+            const defVX = m.defaultVX * speedRatio;
+            const defVY = m.defaultVY * speedRatio;
+
+            
+
             //m.vx += (m.defaultVX - m.vx) * dampingFactor;
             //m.vy += (m.defaultVY - m.vy) * dampingFactor;
-            if (Math.abs(m.vx) > Math.abs(m.defaultVX)) {
+            if (Math.abs(m.vx) > Math.abs(defVX)) {
                 m.vx = m.vx * (1 - dampingFactor);
             } else {
                 m.vx = m.vx * (1 + dampingFactor);
             }
-            if (Math.abs(m.vy) > Math.abs(m.defaultVY)) {
+            if (Math.abs(m.vy) > Math.abs(defVY)) {
                 m.vy = m.vy * (1 - dampingFactor);
             } else {
                 m.vy = m.vy * (1 + dampingFactor);
@@ -823,8 +843,8 @@ MolSource:
                 m.vy += Math.random() - 0.5;
             }
             wallRepulsion(m);
-            m.x += m.vx;
-            m.y += m.vy;
+            m.x += m.vx * speedRatio;
+            m.y += m.vy * speedRatio;
 
             const offset = 50;
 
@@ -842,8 +862,12 @@ MolSource:
 
             m.element.setAttribute(
                 "transform",
-                `translate(${m.x - m.centerOffsetX}, ${m.y - m.centerOffsetY}) scale(${m.scale})`
+                `translate(${m.x - m.centerOffsetX * scaleRatio}, ${m.y - m.centerOffsetY * scaleRatio}) scale(${m.scale * scaleRatio})`
             );
+            //m.element.setAttribute(
+            //    "opacity",
+            //    `${opacityRatio}`
+            //);
         });
     }
 
@@ -872,7 +896,7 @@ MolSource:
     function repelFromCenter() {
         const centerX = width / 2;
         const centerY = height / 2;
-        const threshold = 200; // Distance within which the repelling occurs (adjust as needed)
+        const threshold = 250; // Distance within which the repelling occurs (adjust as needed)
         const forceMultiplier = 0.0004; // Multiplier for the repelling force (adjust as needed)
 
         molecules.forEach(m => {

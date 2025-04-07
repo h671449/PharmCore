@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\Media\Pictures\concept horizontal split 03-04b.png" />
-    <Content Remove="wwwroot\Media\Pictures\concept vertical split 03-04a.png" />
+    <Content Remove="wwwroot\Media\Images\horizontal.png" />
+    <Content Remove="wwwroot\Media\Images\vertical.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,8 +30,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\Media\Pictures\concept horizontal split 03-04b.png" />
-    <None Include="wwwroot\Media\Pictures\concept vertical split 03-04a.png" />
+    <None Include="wwwroot\Media\Images\horizontal.png" />
+    <None Include="wwwroot\Media\Images\vertical.png" />
   </ItemGroup>
 
 </Project>

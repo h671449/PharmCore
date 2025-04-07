@@ -1,0 +1,95 @@
+﻿@inherits LayoutComponentBase
+@layout MainLayout
+
+<PharmCore.Client.Pages.DevButton />
+<CascadingValue Value="this">
+    @Body
+</CascadingValue>
+
+
+<div class="learn-main">
+
+    <div class="learn-nav">
+        <div class="lp3-content-item">
+            <SectionOutlet SectionName="ConceptNav" />
+        </div>
+    </div>
+
+    <div class="learn-page">
+
+        <div class="lp1-horizontal-section" id="lp1-top">
+
+            <div class="lp2-vertical-subsection">
+                <div class="lp3-content-item" id="lp3-title">
+                    <SectionOutlet SectionName="ConceptTitle" />
+                </div>
+            </div>
+
+            <div class="lp2-vertical-subsection">
+                <div class="lp3-content-item">
+                    <SectionOutlet SectionName="ConceptNext" />
+                </div>
+                <div class="lp3-content-item">
+                    <SectionOutlet SectionName="ConceptRelated" />
+                </div>
+            </div>
+        </div>
+
+        <div class="lp1-horizontal-section" id="lp1-upper mid">
+
+            <div class="lp2-vertical-subsection">
+                <div class="lp3-content-item" id="lp3-text">
+                    <SectionOutlet SectionName="ConceptText" />
+                </div>
+            </div>
+@*             <div class="lp2-vertical-subsection">
+                <div class="lp3-content-item">
+                    <SectionOutlet SectionName="ConceptImage" />
+                </div>
+            </div> *@
+        </div>
+        <div class="lp1-horizontal-section" id="lp1-lower-mid">
+            <div class="lp2-vertical-subsection" id="lp2-video">
+                <div class="lp3-content-item" id="lp3-video">
+                    <SectionOutlet SectionName="ConceptVideo" />
+                </div>
+            </div>
+        </div>
+
+        <div class="lp1-horizontal-section" id="lp1-bot">
+                
+            
+            <div class="lp2-vertical-subsection" id="lp2-cards">
+
+                <div class="lp3-content-item" id="lp3-card">
+                    <SectionOutlet SectionName="ConceptGrid1" />
+                </div>
+                <div class="lp3-content-item" id="lp3-card">
+                    <SectionOutlet SectionName="ConceptGrid2" />
+                </div>
+                <div class="lp3-content-item" id="lp3-card">
+                    <SectionOutlet SectionName="ConceptGrid3" />
+                </div>
+                <div class="lp3-content-item" id="lp3-card">
+                    <SectionOutlet SectionName="ConceptGrid4" />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@code {
+    // internal static object ConceptTitle = new();
+    // internal static object ConceptNext = new();
+    // internal static object ConceptRelated = new();
+    // internal static object ConceptText = new();
+    // internal static object ConceptImage = new();
+    // internal static object ConceptVideo = new();
+    // internal static object ConceptGrid1 = new();
+    // internal static object ConceptGrid2 = new();
+    // internal static object ConceptGrid3 = new();
+    // internal static object ConceptGrid4 = new();
+}

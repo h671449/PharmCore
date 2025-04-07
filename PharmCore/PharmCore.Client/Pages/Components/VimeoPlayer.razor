@@ -1,14 +1,19 @@
-﻿
+﻿@page "/vimeo"
 
-<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; background: #000;">
-    <iframe src="https://player.vimeo.com/video/@VideoId"
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+
+<div class="video-container">
+    <iframe src="@videoUrl"
+            width="640"
+            height="360"
             frameborder="0"
-            allow="autoplay; fullscreen"
+            allow="autoplay; fullscreen; picture-in-picture"
             allowfullscreen>
     </iframe>
 </div>
-
 @code {
-    [Parameter] public string VideoId { get; set; } = "";
+    [Parameter] public string VideoId { get; set; } = "469366240";
+    private string videoUrl => $"https://player.vimeo.com/video/{VideoId}";
+
+    //            width="640"
+    //            height="360"
 }
