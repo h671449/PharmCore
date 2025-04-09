@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @layout MainLayout
 
-<PharmCore.Client.Pages.DevButton />
+@* <PharmCore.Client.Pages.DevButton /> *@
 <CascadingValue Value="this">
     @Body
 </CascadingValue>
@@ -26,10 +26,10 @@
             </div>
 
             <div class="lp2-vertical-subsection">
-                <div class="lp3-content-item">
+                <div class="lp3-content-item" id="lp3-card">
                     <SectionOutlet SectionName="ConceptNext" />
                 </div>
-                <div class="lp3-content-item">
+                <div class="lp3-content-item" id="lp3-card">
                     <SectionOutlet SectionName="ConceptRelated" />
                 </div>
             </div>
