@@ -36,7 +36,7 @@
 
 @code {
     [Parameter]
-    public List<Concept> Concepts { get; set; } = ConceptFactory.GetConcepts();
+    public List<Concept> Concepts { get; set; } = ConceptFactory.GetConceptsOrdered();
 
     private Dictionary<string, List<Concept>> Categories = new();
     private HashSet<string> ExpandedCategories = new();

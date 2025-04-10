@@ -121,6 +121,41 @@ namespace PharmCore.Client.Pages.Components
 
             };
         }
+        public static List<Concept> GetConceptsOrdered()
+        {
+            return new List<Concept>
+            {
+                new Concept(1, 1, new List<string> { "Drug", "Target" }, "/Concepts/DrugTarget", "Dynamics"),
+                new Concept(2, 2, new List<string> { "Drug-Target", "Interaction" }, "/Concepts/DrugTargetInteraction", "Dynamics"),
+                new Concept(3, 3, new List<string> { "Structure-","Activity", "Relationship" }, "/Concepts/StructureActivityRelationship", "Dynamics"),
+                new Concept(4, 4, new List<string> { "Mechanism", "of Drug Action" }, "/Concepts/MechanismOfDrugAction", "Dynamics"),
+                new Concept(6, 5, new List<string> { "Affinity" }, "/Concepts/Affinity", "Dynamics"),
+                new Concept(7, 6, new List<string> { "Efficacy" }, "/Concepts/Efficacy", "Dynamics"),
+                new Concept(8, 7, new List<string> { "Potency" }, "/Concepts/Potency", "Dynamics"),
+                new Concept(9, 8, new List<string> { "Drug", "Selectivity" }, "/Concepts/DrugSelectivity", "Dynamics"),
+
+                new Concept(10, 1, new List<string> { "Drug", "Absorption" }, "/Concepts/DrugAbsorption", "Kinetics"),
+                new Concept(11, 2, new List<string> { "Drug", "Bioavailability" }, "/Concepts/DrugBioavailability", "Kinetics"),
+                new Concept(12, 3, new List<string> { "Drug", "Distribution" }, "/Concepts/DrugDistribution", "Kinetics"),
+                new Concept(13, 4, new List<string> { "Volume of", "Distribution" }, "/Concepts/VolumeOfDistribution", "Kinetics"),
+                new Concept(14, 5, new List<string> { "Drug", "Metabolism" }, "/Concepts/DrugMetabolism", "Kinetics"),
+                new Concept(15, 6, new List<string> { "Zero- and", "First-Order", "Kinetics" }, "/Concepts/ZeroAndFirstOrderKinetics", "Kinetics"),
+                new Concept(16, 7, new List<string> { "Drug", "Elimination" }, "/Concepts/DrugElimination", "Kinetics"),
+                new Concept(17, 8, new List<string> { "Drug", "Elimination", "Half-Life" }, "/Concepts/DrugEliminationHalfLife", "Kinetics"),
+                new Concept(18, 9, new List<string> { "Drug", "Clearance" }, "/Concepts/DrugClearance", "Kinetics"),
+                new Concept(19, 10, new List<string> { "Steady-State", "Concentration" }, "/Concepts/SteadyStateConcentration", "Kinetics"),
+
+                new Concept(5, 1, new List<string> { "Dose/", "Concentration-", "Response", "Relationship" }, "/Concepts/DoseConcentrationResponseRelationship", "Outcomes"),
+                new Concept(20, 2, new List<string> { "Drug", "Tolerance" }, "/Concepts/DrugTolerance", "Outcomes"),
+                new Concept(21, 3, new List<string> { "Adverse", "Drug", "Reaction" }, "/Concepts/AdverseDrugReaction", "Outcomes"),
+                new Concept(22, 4, new List<string> { "Therapeutic", "Index" }, "/Concepts/TherapeuticIndex", "Outcomes"),
+                new Concept(23, 5, new List<string> { "Drug", "Interaction" }, "/Concepts/DrugInteraction", "Outcomes"),
+                new Concept(24, 6, new List<string> { "Individual Variation", "in Drug Response" }, "/Concepts/IndividualVariationInDrugResponse", "Outcomes"),
+
+
+
+            };
+        }
 
         public static List<Concept> GetConceptsDD()
         {

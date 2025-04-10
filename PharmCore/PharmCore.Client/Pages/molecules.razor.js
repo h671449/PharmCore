@@ -724,6 +724,7 @@ MolSource:
             molheight = 636.0127;// 240;
             molscale = 0.175; // 0.15;
         }
+        group.setAttribute("class", 'molecule');
         svg.appendChild(group);
 
         const defaultVX = (Math.random(-1, 1) / 2) * 0.2;
@@ -859,15 +860,12 @@ MolSource:
             //const scale = 0.5; // Adjust this as needed
             //const centerOffsetX = (254 / 2) * scale; // Half the width of the SVG, scaled
             //const centerOffsetY = (216 / 2) * scale; // Half the height of the SVG, scaled
-
-            m.element.setAttribute(
+            //m.element.style.transform =
+                m.element.setAttribute(
                 "transform",
-                `translate(${m.x - m.centerOffsetX * scaleRatio}, ${m.y - m.centerOffsetY * scaleRatio}) scale(${m.scale * scaleRatio})`
-            );
-            //m.element.setAttribute(
-            //    "opacity",
-            //    `${opacityRatio}`
-            //);
+                `translate(${m.x - m.centerOffsetX * scaleRatio}, ${m.y - m.centerOffsetY * scaleRatio}) 
+                scale(${m.scale * scaleRatio})`
+            );/* skew(${m.x / halfX * 5}deg, ${m.y / halfY * 5}deg)*/
         });
     }
 
