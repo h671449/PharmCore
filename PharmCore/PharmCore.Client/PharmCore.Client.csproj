@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Pages\Components\ConceptNav.razor.js" />
     <Content Include="Pages\molecules.razor.js" />
   </ItemGroup>
 

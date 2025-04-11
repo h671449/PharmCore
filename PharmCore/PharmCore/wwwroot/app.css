@@ -187,13 +187,15 @@ body, html {
     flex: 1;
     flex-direction: row;
     flex-wrap: nowrap;
-    /*justify-content: stretch;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
     gap: 1rem;
     /*min-height: 96%;*/
     /*height: clamp(0px, 100%, 1250px);*/
-    width: clamp(0px, 100%, 1600px);
+    /*width: clamp(0px, 100%, 1200px);*/
     /*width: fit-content;*/
-    max-width: min(1800px, 95%);
+    max-width: fit-content;
+    /*max-width: min(1800px, 95%);*/
     padding: 0.2vw;
     margin: 0.2vw;
     border-radius: 16px;
@@ -206,10 +208,12 @@ body, html {
     flex: 1;
     display: flex;
     /*width: clamp(12rem, 100%, 20rem);*/
-    min-width: 18rem;
+/*    min-width: 250px;
+    max-width: 250px;*/
     flex-wrap: wrap;
     overflow-y: auto;
     scrollbar-width: thin;
+    z-index: 40;
 }
 
 .learn-page {
@@ -228,6 +232,7 @@ body, html {
     /*width: clamp(70%, 100%, 1250px);*/
     /*min-width: 77.5%;*/
     /*min-height: 90%;*/
+    max-width: 1200px;
     z-index: 1;
     opacity: 1;
     /*border: solid thin black;*/
@@ -357,20 +362,23 @@ body, html {
     justify-content: center;
     align-items: center;
 }
+#lp3-navbar {
+    width: fit-content;
+}
 
-@media (max-width: /*640.98*/ 1108px) {
+@media (max-width: /*640.98*/ /*1108*/ 768px) {
 
 .learn-main {
     display: inline-block;
 }
 
-.learn-nav {
+/*.learn-nav {
     flex-direction: column;
     height: 4rem;
     margin-bottom: 0.5rem;
     width: 100%;
     z-index: 40;
-}
+}*/
     #lp3-text {
         padding: 1.5rem;
         font-size: 18px;

@@ -1,7 +1,7 @@
 ﻿@inject NavigationManager NavigationManager
 @inject IJSRuntime JS
 
-<div class="nav-container">
+@* <div class="nav-container">
     <input type="text" class="nav-search" placeholder="Search..." @bind="SearchText" @bind:event="oninput" />
 
     @foreach (var category in FilteredCategories)
@@ -32,6 +32,47 @@
             </div>
         </div>
     }
+</div> *@
+
+<div class="nav-wrapper">
+    <div class="nav-header">
+        <button class="nav-back" @onclick="NavigateBack">←</button>
+
+        <input type="text" class="nav-search" placeholder="Search..." @bind="SearchText" @bind:event="oninput" />
+        <label for="nav-toggle" class="nav-toggle-label">☰</label>
+        <input type="checkbox" id="nav-toggle" class="nav-toggle" hidden />
+    </div>
+
+    <div class="nav-container">
+        @foreach (var category in FilteredCategories)
+        {
+            var isExpanded = ExpandedCategories.Contains(category.Key);
+            var conceptListId = $"list-{category.Key.Replace(" ", "-")}";
+
+            <div class="category-section">
+                <div class="category-header">
+                    <a href="@GetCategoryUrl(category.Key)" class="category-link">@category.Key</a>
+                    <button class="category-toggle" @onclick="() => ToggleCategory(category.Key)">
+                        @(isExpanded ? "−" : "+")
+                    </button>
+                </div>
+
+                <div id="@conceptListId" class="concept-list @(isExpanded ? "expanded" : "")">
+                    <ul>
+                        @foreach (var concept in category.Value)
+                        {
+                            var isActive = IsCurrentConcept(concept.Url);
+                            <li>
+                                <a href="@concept.Url" class="concept-link @(isActive ? "active" : "")">
+                                    @string.Join(" ", concept.Labels)
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 @code {
@@ -70,6 +111,12 @@
             ExpandedCategories = Categories.Keys.ToHashSet();
             await SaveExpandedState();
         }
+    }
+    private void NavigateBack() => NavigationManager.NavigateTo("/", forceLoad: false);
+
+    private async Task CloseMenu()
+    {
+        await JS.InvokeVoidAsync("uncheckNavToggle");
     }
 
     private async Task ToggleCategory(string category)
