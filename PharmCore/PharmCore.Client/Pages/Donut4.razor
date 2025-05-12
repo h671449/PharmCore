@@ -214,7 +214,7 @@
     [Parameter] public int SmallInnerRadius { get; set; } = 88;
     [Parameter] public int SmallOuterRadius { get; set; } = 124;
 
-    public double deadzoneScale = 0.4;
+    public double deadzoneScale = 0.35;
     public double DeadzoneArc => deadzoneScale * 360 / (ButtonCount + 2); // degrees // or // set as % of: 360 / (Count + 2)
     public double halfDeadzoneArc => DeadzoneArc / 2;
 
@@ -365,6 +365,6 @@
         // double centerAngle = 180 - counterRotation + 180 * index;
         // Section sector = new Section(centerAngle - halfDeadzoneArc, centerAngle + halfDeadzoneArc);
 
-        return new WedgeButton(index, ButtonCount, SmallInnerRadius*1.012, OuterRadius * 0.9725, Rounding, 4.5*ButtonPadding, "hsl(332, 12%, 32%)", () => { }, 0, new List<string> { "" }, sector);
+        return new WedgeButton(index, ButtonCount, SmallInnerRadius*1.01, OuterRadius * 0.98, Rounding, 2.8*ButtonPadding, "hsl(332, 12%, 32%)", () => { }, 0, new List<string> { "" }, sector);
     }
 }

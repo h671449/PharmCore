@@ -348,7 +348,7 @@ body, html {
     /*height: 100%;*/
 }
 #lp3-title {
-    background: rgba(40, 160, 255, 0.5);
+    background: rgba(20, 120, 255, 0.4);
     border: solid 1.6px rgba(0, 0, 0, 0,8);
     box-shadow: -0.2rem 0.2rem 0.4rem 0.15rem rgba(0, 0, 0, 0.2);
     display: flex;
@@ -513,7 +513,7 @@ body, html {
     /*    transform-origin: center;*/
     /*transform: rotateZ(var(--donut-rotation));*/
     will-change: transform, opacity;
-    opacity: 0.92;
+    opacity: 0.94;
     cursor: pointer;
     z-index: 20;
     /*animation: fadeIn 1s ease-in;*/
@@ -526,9 +526,10 @@ body, html {
     transition: transform 0.3s ease; /* filter 1.2s ease-in;*/
 }
 .deadzone-button {
-    fill: rgb(70, 65, 75, 0.65);
+    /*fill: rgb(70, 65, 75, 0.65);*/
+    fill: rgb(10, 10, 14, 0.5);
 
-    backdrop-filter: blur(2px);
+    /*backdrop-filter: blur(2px);*/
 
 }
     .deadzone-button path {
@@ -611,7 +612,8 @@ body, html {
 
         stroke: #204c4e;
         z-index: 10;
-        stroke-opacity: 1;
+        stroke-opacity: 0.75;
+        stroke-width:1px;
     }
     /*.donut-path:active {*/
         /*fill: #00efff;*/
@@ -706,7 +708,7 @@ body, html {
     width: var(--size);
     /*padding: 10%;*/
     border-radius: 50%;
-    filter: blur(0.2rem);
+    /*filter: blur(0.2rem);*/
     /*background-color: black;*/
     /*margin: auto;*/
     margin: 0;
@@ -735,7 +737,7 @@ body, html {
 
     /*padding: 10%;*/
     border-radius: 50%;
-    filter: blur(0.2rem);
+    filter: blur(0.05rem);
     /*background-color: black;*/
     /*margin: auto;*/
     margin: 0;
@@ -763,7 +765,7 @@ body, html {
     width: 95.96%;
     /*padding: 10%;*/
     border-radius: 50%;
-    filter: blur(0.2rem);
+    filter: blur(0.05rem);
     /*background-color: black;*/
     /*margin: auto;*/
     margin: 0;
