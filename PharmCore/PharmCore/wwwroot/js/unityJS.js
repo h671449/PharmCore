@@ -1,4 +1,6 @@
 ﻿
+    var unityInstance = null;
+
     function loadUnityGame() {
     var canvas = document.querySelector("#unity-canvas");
 
@@ -10,10 +12,11 @@
     var div = document.createElement('div');
     div.innerHTML = msg;
     warningBanner.appendChild(div);
-    if (type == 'error') div.style = 'background: red; padding: 10px;';
-    else {
-        if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
-    setTimeout(function () {
+    if (type === 'error') {
+        div.style = 'background: red; padding: 10px;';
+      } else {
+        if (type === 'warning') div.style = 'background: yellow; padding: 10px;';
+        setTimeout(() => {
         warningBanner.removeChild(div);
     updateBannerVisibility();
         }, 5000);
@@ -54,10 +57,11 @@
     script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
             document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
+        }).then((instance) => {
+            unityInstance = instance; // Store globally
             document.querySelector("#unity-loading-bar").style.display = "none";
             document.querySelector("#unity-fullscreen-button").onclick = () => {
-                unityInstance.SetFullscreen(1);
+                instance.SetFullscreen(1);
             };
         }).catch((message) => {
             alert(message);
@@ -65,5 +69,16 @@
     };
 
     document.body.appendChild(script);
+  }
+
+    function unloadUnityGame() {
+    if (unityInstance) {
+        unityInstance.Quit().then(() => {
+            console.log("Unity instance terminated.");
+            unityInstance = null;
+        }).catch((err) => {
+            console.warn("Failed to quit Unity instance:", err);
+        });
+    }
   }
 
