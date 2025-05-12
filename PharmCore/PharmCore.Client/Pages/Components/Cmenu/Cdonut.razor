@@ -35,7 +35,7 @@
                         transform="rotate(0, 
                                                                    @button.text_x, 
                                                                    @button.text_y)"
-                        >#@button.number</text>
+                        > </text>
 
                         <text class="donut-text" id="wedge-edge3" user-select="none" text-shadow="rgba(0, 0, 0, 0,5) 1rem 1rem 1rem" 
                         x="@button.outerText_x" y="@button.outerText_y" dy="@(button.outerText_dy)em" width="@(button.outerText_width)" 
@@ -87,7 +87,7 @@
 
     // ----------    Settings:    ----------
     // Dimensions
-    [Parameter] public int ButtonCount { get; set; } = 4;
+    [Parameter] public int ButtonCount { get; set; } = 2;
     [Parameter] public int InnerRadius { get; set; } = 65;
     [Parameter] public int OuterRadius { get; set; } = 150;
     // Styling
@@ -113,7 +113,7 @@
         for (int i = 0; i < ButtonCount; i++)
         {
             Concept c = concepts[i];
-            string hslString = HslToCssString(c.Hue, saturation, lightness);
+            string hslString = HslToCssString(c.Hue, saturation, lightness - 0.10);
 
             int capturedIndex = i; // capture the current index for the lambda
             Buttons.Add(new WedgeButton(capturedIndex, ButtonCount, InnerRadius, OuterRadius, Rounding, ButtonPadding,

@@ -13,7 +13,13 @@
 <DevButton />
 @* <input style="position: absolute; top, left: 20%;" @bind="deadzoneScale" @onfocusout="StateHasChanged"/> *@
 <div class="donut-page">
+
+    <div class="category-text">
+
+    </div>
+
     <div class="donut-container">
+
 
         <svg viewBox="@SvgViewBox" width="100%" height="100%" overflow="visible" preserveAspectRatio="xMidYMid meet">
             <text class="header-text" style="   z-index: 10;
@@ -137,7 +143,54 @@
 
 
             }
+            <g class="notthesame" overflow="visible">
+
+
+                <defs>
+                    <!-- Change radius here (R = 130 in this example) -->
+                    <path id="outsideCirclePath"
+                          d="M 0,0
+                    m @(-1*ctr),0
+                    a @ctr,@ctr 0 1,1 @(2*ctr),0
+                    a @ctr,@ctr 0 1,1 @(-2*ctr),0" />
+                </defs>
+
+                <!-- Adjust font-size, offset, and text here -->
+                <text font-size="8" text-anchor="middle">
+                    <textPath href="#outsideCirclePath" startOffset="11.9%">
+                        Pharmacodynamics
+                    </textPath>
+                </text>
+                <text font-size="8" text-anchor="middle">
+                    <textPath href="#outsideCirclePath" startOffset="38.1%">
+                        Patient Outcomes
+                    </textPath>
+                </text>
+
+
+
+            </g>
+            <g class="notthesame" overflow="visible">
+                <defs>
+                    <!-- Change radius here (R = 130 in this example) -->
+                    <path id="reverseCirclePath"
+                          d="M 0,6
+             m @(-3*ctr),0
+             a @ctr,@ctr 0 1,1 @(2*ctr),0
+             a @ctr,@ctr 0 1,0 @(2*ctr),0" />
+                </defs>
+
+                <!-- Flip text vertically using scale, then move it back into view -->
+
+                <text font-size="8" text-anchor="middle">
+                    <textPath href="#reverseCirclePath" startOffset="75%">
+                        Pharmacokinetics
+                    </textPath>
+                </text>
+
+            </g>
         </svg>
+
 
         <div class="two-donut-inner-circle"></div>
         <div class="outer-circle"></div>
@@ -166,6 +219,8 @@
     public double halfDeadzoneArc => DeadzoneArc / 2;
 
     public int totalButtons => ButtonCount + SmallButtonCount;
+
+    private int ctr = 165;
 
     // Styling
     private double ButtonBorder = 0.5;
@@ -310,6 +365,6 @@
         // double centerAngle = 180 - counterRotation + 180 * index;
         // Section sector = new Section(centerAngle - halfDeadzoneArc, centerAngle + halfDeadzoneArc);
 
-        return new WedgeButton(index, ButtonCount, SmallInnerRadius, OuterRadius, Rounding, ButtonPadding, "hsl(332, 12%, 32%)", () => { }, 0, new List<string> { "" }, sector);
+        return new WedgeButton(index, ButtonCount, SmallInnerRadius*1.012, OuterRadius * 0.9725, Rounding, 4.5*ButtonPadding, "hsl(332, 12%, 32%)", () => { }, 0, new List<string> { "" }, sector);
     }
 }

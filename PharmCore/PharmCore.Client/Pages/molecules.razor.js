@@ -4,7 +4,7 @@ export function initMoleculeAnimation() {
     const svg = document.getElementById("moleculeCanvas");
     const width = window.innerWidth;
     const height = window.innerHeight;
-    const numMolecules = 15; //
+    const numMolecules = 10; //
     const dampingFactor = 0.02;
     const molecules = [];
     const svgns = "http://www.w3.org/2000/svg";

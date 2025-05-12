@@ -163,6 +163,8 @@
     text-decoration: none;
     color: #0056b3;
     font-weight: bold;
+    border: none;
+    font-size: 1.2em;
 }
 
 .category-toggle {
@@ -177,7 +179,7 @@
 .concept-list {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.2s ease;
+    /*transition: max-height 0.2s ease;*/
     margin-left: 1rem;
 }
 

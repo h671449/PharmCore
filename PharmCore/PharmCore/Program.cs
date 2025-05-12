@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.StaticFiles;
 using PharmCore.Client.Pages;
 using PharmCore.Components;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,23 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
 var app = builder.Build();
+
+var contentTypeProvider = new FileExtensionContentTypeProvider();
+contentTypeProvider.Mappings[".data"] = "application/octet-stream";
+contentTypeProvider.Mappings[".wasm"] = "application/wasm";
+contentTypeProvider.Mappings[".framework.js"] = "application/javascript";
+contentTypeProvider.Mappings[".loader.js"] = "application/javascript";
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    ContentTypeProvider = contentTypeProvider,
+    OnPrepareResponse = ctx =>
+    {
+        // Remove any accidental content encoding headers
+        ctx.Context.Response.Headers.Remove("Content-Encoding");
+    }
+});
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

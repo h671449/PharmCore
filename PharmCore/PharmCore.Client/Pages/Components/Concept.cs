@@ -102,7 +102,7 @@ namespace PharmCore.Client.Pages.Components
                 new Concept(19, 10, new List<string> { "Steady-State", "Concentration" }, "/Concepts/SteadyStateConcentration", "Kinetics"),
 
                 new Concept(1, 1, new List<string> { "Drug", "Target" }, "/Concepts/DrugTarget", "Dynamics"),
-                new Concept(2, 2, new List<string> { "Drug-Target", "Interaction" }, "/Concepts/DrugTargetInteraction", "Dynamics"),
+                new Concept(2, 2, new List<string> { "Drug-Target", "Interaction" }, "/Concepts/TargetInteraction", "Dynamics"),
                 new Concept(3, 3, new List<string> { "Structure-","Activity", "Relationship" }, "/Concepts/StructureActivityRelationship", "Dynamics"),
                 new Concept(4, 4, new List<string> { "Mechanism", "of Drug Action" }, "/Concepts/MechanismOfDrugAction", "Dynamics"),
                 new Concept(6, 5, new List<string> { "Affinity" }, "/Concepts/Affinity", "Dynamics"),
@@ -126,7 +126,7 @@ namespace PharmCore.Client.Pages.Components
             return new List<Concept>
             {
                 new Concept(1, 1, new List<string> { "Drug", "Target" }, "/Concepts/DrugTarget", "Dynamics"),
-                new Concept(2, 2, new List<string> { "Drug-Target", "Interaction" }, "/Concepts/DrugTargetInteraction", "Dynamics"),
+                new Concept(2, 2, new List<string> { "Drug-Target", "Interaction" }, "/Concepts/TargetInteraction", "Dynamics"),
                 new Concept(3, 3, new List<string> { "Structure-","Activity", "Relationship" }, "/Concepts/StructureActivityRelationship", "Dynamics"),
                 new Concept(4, 4, new List<string> { "Mechanism", "of Drug Action" }, "/Concepts/MechanismOfDrugAction", "Dynamics"),
                 new Concept(6, 5, new List<string> { "Affinity" }, "/Concepts/Affinity", "Dynamics"),
@@ -137,7 +137,7 @@ namespace PharmCore.Client.Pages.Components
                 new Concept(10, 1, new List<string> { "Drug", "Absorption" }, "/Concepts/DrugAbsorption", "Kinetics"),
                 new Concept(11, 2, new List<string> { "Drug", "Bioavailability" }, "/Concepts/DrugBioavailability", "Kinetics"),
                 new Concept(12, 3, new List<string> { "Drug", "Distribution" }, "/Concepts/DrugDistribution", "Kinetics"),
-                new Concept(13, 4, new List<string> { "Volume of", "Distribution" }, "/Concepts/VolumeOfDistribution", "Kinetics"),
+                new Concept(13, 4, new List<string> { "Volume of", "Distribution" }, "/Learn/VolumeOfDistribution", "Kinetics"),
                 new Concept(14, 5, new List<string> { "Drug", "Metabolism" }, "/Concepts/DrugMetabolism", "Kinetics"),
                 new Concept(15, 6, new List<string> { "Zero- and", "First-Order", "Kinetics" }, "/Concepts/ZeroAndFirstOrderKinetics", "Kinetics"),
                 new Concept(16, 7, new List<string> { "Drug", "Elimination" }, "/Concepts/DrugElimination", "Kinetics"),
@@ -201,13 +201,9 @@ namespace PharmCore.Client.Pages.Components
         {
             return new List<Concept>
             {
-                new Concept(1, 6, new List<string> { "Text" }, "/Learn/VolumeOfDistribution/Text", "Kinetics"),
-                new Concept(3, 7, new List<string> { "Game" }, "/Concepts/VolumeOfDistribution/Game", "Kinetics"),
-                new Concept(0, 4, new List<string> { "Start Learning" }, "/Learn/VolumeOfDistribution/", "Kinetics"),
-                new Concept(2, 5, new List<string> { "Video" }, "/Learn/VolumeOfDistribution/Video", "Kinetics")
-
-
-
+                new Concept(0, 5, new List<string> { "Play Quiz" }, "/Quiz/VolumeOfDistribution", "Kinetics"),
+                new Concept(1, 4, new List<string> { "Learn" }, "/Learn/VolumeOfDistribution", "Kinetics")
+                
 
             };
         }

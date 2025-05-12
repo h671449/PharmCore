@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="PharmCore.styles.css" />
+    <link rel="stylesheet" href="unitybuild/TemplateData/style.css" />
+
+
    
     <link rel="icon" type="image/png" href="favicon.png" />
     @* <HeadOutlet @rendermode="InteractiveAuto" /> *@
@@ -18,9 +21,13 @@
     @* <Routes @rendermode="InteractiveAuto" /> *@
     <Routes @rendermode="new InteractiveServerRenderMode(prerender: false)" />
 
-    
+@*     <script src="pages/Unity.razor.js"></script> *@
+    <script src="js/unityJS.js"></script>
+
+
     <script src="_framework/blazor.web.js"></script>
-    <script src="scripts/site.js"></script>
+
+
     @* <script src="js/molecules.razor.js"></script> *@
 </body>
 

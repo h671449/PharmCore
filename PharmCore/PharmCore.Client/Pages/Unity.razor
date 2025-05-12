@@ -1,0 +1,30 @@
+﻿@page "/Quiz/VolumeOfDistribution"
+@inject IJSRuntime JSRuntime
+
+<DevButton Page="/Concepts/VolumeOfDistribution" />
+
+<div id="unity-container" class="unity-desktop">
+    <canvas id="unity-canvas" width="1280" height="720" tabindex="-1"></canvas>
+    <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full"></div>
+        </div>
+    </div>
+    <div id="unity-warning"> </div>
+    <div id="unity-footer">
+        <div id="unity-logo-title-footer"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title"></div>
+    </div>
+</div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("loadUnityGame");
+        }
+    }
+}

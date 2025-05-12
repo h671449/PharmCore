@@ -51,7 +51,8 @@
 
             <div class="category-section">
                 <div class="category-header">
-                    <a href="@GetCategoryUrl(category.Key)" class="category-link">@category.Key</a>
+                    @* <a href="@GetCategoryUrl(category.Key)" class="category-link">@category.Key</a> *@
+                    <button @onclick="() => ToggleCategory(category.Key)" class="category-link">@category.Key</button>
                     <button class="category-toggle" @onclick="() => ToggleCategory(category.Key)">
                         @(isExpanded ? "−" : "+")
                     </button>

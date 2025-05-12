@@ -323,6 +323,6 @@
         double centerAngle = 180 - counterRotation + 180 * index;
         Section sector = new Section(centerAngle - halfDeadzoneArc, centerAngle + halfDeadzoneArc);
 
-        return new WedgeButton(index, ButtonCount, SmallInnerRadius, OuterRadius, Rounding, ButtonPadding, "hsl(332, 12%, 32%)", () => { }, 0, new List<string> { "" }, sector);
+        return new WedgeButton(index, ButtonCount, SmallInnerRadius-10, OuterRadius, Rounding, ButtonPadding, "hsl(332, 12%, 40%)", () => { }, 0, new List<string> { "" }, sector);
     }
 }
