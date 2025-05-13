@@ -10,7 +10,7 @@
 @inject NavigationManager Navigation
 
 @* <Molecules /> *@
-<DevButton />
+@* <DevButton /> *@
 @* <input style="position: absolute; top, left: 20%;" @bind="deadzoneScale" @onfocusout="StateHasChanged"/> *@
 <div class="donut-page">
 
@@ -365,6 +365,6 @@
         // double centerAngle = 180 - counterRotation + 180 * index;
         // Section sector = new Section(centerAngle - halfDeadzoneArc, centerAngle + halfDeadzoneArc);
 
-        return new WedgeButton(index, ButtonCount, SmallInnerRadius*1.01, OuterRadius * 0.98, Rounding, 2.8*ButtonPadding, "hsl(332, 12%, 32%)", () => { }, 0, new List<string> { "" }, sector);
+        return new WedgeButton(index, ButtonCount, SmallInnerRadius*1.02, OuterRadius * 0.987, Rounding, 2.8*ButtonPadding, "hsl(332, 12%, 32%)", () => { }, 0, new List<string> { "" }, sector);
     }
 }
